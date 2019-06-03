@@ -1,0 +1,60 @@
+<div>
+    <h2 id="page-heading">
+        <span>Devices</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-device" [routerLink]="['/device/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Device
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="devices">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Device ID</span></th>
+            <th><span>Last Updated</span></th>
+            <th><span>Location</span></th>
+            <th><span>Location Serial</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let device of devices ;trackBy: trackId">
+                <td><a [routerLink]="['/device', device.id, 'view' ]">{{device.id}}</a></td>
+                <td>{{device.deviceID}}</td>
+                <td>{{device.lastUpdated}}</td>
+                <td>{{device.location}}</td>
+                <td>{{device.locationSerial}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/device', device.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/device', device.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'device', { outlets: { popup: device.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

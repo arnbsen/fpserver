@@ -178,7 +178,6 @@ dependencies {
     implementation "io.jsonwebtoken:jjwt-api"
     runtimeOnly "io.jsonwebtoken:jjwt-impl"
     runtimeOnly "io.jsonwebtoken:jjwt-jackson"
-    implementation "com.github.mongobee:mongobee"
     implementation ("io.springfox:springfox-swagger2") {
         exclude module: "mapstruct"
     }

@@ -1,0 +1,68 @@
+<div>
+    <h2 id="page-heading">
+        <span>Students</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-student" [routerLink]="['/student/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Student
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="students">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Year Joined</span></th>
+            <th><span>Current Year</span></th>
+            <th><span>Current Sem</span></th>
+            <th><span>Class Roll Number</span></th>
+            <th><span>Current Session</span></th>
+            <th><span>Department</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let student of students ;trackBy: trackId">
+                <td><a [routerLink]="['/student', student.id, 'view' ]">{{student.id}}</a></td>
+                <td>{{student.yearJoined}}</td>
+                <td>{{student.currentYear}}</td>
+                <td>{{student.currentSem}}</td>
+                <td>{{student.classRollNumber}}</td>
+                <td>{{student.currentSession}}</td>
+                <td>
+                    <div *ngIf="student.departmentId">
+                        <a [routerLink]="['../department', student.departmentId , 'view' ]" >{{student.departmentId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/student', student.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/student', student.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'student', { outlets: { popup: student.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

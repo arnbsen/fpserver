@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="student">
+            <h2><span>Student</span> {{student.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Year Joined</span></dt>
+                <dd>
+                    <span>{{student.yearJoined}}</span>
+                </dd>
+                <dt><span>Current Year</span></dt>
+                <dd>
+                    <span>{{student.currentYear}}</span>
+                </dd>
+                <dt><span>Current Sem</span></dt>
+                <dd>
+                    <span>{{student.currentSem}}</span>
+                </dd>
+                <dt><span>Class Roll Number</span></dt>
+                <dd>
+                    <span>{{student.classRollNumber}}</span>
+                </dd>
+                <dt><span>Current Session</span></dt>
+                <dd>
+                    <span>{{student.currentSession}}</span>
+                </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="student.departmentId">
+                        <a [routerLink]="['/department', student.departmentId, 'view']">{{student.departmentId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/student', student.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+{
+    "name": "SubjectTimeTable",
+    "fields": [
+        {
+            "fieldName": "startTime",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "endTime",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "classType",
+            "fieldType": "ClassType",
+            "fieldValues": "LAB,REGULAR,TUTORIAL,MISC"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "subject",
+            "otherEntityRelationshipName": "subjectTimeTable",
+            "relationshipValidateRules": "required",
+            "relationshipName": "subject",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "dayTimeTable",
+            "otherEntityName": "dayTimeTable",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190603094856",
+    "entityTableName": "subject_time_table",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

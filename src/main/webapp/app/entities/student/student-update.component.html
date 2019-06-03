@@ -1,0 +1,62 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-student-heading">Create or edit a Student</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!student.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_yearJoined">Year Joined</label>
+                    <input type="number" class="form-control" name="yearJoined" id="field_yearJoined"
+                           formControlName="yearJoined"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_currentYear">Current Year</label>
+                    <input type="number" class="form-control" name="currentYear" id="field_currentYear"
+                           formControlName="currentYear"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_currentSem">Current Sem</label>
+                    <input type="number" class="form-control" name="currentSem" id="field_currentSem"
+                           formControlName="currentSem"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_classRollNumber">Class Roll Number</label>
+                    <input type="number" class="form-control" name="classRollNumber" id="field_classRollNumber"
+                           formControlName="classRollNumber"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_currentSession">Current Session</label>
+                    <input type="text" class="form-control" name="currentSession" id="field_currentSession"
+                           formControlName="currentSession"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" formControlName="departmentId">
+                        <option *ngIf="!editForm.get('department').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('department').invalid && (editForm.get('department').dirty || editForm.get('department').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('department').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

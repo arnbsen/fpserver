@@ -1,0 +1,39 @@
+{
+    "name": "TimeTable",
+    "fields": [
+        {
+            "fieldName": "year",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "semester",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "timeTable",
+            "relationshipValidateRules": "required",
+            "relationshipName": "department",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "dayTimeTable",
+            "otherEntityRelationshipName": "timeTable",
+            "relationshipName": "dayTimeTable"
+        }
+    ],
+    "changelogDate": "20190603094858",
+    "entityTableName": "time_table",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

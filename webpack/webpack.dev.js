@@ -27,9 +27,9 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
                 '/h2-console',
                 '/auth'
             ],
-            target: `http${options.tls ? 's' : ''}://localhost:8080`,
+            target: `https://devfpserver.herokuapp.com`,
             secure: false,
-            changeOrigin: options.tls
+            changeOrigin: true
         }],
         stats: options.stats,
         watchOptions: {

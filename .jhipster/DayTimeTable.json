@@ -1,0 +1,44 @@
+{
+    "name": "DayTimeTable",
+    "fields": [
+        {
+            "fieldName": "dayType",
+            "fieldType": "DayType",
+            "fieldValues": "WORKINGALL,COLLEGEONLY",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dayOfWeek",
+            "fieldType": "DayOfWeek",
+            "fieldValues": "MONDAY,TUESDAY,WEDNESDAY,THRUSDAY,FRIDAY,SATURDAY,SUNDAY",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "subjectTimeTable",
+            "otherEntityRelationshipName": "dayTimeTable",
+            "relationshipName": "subjects"
+        },
+        {
+            "relationshipName": "timeTable",
+            "otherEntityName": "timeTable",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190603094857",
+    "entityTableName": "day_time_table",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

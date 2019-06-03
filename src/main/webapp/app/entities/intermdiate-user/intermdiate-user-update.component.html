@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-intermdiate-user-heading">Create or edit a Intermdiate User</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!intermdiateUser.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_deviceUserName">Device User Name</label>
+                    <input type="text" class="form-control" name="deviceUserName" id="field_deviceUserName"
+                           formControlName="deviceUserName"/>
+                    <div *ngIf="editForm.get('deviceUserName').invalid && (editForm.get('deviceUserName').dirty || editForm.get('deviceUserName').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('deviceUserName').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_hardwareID">Hardware ID</label>
+                    <input type="text" class="form-control" name="hardwareID" id="field_hardwareID"
+                           formControlName="hardwareID"/>
+                    <div *ngIf="editForm.get('hardwareID').invalid && (editForm.get('hardwareID').dirty || editForm.get('hardwareID').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('hardwareID').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_otherParams">Other Params</label>
+                    <input type="text" class="form-control" name="otherParams" id="field_otherParams"
+                           formControlName="otherParams"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="subjectTimeTable">
+            <h2><span>Subject Time Table</span> {{subjectTimeTable.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Start Time</span></dt>
+                <dd>
+                    <span>{{subjectTimeTable.startTime}}</span>
+                </dd>
+                <dt><span>End Time</span></dt>
+                <dd>
+                    <span>{{subjectTimeTable.endTime}}</span>
+                </dd>
+                <dt><span>Class Type</span></dt>
+                <dd>
+                    <span>{{subjectTimeTable.classType}}</span>
+                </dd>
+                <dt><span>Subject</span></dt>
+                <dd>
+                    <div *ngIf="subjectTimeTable.subjectId">
+                        <a [routerLink]="['/subject', subjectTimeTable.subjectId, 'view']">{{subjectTimeTable.subjectId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Day Time Table</span></dt>
+                <dd>
+                    <div *ngIf="subjectTimeTable.dayTimeTableId">
+                        <a [routerLink]="['/day-time-table', subjectTimeTable.dayTimeTableId, 'view']">{{subjectTimeTable.dayTimeTableId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/subject-time-table', subjectTimeTable.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,5 @@
 package com.cse.config;
 
-import com.github.mongobee.Mongobee;
 
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.domain.util.JSR310DateConverters.*;

@@ -48,6 +48,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Field("last_name")
     private String lastName;
 
+    @Size(max = 50)
+    @Field("deviceID")
+    private String deviceID;
+
     @Email
     @Size(min = 5, max = 254)
     @Indexed
@@ -212,5 +216,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
             "}";
+    }
+
+    public String getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(String deviceID) {
+        this.deviceID = deviceID;
     }
 }

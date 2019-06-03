@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-subject-time-table-heading">Create or edit a Subject Time Table</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!subjectTimeTable.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_startTime">Start Time</label>
+                    <input type="number" class="form-control" name="startTime" id="field_startTime"
+                           formControlName="startTime"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_endTime">End Time</label>
+                    <input type="number" class="form-control" name="endTime" id="field_endTime"
+                           formControlName="endTime"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_classType">Class Type</label>
+                    <select class="form-control" name="classType" formControlName="classType" id="field_classType">
+                        <option value="LAB">LAB</option>
+                        <option value="REGULAR">REGULAR</option>
+                        <option value="TUTORIAL">TUTORIAL</option>
+                        <option value="MISC">MISC</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_subject">Subject</label>
+                    <select class="form-control" id="field_subject" name="subject" formControlName="subjectId">
+                        <option *ngIf="!editForm.get('subject').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="subjectOption.id" *ngFor="let subjectOption of subjects; trackBy: trackSubjectById">{{subjectOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('subject').invalid && (editForm.get('subject').dirty || editForm.get('subject').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('subject').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dayTimeTable">Day Time Table</label>
+                    <select class="form-control" id="field_dayTimeTable" name="dayTimeTable" formControlName="dayTimeTableId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="dayTimeTableOption.id" *ngFor="let dayTimeTableOption of daytimetables; trackBy: trackDayTimeTableById">{{dayTimeTableOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

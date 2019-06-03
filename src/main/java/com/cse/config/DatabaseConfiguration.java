@@ -5,7 +5,6 @@ import io.github.jhipster.config.JHipsterConstants;
 import com.github.cloudyrock.mongock.Mongock;
 import com.github.cloudyrock.mongock.SpringBootMongock;
 import com.github.cloudyrock.mongock.SpringBootMongockBuilder;
-import com.github.mongobee.Mongobee;
 import com.mongodb.MongoClient;
 import io.github.jhipster.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
 import io.github.jhipster.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;

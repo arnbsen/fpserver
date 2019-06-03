@@ -1,0 +1,45 @@
+{
+    "name": "Student",
+    "fields": [
+        {
+            "fieldName": "yearJoined",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "currentYear",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "currentSem",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "classRollNumber",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "currentSession",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "student",
+            "relationshipValidateRules": "required",
+            "relationshipName": "department",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190603094855",
+    "entityTableName": "student",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

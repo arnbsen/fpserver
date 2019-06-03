@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="dayTimeTable">
+            <h2><span>Day Time Table</span> {{dayTimeTable.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Day Type</span></dt>
+                <dd>
+                    <span>{{dayTimeTable.dayType}}</span>
+                </dd>
+                <dt><span>Day Of Week</span></dt>
+                <dd>
+                    <span>{{dayTimeTable.dayOfWeek}}</span>
+                </dd>
+                <dt><span>Time Table</span></dt>
+                <dd>
+                    <div *ngIf="dayTimeTable.timeTableId">
+                        <a [routerLink]="['/time-table', dayTimeTable.timeTableId, 'view']">{{dayTimeTable.timeTableId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/day-time-table', dayTimeTable.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

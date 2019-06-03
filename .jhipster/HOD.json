@@ -1,0 +1,29 @@
+{
+    "name": "HOD",
+    "fields": [
+        {
+            "fieldName": "authCode",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "hOD",
+            "relationshipValidateRules": "required",
+            "relationshipName": "department",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190603094852",
+    "entityTableName": "hod",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

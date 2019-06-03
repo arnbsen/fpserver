@@ -1,0 +1,26 @@
+{
+    "name": "Faculty",
+    "fields": [
+        {
+            "fieldName": "facultyCode",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "subject",
+            "otherEntityRelationshipName": "faculty",
+            "relationshipName": "subjectsTaking"
+        }
+    ],
+    "changelogDate": "20190603094854",
+    "entityTableName": "faculty",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

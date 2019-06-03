@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-device-heading">Create or edit a Device</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!device.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_deviceID">Device ID</label>
+                    <input type="text" class="form-control" name="deviceID" id="field_deviceID"
+                           formControlName="deviceID"/>
+                    <div *ngIf="editForm.get('deviceID').invalid && (editForm.get('deviceID').dirty || editForm.get('deviceID').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('deviceID').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_lastUpdated">Last Updated</label>
+                    <input type="number" class="form-control" name="lastUpdated" id="field_lastUpdated"
+                           formControlName="lastUpdated"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_location">Location</label>
+                    <select class="form-control" name="location" formControlName="location" id="field_location">
+                        <option value="LAB">LAB</option>
+                        <option value="CLASS">CLASS</option>
+                        <option value="FACULTYROOM">FACULTYROOM</option>
+                        <option value="SSTAFFROOM">SSTAFFROOM</option>
+                    </select>
+                    <div *ngIf="editForm.get('location').invalid && (editForm.get('location').dirty || editForm.get('location').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('location').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_locationSerial">Location Serial</label>
+                    <input type="number" class="form-control" name="locationSerial" id="field_locationSerial"
+                           formControlName="locationSerial"/>
+                    <div *ngIf="editForm.get('locationSerial').invalid && (editForm.get('locationSerial').dirty || editForm.get('locationSerial').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('locationSerial').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('locationSerial')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

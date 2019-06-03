@@ -1,0 +1,78 @@
+entity IntermdiateUser {
+	deviceUserName String required,
+    hardwareID String required,
+    otherParams String
+}
+enum DeviceLocation {
+	LAB, CLASS, FACULTYROOM, SSTAFFROOM
+}
+enum DayOfWeek {
+	MONDAY, TUESDAY,
+    WEDNESDAY, THRUSDAY,
+    FRIDAY, SATURDAY,
+    SUNDAY
+}
+enum DayType {
+	WORKINGALL,
+    COLLEGEONLY
+}
+entity Department {
+	deptCode String required,
+    deptName String required
+}
+entity Device {
+	deviceID String required,
+    lastUpdated Long,
+    location DeviceLocation required,
+    locationSerial Integer required
+}
+entity HOD {
+	authCode String
+}
+entity Subject {
+	subjectCode String required,
+    subjectName String required
+}
+entity Faculty {
+    facultyCode String
+}
+entity Student {
+	yearJoined Long,
+    currentYear Integer,
+    currentSem Integer,
+    classRollNumber Integer,
+    currentSession String
+}
+enum ClassType {
+	LAB, REGULAR, TUTORIAL, MISC
+}
+entity SubjectTimeTable {
+    startTime Long,
+    endTime Long,
+    classType ClassType
+}
+entity DayTimeTable {
+	dayType DayType required,
+    dayOfWeek DayOfWeek required,
+}
+entity TimeTable {
+    year Integer,
+    semester Integer,
+    
+}
+relationship OneToOne {
+  HOD{department required} to Department
+  Student{department required} to Department
+  TimeTable{department required} to Department
+}
+relationship OneToMany {
+	Faculty{subjectsTaking}  to Subject
+    DayTimeTable{subjects} to SubjectTimeTable
+    TimeTable{dayTimeTable} to DayTimeTable
+}
+relationship ManyToOne {
+	SubjectTimeTable{subject required} to Subject
+}
+
+dto * with mapstruct
+service all with serviceImpl

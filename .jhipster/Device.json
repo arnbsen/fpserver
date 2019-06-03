@@ -1,0 +1,41 @@
+{
+    "name": "Device",
+    "fields": [
+        {
+            "fieldName": "deviceID",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "lastUpdated",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "location",
+            "fieldType": "DeviceLocation",
+            "fieldValues": "LAB,CLASS,FACULTYROOM,SSTAFFROOM",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "locationSerial",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190603094851",
+    "entityTableName": "device",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
