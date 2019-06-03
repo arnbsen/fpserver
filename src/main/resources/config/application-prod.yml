@@ -33,7 +33,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: mongodb://localhost:27017
+      uri: mongodb+srv://devuser:devpass@dev-2okp0.mongodb.net/test?retryWrites=true&w=majority
       database: devfpserver
   mail:
     host: localhost

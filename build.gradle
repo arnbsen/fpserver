@@ -41,6 +41,7 @@ apply from: "gradle/docker.gradle"
 apply from: "gradle/sonar.gradle"
 apply from: "gradle/swagger.gradle"
 apply from: 'gradle/heroku.gradle'
+apply from: 'gradle/stage.gradle'
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty("prod")) {
