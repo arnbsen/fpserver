@@ -56,22 +56,22 @@ public class CloudDatabaseConfiguration extends AbstractCloudConfig {
         return new MongoCustomConversions(converterList);
     }
 
-    @Bean
-    public Mongobee mongobee(MongoDbFactory mongoDbFactory, MongoTemplate mongoTemplate, Cloud cloud) {
-        log.debug("Configuring Cloud Mongobee");
-        List<ServiceInfo> matchingServiceInfos = cloud.getServiceInfos(MongoDbFactory.class);
+    // @Bean
+    // public Mongobee mongobee(MongoDbFactory mongoDbFactory, MongoTemplate mongoTemplate, Cloud cloud) {
+    //     log.debug("Configuring Cloud Mongobee");
+    //     List<ServiceInfo> matchingServiceInfos = cloud.getServiceInfos(MongoDbFactory.class);
 
-        if (matchingServiceInfos.size() != 1) {
-            throw new CloudException("No unique service matching MongoDbFactory found. Expected 1, found "
-                + matchingServiceInfos.size());
-        }
-        MongoServiceInfo info = (MongoServiceInfo) matchingServiceInfos.get(0);
-        Mongobee mongobee = new Mongobee(info.getUri());
-        mongobee.setDbName(mongoDbFactory.getDb().getName());
-        mongobee.setMongoTemplate(mongoTemplate);
-        // package to scan for migrations
-        mongobee.setChangeLogsScanPackage("com.cse.config.dbmigrations");
-        mongobee.setEnabled(true);
-        return mongobee;
-    }
+    //     if (matchingServiceInfos.size() != 1) {
+    //         throw new CloudException("No unique service matching MongoDbFactory found. Expected 1, found "
+    //             + matchingServiceInfos.size());
+    //     }
+    //     MongoServiceInfo info = (MongoServiceInfo) matchingServiceInfos.get(0);
+    //     Mongobee mongobee = new Mongobee(info.getUri());
+    //     mongobee.setDbName(mongoDbFactory.getDb().getName());
+    //     mongobee.setMongoTemplate(mongoTemplate);
+    //     // package to scan for migrations
+    //     mongobee.setChangeLogsScanPackage("com.cse.config.dbmigrations");
+    //     mongobee.setEnabled(true);
+    //     return mongobee;
+    // }
 }

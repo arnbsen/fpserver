@@ -3,9 +3,9 @@ package com.cse.config.dbmigrations;
 import com.cse.domain.Authority;
 import com.cse.domain.User;
 import com.cse.security.AuthoritiesConstants;
+import com.github.cloudyrock.mongock.ChangeLog;
+import com.github.cloudyrock.mongock.ChangeSet;
 
-import com.github.mongobee.changeset.ChangeLog;
-import com.github.mongobee.changeset.ChangeSet;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.time.Instant;

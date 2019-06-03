@@ -1,6 +1,10 @@
 package com.cse.config;
 
 import io.github.jhipster.config.JHipsterConstants;
+
+import com.github.cloudyrock.mongock.Mongock;
+import com.github.cloudyrock.mongock.SpringBootMongock;
+import com.github.cloudyrock.mongock.SpringBootMongockBuilder;
 import com.github.mongobee.Mongobee;
 import com.mongodb.MongoClient;
 import io.github.jhipster.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
@@ -9,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -52,13 +57,16 @@ public class DatabaseConfiguration {
     }
 
     @Bean
-    public Mongobee mongobee(MongoClient mongoClient, MongoTemplate mongoTemplate, MongoProperties mongoProperties) {
+    public Mongock mongobee(ApplicationContext springContext, MongoClient mongoClient, MongoTemplate mongoTemplate,
+            MongoProperties mongoProperties) {
         log.debug("Configuring Mongobee");
-        Mongobee mongobee = new Mongobee(mongoClient);
-        mongobee.setDbName(mongoProperties.getMongoClientDatabase());
-        mongobee.setMongoTemplate(mongoTemplate);
-        // package to scan for migrations
-        mongobee.setChangeLogsScanPackage("com.cse.config.dbmigrations");
-        mongobee.setEnabled(true);
-        return mongobee;
+        // Mongobee mongobee = new Mongobee(mongoClient);
+        // mongobee.setDbName(mongoProperties.getMongoClientDatabase());
+        // mongobee.setMongoTemplate(mongoTemplate);
+        // // package to scan for migrations
+        // mongobee.setChangeLogsScanPackage("com.cse.config.dbmigrations");
+        // mongobee.setEnabled(true);
+        // return mongobee;
+        return new SpringBootMongockBuilder(mongoClient, mongoProperties.getMongoClientDatabase(), "com.cse.config.dbmigrations")
+                .setApplicationContext(springContext).setLockQuickConfig().build();
     }}
