@@ -1,0 +1,37 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.cse"
+    },
+    "jhipsterVersion": "6.0.1",
+    "applicationType": "monolith",
+    "baseName": "devfpserver",
+    "packageName": "com.cse",
+    "packageFolder": "com/cse",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": true,
+    "jwtSecretKey": "YjM5YmFiMThjNzVhZTUyZDJlM2JlZGY5ZmNlMDJmMjNmMzIwOTllYmJlMTY3YWI4MWQ3MmM2N2E2ZmE4ZTgwOWZjYjcyNDY5OGJiNzU2MTY2NTQxNmIzMDlkNTE0YmE1YzFmYTAwNDIzNDM4ZmU4NmQ3MjBmYjEzNWM2MzgxMWE=",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false
+  }
+}
