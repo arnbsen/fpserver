@@ -103,12 +103,14 @@ public class StudentResourceIT {
             .currentSession(DEFAULT_CURRENT_SESSION);
         // Add required entity
         Department department;
-        if (TestUtil.findAll(em, Department.class).isEmpty()) {
-            department = DepartmentResourceIT.createEntity();
-            department.setId("fixed-id-for-tests");
-        } else {
-            department = TestUtil.findAll(em, Department.class).get(0);
-        }
+        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+        //     department = DepartmentResourceIT.createEntity();
+        //     department.setId("fixed-id-for-tests");
+        // } else {
+        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // }
+        department = DepartmentResourceIT.createEntity();
+        department.setId("fixed-id-for-tests");
         student.setDepartment(department);
         return student;
     }
@@ -127,12 +129,14 @@ public class StudentResourceIT {
             .currentSession(UPDATED_CURRENT_SESSION);
         // Add required entity
         Department department;
-        if (TestUtil.findAll(em, Department.class).isEmpty()) {
-            department = DepartmentResourceIT.createUpdatedEntity();
-            department.setId("fixed-id-for-tests");
-        } else {
-            department = TestUtil.findAll(em, Department.class).get(0);
-        }
+        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+        //     department = DepartmentResourceIT.createUpdatedEntity();
+        //     department.setId("fixed-id-for-tests");
+        // } else {
+        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // }
+        department = DepartmentResourceIT.createEntity();
+        department.setId("fixed-id-for-tests");
         student.setDepartment(department);
         return student;
     }
@@ -201,7 +205,7 @@ public class StudentResourceIT {
             .andExpect(jsonPath("$.[*].classRollNumber").value(hasItem(DEFAULT_CLASS_ROLL_NUMBER)))
             .andExpect(jsonPath("$.[*].currentSession").value(hasItem(DEFAULT_CURRENT_SESSION.toString())));
     }
-    
+
     @Test
     public void getStudent() throws Exception {
         // Initialize the database

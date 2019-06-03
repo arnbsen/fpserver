@@ -96,12 +96,14 @@ public class SubjectTimeTableResourceIT {
             .classType(DEFAULT_CLASS_TYPE);
         // Add required entity
         Subject subject;
-        if (TestUtil.findAll(em, Subject.class).isEmpty()) {
-            subject = SubjectResourceIT.createEntity();
-            subject.setId("fixed-id-for-tests");
-        } else {
-            subject = TestUtil.findAll(em, Subject.class).get(0);
-        }
+        // if (TestUtil.findAll(em, Subject.class).isEmpty()) {
+        //     subject = SubjectResourceIT.createEntity();
+        //     subject.setId("fixed-id-for-tests");
+        // } else {
+        //     subject = TestUtil.findAll(em, Subject.class).get(0);
+        // }
+        subject = SubjectResourceIT.createUpdatedEntity();
+        subject.setId("fixed-id-for-tests");
         subjectTimeTable.setSubject(subject);
         return subjectTimeTable;
     }
@@ -118,12 +120,14 @@ public class SubjectTimeTableResourceIT {
             .classType(UPDATED_CLASS_TYPE);
         // Add required entity
         Subject subject;
-        if (TestUtil.findAll(em, Subject.class).isEmpty()) {
-            subject = SubjectResourceIT.createUpdatedEntity();
-            subject.setId("fixed-id-for-tests");
-        } else {
-            subject = TestUtil.findAll(em, Subject.class).get(0);
-        }
+        // if (TestUtil.findAll(em, Subject.class).isEmpty()) {
+        //     subject = SubjectResourceIT.createUpdatedEntity();
+        //     subject.setId("fixed-id-for-tests");
+        // } else {
+        //     subject = TestUtil.findAll(em, Subject.class).get(0);
+        // }
+        subject = SubjectResourceIT.createUpdatedEntity();
+        subject.setId("fixed-id-for-tests");
         subjectTimeTable.setSubject(subject);
         return subjectTimeTable;
     }
@@ -188,7 +192,7 @@ public class SubjectTimeTableResourceIT {
             .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.intValue())))
             .andExpect(jsonPath("$.[*].classType").value(hasItem(DEFAULT_CLASS_TYPE.toString())));
     }
-    
+
     @Test
     public void getSubjectTimeTable() throws Exception {
         // Initialize the database

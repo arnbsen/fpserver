@@ -91,12 +91,14 @@ public class TimeTableResourceIT {
             .semester(DEFAULT_SEMESTER);
         // Add required entity
         Department department;
-        if (TestUtil.findAll(em, Department.class).isEmpty()) {
-            department = DepartmentResourceIT.createEntity();
-            department.setId("fixed-id-for-tests");
-        } else {
-            department = TestUtil.findAll(em, Department.class).get(0);
-        }
+        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+        //     department = DepartmentResourceIT.createEntity();
+        //     department.setId("fixed-id-for-tests");
+        // } else {
+        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // }
+        department = DepartmentResourceIT.createEntity();
+        department.setId("fixed-id-for-tests");
         timeTable.setDepartment(department);
         return timeTable;
     }
@@ -112,12 +114,14 @@ public class TimeTableResourceIT {
             .semester(UPDATED_SEMESTER);
         // Add required entity
         Department department;
-        if (TestUtil.findAll(em, Department.class).isEmpty()) {
-            department = DepartmentResourceIT.createUpdatedEntity();
-            department.setId("fixed-id-for-tests");
-        } else {
-            department = TestUtil.findAll(em, Department.class).get(0);
-        }
+        department = DepartmentResourceIT.createEntity();
+        department.setId("fixed-id-for-tests");
+        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+        //     department = DepartmentResourceIT.createUpdatedEntity();
+        //     department.setId("fixed-id-for-tests");
+        // } else {
+        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // }
         timeTable.setDepartment(department);
         return timeTable;
     }
@@ -180,7 +184,7 @@ public class TimeTableResourceIT {
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].semester").value(hasItem(DEFAULT_SEMESTER)));
     }
-    
+
     @Test
     public void getTimeTable() throws Exception {
         // Initialize the database

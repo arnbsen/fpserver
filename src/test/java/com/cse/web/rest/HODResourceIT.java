@@ -87,12 +87,14 @@ public class HODResourceIT {
             .authCode(DEFAULT_AUTH_CODE);
         // Add required entity
         Department department;
-        if (TestUtil.findAll(em, Department.class).isEmpty()) {
-            department = DepartmentResourceIT.createEntity();
-            department.setId("fixed-id-for-tests");
-        } else {
-            department = TestUtil.findAll(em, Department.class).get(0);
-        }
+        department = DepartmentResourceIT.createEntity();
+        department.setId("fixed-id-for-tests");
+        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+        //     department = DepartmentResourceIT.createEntity();
+        //     department.setId("fixed-id-for-tests");
+        // } else {
+        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // }
         hOD.setDepartment(department);
         return hOD;
     }
@@ -107,12 +109,14 @@ public class HODResourceIT {
             .authCode(UPDATED_AUTH_CODE);
         // Add required entity
         Department department;
-        if (TestUtil.findAll(em, Department.class).isEmpty()) {
-            department = DepartmentResourceIT.createUpdatedEntity();
-            department.setId("fixed-id-for-tests");
-        } else {
-            department = TestUtil.findAll(em, Department.class).get(0);
-        }
+        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+        //     department = DepartmentResourceIT.createUpdatedEntity();
+        //     department.setId("fixed-id-for-tests");
+        // } else {
+        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // }
+        department = DepartmentResourceIT.createEntity();
+        department.setId("fixed-id-for-tests");
         hOD.setDepartment(department);
         return hOD;
     }
@@ -173,7 +177,7 @@ public class HODResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(hOD.getId())))
             .andExpect(jsonPath("$.[*].authCode").value(hasItem(DEFAULT_AUTH_CODE.toString())));
     }
-    
+
     @Test
     public void getHOD() throws Exception {
         // Initialize the database
