@@ -16,6 +16,7 @@
             <tr>
             <th><span>ID</span></th>
             <th><span>Faculty Code</span></th>
+            <th><span>Department</span></th>
             <th></th>
             </tr>
             </thead>
@@ -23,6 +24,11 @@
             <tr *ngFor="let faculty of faculties ;trackBy: trackId">
                 <td><a [routerLink]="['/faculty', faculty.id, 'view' ]">{{faculty.id}}</a></td>
                 <td>{{faculty.facultyCode}}</td>
+                <td>
+                    <div *ngIf="faculty.departmentId">
+                        <a [routerLink]="['../department', faculty.departmentId , 'view' ]" >{{faculty.departmentId}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

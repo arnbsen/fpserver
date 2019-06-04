@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -46,7 +47,7 @@ public class FacultyResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/faculties")
-    public ResponseEntity<FacultyDTO> createFaculty(@RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
+    public ResponseEntity<FacultyDTO> createFaculty(@Valid @RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
         log.debug("REST request to save Faculty : {}", facultyDTO);
         if (facultyDTO.getId() != null) {
             throw new BadRequestAlertException("A new faculty cannot already have an ID", ENTITY_NAME, "idexists");
@@ -67,7 +68,7 @@ public class FacultyResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/faculties")
-    public ResponseEntity<FacultyDTO> updateFaculty(@RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
+    public ResponseEntity<FacultyDTO> updateFaculty(@Valid @RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
         log.debug("REST request to update Faculty : {}", facultyDTO);
         if (facultyDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

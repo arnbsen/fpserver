@@ -9,6 +9,12 @@
                 <dd>
                     <span>{{faculty.facultyCode}}</span>
                 </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="faculty.departmentId">
+                        <a [routerLink]="['/department', faculty.departmentId, 'view']">{{faculty.departmentId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

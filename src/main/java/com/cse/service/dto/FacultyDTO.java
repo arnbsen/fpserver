@@ -1,4 +1,5 @@
 package com.cse.service.dto;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,6 +12,8 @@ public class FacultyDTO implements Serializable {
 
     private String facultyCode;
 
+
+    private String departmentId;
 
     public String getId() {
         return id;
@@ -26,6 +29,14 @@ public class FacultyDTO implements Serializable {
 
     public void setFacultyCode(String facultyCode) {
         this.facultyCode = facultyCode;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
     }
 
     @Override
@@ -54,6 +65,7 @@ public class FacultyDTO implements Serializable {
         return "FacultyDTO{" +
             "id=" + getId() +
             ", facultyCode='" + getFacultyCode() + "'" +
+            ", department=" + getDepartmentId() +
             "}";
     }
 }

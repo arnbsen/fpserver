@@ -2,6 +2,7 @@ package com.cse.web.rest;
 
 import com.cse.DevfpserverApp;
 import com.cse.domain.Faculty;
+import com.cse.domain.Department;
 import com.cse.repository.FacultyRepository;
 import com.cse.service.FacultyService;
 import com.cse.service.dto.FacultyDTO;
@@ -84,6 +85,15 @@ public class FacultyResourceIT {
     public static Faculty createEntity() {
         Faculty faculty = new Faculty()
             .facultyCode(DEFAULT_FACULTY_CODE);
+        // Add required entity
+        Department department;
+       // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+            department = DepartmentResourceIT.createEntity();
+            department.setId("fixed-id-for-tests");
+        // } else {
+        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // }
+        faculty.setDepartment(department);
         return faculty;
     }
     /**
@@ -95,6 +105,15 @@ public class FacultyResourceIT {
     public static Faculty createUpdatedEntity() {
         Faculty faculty = new Faculty()
             .facultyCode(UPDATED_FACULTY_CODE);
+        // Add required entity
+        Department department;
+        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+            department = DepartmentResourceIT.createUpdatedEntity();
+            department.setId("fixed-id-for-tests");
+        // } else {
+        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // }
+        faculty.setDepartment(department);
         return faculty;
     }
 
@@ -154,7 +173,7 @@ public class FacultyResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(faculty.getId())))
             .andExpect(jsonPath("$.[*].facultyCode").value(hasItem(DEFAULT_FACULTY_CODE.toString())));
     }
-    
+
     @Test
     public void getFaculty() throws Exception {
         // Initialize the database

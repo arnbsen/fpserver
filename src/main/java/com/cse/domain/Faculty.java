@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -25,6 +26,10 @@ public class Faculty implements Serializable {
 
     @Field("faculty_code")
     private String facultyCode;
+
+    @DBRef
+    @Field("department")
+    private Department department;
 
     @DBRef
     @Field("subjectsTaking")
@@ -50,6 +55,19 @@ public class Faculty implements Serializable {
 
     public void setFacultyCode(String facultyCode) {
         this.facultyCode = facultyCode;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public Faculty department(Department department) {
+        this.department = department;
+        return this;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Set<Subject> getSubjectsTakings() {
