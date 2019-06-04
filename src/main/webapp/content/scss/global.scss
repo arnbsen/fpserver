@@ -1,182 +1,196 @@
-@import 'bootstrap-variables';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
+@import 'theme.scss';
 
-/* ==============================================================
-Bootstrap tweaks
-===============================================================*/
+// @import 'bootstrap-variables';
+// @import '~bootstrap/scss/functions';
+// @import '~bootstrap/scss/variables';
 
-body,
-h1,
-h2,
-h3,
-h4 {
-  font-weight: 300;
-}
+// /* ==============================================================
+// Bootstrap tweaks
+// ===============================================================*/
 
-a {
-  color: #533f03;
-  font-weight: bold;
-}
+// body,
+// h1,
+// h2,
+// h3,
+// h4 {
+//   font-weight: 300;
+// }
 
-a:hover {
-  color: #533f03;
-  font-weight: bold;
-  /* make sure browsers use the pointer cursor for anchors, even with no href */
-  cursor: pointer;
-}
+// a {
+//   color: #533f03;
+//   font-weight: bold;
+// }
 
-.dropdown-item:hover {
-  color: $dropdown-link-hover-color;
-}
+// a:hover {
+//   color: #533f03;
+//   font-weight: bold;
+//   /* make sure browsers use the pointer cursor for anchors, even with no href */
+//   cursor: pointer;
+// }
 
-/* ==========================================================================
-Browser Upgrade Prompt
-========================================================================== */
-.browserupgrade {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
+// .dropdown-item:hover {
+//   color: $dropdown-link-hover-color;
+// }
 
-/* ==========================================================================
-Generic styles
-========================================================================== */
+// /* ==========================================================================
+// Browser Upgrade Prompt
+// ========================================================================== */
+// .browserupgrade {
+//   margin: 0.2em 0;
+//   background: #ccc;
+//   color: #000;
+//   padding: 0.2em 0;
+// }
 
-/* Error highlight on input fields */
-.ng-valid[required],
-.ng-valid.required {
-  border-left: 5px solid green;
-}
+// /* ==========================================================================
+// Generic styles
+// ========================================================================== */
 
-.ng-invalid:not(form) {
-  border-left: 5px solid red;
-}
+// /* Error highlight on input fields */
+// .ng-valid[required],
+// .ng-valid.required {
+//   border-left: 5px solid green;
+// }
 
-/* other generic styles */
+// .ng-invalid:not(form) {
+//   border-left: 5px solid red;
+// }
 
-.jh-card {
-  padding: 1.5%;
-  margin-top: 20px;
-  border: none;
-}
+// /* other generic styles */
 
-.error {
-  color: white;
-  background-color: red;
-}
+// .jh-card {
+//   padding: 1.5%;
+//   margin-top: 20px;
+//   border: none;
+// }
 
-.pad {
-  padding: 10px;
-}
+// .error {
+//   color: white;
+//   background-color: red;
+// }
 
-.w-40 {
-  width: 40% !important;
-}
+// .pad {
+//   padding: 10px;
+// }
 
-.w-60 {
-  width: 60% !important;
-}
+// .w-40 {
+//   width: 40% !important;
+// }
 
-.break {
-  white-space: normal;
-  word-break: break-all;
-}
+// .w-60 {
+//   width: 60% !important;
+// }
 
-.readonly {
-  background-color: #eee;
-  opacity: 1;
-}
+// .break {
+//   white-space: normal;
+//   word-break: break-all;
+// }
 
-.footer {
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
-}
+// .readonly {
+//   background-color: #eee;
+//   opacity: 1;
+// }
 
-.hand,
-[jhisortby] {
-  cursor: pointer;
-}
+// .footer {
+//   border-top: 1px solid rgba(0, 0, 0, 0.125);
+// }
 
-/* ==========================================================================
-Custom alerts for notification
-========================================================================== */
-.alerts {
-  .alert {
-    text-overflow: ellipsis;
-    pre {
-      background: none;
-      border: none;
-      font: inherit;
-      color: inherit;
-      padding: 0;
-      margin: 0;
-    }
-    .popover pre {
-      font-size: 10px;
-    }
-  }
-  .toast {
-    position: fixed;
-    width: 100%;
-    &.left {
-      left: 5px;
-    }
-    &.right {
-      right: 5px;
-    }
-    &.top {
-      top: 55px;
-    }
-    &.bottom {
-      bottom: 55px;
-    }
-  }
-}
+// .hand,
+// [jhisortby] {
+//   cursor: pointer;
+// }
 
-@media screen and (min-width: 480px) {
-  .alerts .toast {
-    width: 50%;
-  }
-}
+// /* ==========================================================================
+// Custom alerts for notification
+// ========================================================================== */
+// .alerts {
+//   .alert {
+//     text-overflow: ellipsis;
+//     pre {
+//       background: none;
+//       border: none;
+//       font: inherit;
+//       color: inherit;
+//       padding: 0;
+//       margin: 0;
+//     }
+//     .popover pre {
+//       font-size: 10px;
+//     }
+//   }
+//   .toast {
+//     position: fixed;
+//     width: 100%;
+//     &.left {
+//       left: 5px;
+//     }
+//     &.right {
+//       right: 5px;
+//     }
+//     &.top {
+//       top: 55px;
+//     }
+//     &.bottom {
+//       bottom: 55px;
+//     }
+//   }
+// }
 
-/* ==========================================================================
-entity detail page css
-========================================================================== */
-.row.jh-entity-details > {
-  dd {
-    margin-bottom: 15px;
-  }
-}
+// @media screen and (min-width: 480px) {
+//   .alerts .toast {
+//     width: 50%;
+//   }
+// }
 
-@media screen and (min-width: 768px) {
-  .row.jh-entity-details > {
-    dt {
-      margin-bottom: 15px;
-    }
-    dd {
-      border-bottom: 1px solid #eee;
-      padding-left: 180px;
-      margin-left: 0;
-    }
-  }
-}
+// /* ==========================================================================
+// entity detail page css
+// ========================================================================== */
+// .row.jh-entity-details > {
+//   dd {
+//     margin-bottom: 15px;
+//   }
+// }
 
-/* ==========================================================================
-ui bootstrap tweaks
-========================================================================== */
-.nav,
-.pagination,
-.carousel,
-.panel-title a {
-  cursor: pointer;
-}
+// @media screen and (min-width: 768px) {
+//   .row.jh-entity-details > {
+//     dt {
+//       margin-bottom: 15px;
+//     }
+//     dd {
+//       border-bottom: 1px solid #eee;
+//       padding-left: 180px;
+//       margin-left: 0;
+//     }
+//   }
+// }
 
-.thread-dump-modal-lock {
-  max-width: 450px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+// /* ==========================================================================
+// ui bootstrap tweaks
+// ========================================================================== */
+// .nav,
+// .pagination,
+// .carousel,
+// .panel-title a {
+//   cursor: pointer;
+// }
+
+// .thread-dump-modal-lock {
+//   max-width: 450px;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+// }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+@font-face {
+  font-family: Roboto;
+  src: url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.mat-progress-bar-buffer {
+  background: #e4e8eb;
+}

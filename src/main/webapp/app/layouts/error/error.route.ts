@@ -13,7 +13,7 @@ export const errorRoute: Routes = [
   },
   {
     path: 'accessdenied',
-    component: ErrorComponent,
+    redirectTo: 'login',
     data: {
       authorities: [],
       pageTitle: 'devfpserver',

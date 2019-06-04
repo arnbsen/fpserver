@@ -9,15 +9,17 @@ import { StateStorageService } from 'app/core/auth/state-storage.service';
 
 @Component({
   selector: 'jhi-login-modal',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['login.component.scss']
 })
 export class JhiLoginModalComponent implements AfterViewInit {
   authenticationError: boolean;
+  displayLoader = false;
 
   loginForm = this.fb.group({
-    username: [''],
-    password: [''],
-    rememberMe: [true]
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+    rememberMe: [false]
   });
 
   constructor(
@@ -27,12 +29,12 @@ export class JhiLoginModalComponent implements AfterViewInit {
     private elementRef: ElementRef,
     private renderer: Renderer,
     private router: Router,
-    public activeModal: NgbActiveModal,
+    // public activeModal: NgbActiveModal,
     private fb: FormBuilder
   ) {}
 
   ngAfterViewInit() {
-    setTimeout(() => this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []), 0);
+    // setTimeout(() => this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []), 0);
   }
 
   cancel() {
@@ -41,10 +43,11 @@ export class JhiLoginModalComponent implements AfterViewInit {
       username: '',
       password: ''
     });
-    this.activeModal.dismiss('cancel');
+    // this.activeModal.dismiss('cancel');
   }
 
   login() {
+    this.displayLoader = true;
     this.loginService
       .login({
         username: this.loginForm.get('username').value,
@@ -53,7 +56,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
       })
       .then(() => {
         this.authenticationError = false;
-        this.activeModal.dismiss('login success');
+        // this.activeModal.dismiss('login success');
         if (this.router.url === '/register' || /^\/activate\//.test(this.router.url) || /^\/reset\//.test(this.router.url)) {
           this.router.navigate(['']);
         }
@@ -69,20 +72,23 @@ export class JhiLoginModalComponent implements AfterViewInit {
         if (redirect) {
           this.stateStorageService.storeUrl(null);
           this.router.navigateByUrl(redirect);
+        } else {
+          this.router.navigateByUrl('/home');
         }
       })
       .catch(() => {
         this.authenticationError = true;
+        this.displayLoader = false;
       });
   }
 
   register() {
-    this.activeModal.dismiss('to state register');
+    // this.activeModal.dismiss('to state register');
     this.router.navigate(['/register']);
   }
 
   requestResetPassword() {
-    this.activeModal.dismiss('to state requestReset');
+    // this.activeModal.dismiss('to state requestReset');
     this.router.navigate(['/reset', 'request']);
   }
 }

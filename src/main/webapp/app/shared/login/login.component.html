@@ -1,4 +1,51 @@
-<div class="modal-header">
+<div style="height: 15vh" class="background-colour"></div>
+<div style="height: 70vh" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px" class="background-colour">
+    <div [fxFlex]="50" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0px">
+        <img src="../../../content/images/logo1.png" height="350" width="350" alt="logo">
+        <h2 style="color: #314757">STECT AUTOMATED ATTENDANCE</h2>
+    </div>
+    <div [fxFlex]="50" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0px">
+        <mat-progress-bar mode="indeterminate" class="login-card-loader" *ngIf="displayLoader"></mat-progress-bar>
+        <mat-card class="login-card mat-elevation-z8">
+            <mat-card-header>
+                    <mat-icon mat-card-avatar style="font-size: 30px">
+                        security
+                    </mat-icon>
+                <mat-card-title>Login</mat-card-title>
+                <mat-card-subtitle>Please Enter Your Credentials</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
+                    <div style="color: red; font-size: 15px;" *ngIf="authenticationError"><strong>Failed to sign in!</strong> Please check your credentials
+                        and try again.</div>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Username</mat-label>
+                        <input matInput ame="username" id="username"
+                           formControlName="username" placeholder="Please enter your username">
+                            <mat-error *ngIf="loginForm.get('username').hasError('required')">Username is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" name="password" id="password" placeholder="Please enter your password"
+                           formControlName="password">
+                        <mat-error *ngIf="loginForm.get('password').hasError('required')">Username is required</mat-error>
+                    </mat-form-field>
+                    <mat-checkbox style="margin-top: 15px" formControlName="rememberMe">Remember Me</mat-checkbox>
+                    <button type="submit" class="full-width" style="margin-top: 10px" mat-raised-button color="primary">Sign in</button>
+                </form>
+            </mat-card-content>
+            <mat-card-actions  fxLayout="row" fxLayoutAlign="center space-between" fxLayoutGap="6px">
+                <button mat-flat-button [fxFlex]="47" color="warn" (click)="requestResetPassword()">Forgot Password?</button>
+                <button mat-flat-button [fxFlex]="47" color="accent" (click)="register()">New User? Register</button>
+            </mat-card-actions>
+        </mat-card>
+
+    </div>
+</div>
+<div style="height: 15vh" class="background-colour"></div>
+
+
+<!-- <div class="modal-header">
     <h4 class="modal-title">Sign in</h4>
     <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
     </button>
@@ -40,4 +87,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

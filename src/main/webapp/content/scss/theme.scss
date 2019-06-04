@@ -1,0 +1,71 @@
+@import '~@angular/material/theming';
+@include mat-core();
+$md-primary: (
+  '50': #f3f7f9,
+  '100': #e1ebf1,
+  '200': #cddde8,
+  '300': #b9cfde,
+  '400': #aac5d7,
+  '500': #9bbbd0,
+  '600': #93b5cb,
+  '700': #89acc4,
+  '800': #7fa4be,
+  '900': #6d96b3,
+  'A100': #93b5cb,
+  'A200': #89acc4,
+  'A400': #7fa4be,
+  'A700': #6d96b3,
+  'contrast': (
+    '50': #000000,
+    '100': #000000,
+    '200': #000000,
+    '300': #000000,
+    '400': #000000,
+    '500': #000000,
+    '600': #000000,
+    '700': #000000,
+    '800': #000000,
+    '900': #000000,
+    'A100': #fff,
+    'A200': #fff,
+    'A400': #fff,
+    'A700': #fff
+  )
+);
+$md-accent: (
+  '50': #fff5e7,
+  '100': #ffe6c2,
+  '200': #ffd59a,
+  '300': #ffc471,
+  '400': #ffb752,
+  '500': #ffaa34,
+  '600': #ffa32f,
+  '700': #ff9927,
+  '800': #ff9021,
+  '900': #ff7f15,
+  'A100': #ffc471,
+  'A200': #ffaa34,
+  'A400': #ff9021,
+  'A700': #ff7f15,
+  'contrast': (
+    '50': #000000,
+    '100': #000000,
+    '200': #000000,
+    '300': #000000,
+    '400': #000000,
+    '500': #000000,
+    '600': #000000,
+    '700': #000000,
+    '800': #000000,
+    '900': #000000,
+    'A100': #fff,
+    'A200': #fff,
+    'A400': #fff,
+    'A700': #fff
+  )
+);
+
+$stect-primary: mat-palette($md-primary, A200, A100, A400);
+$stect-accent: mat-palette($md-accent, A200, A100, A400);
+$stect-theme: mat-light-theme($stect-primary, $stect-accent);
+@include angular-material-theme($stect-theme);
