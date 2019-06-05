@@ -29,7 +29,8 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
             ],
             target: `https://devfpserver.herokuapp.com`,
             secure: false,
-            changeOrigin: true
+            changeOrigin: true,
+            headers: {host: 'localhost:9000'}
         }],
         stats: options.stats,
         watchOptions: {
