@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { ErrorComponent } from './error.component';
+import { ActivateComponent } from 'app/account';
 
 export const errorRoute: Routes = [
   {
@@ -13,7 +14,7 @@ export const errorRoute: Routes = [
   },
   {
     path: 'accessdenied',
-    redirectTo: 'login',
+    component: ErrorComponent,
     data: {
       authorities: [],
       pageTitle: 'devfpserver',

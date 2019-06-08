@@ -21,6 +21,7 @@ import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthenticationCheckComponent } from './layouts/authentication-check/authentication-check.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -39,7 +40,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DevfpserverEntityModule,
     DevfpserverAppRoutingModule
   ],
-  declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+  declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, AuthenticationCheckComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

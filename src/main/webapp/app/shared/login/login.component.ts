@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, Renderer, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { StateStorageService } from 'app/core/auth/state-storage.service';
   templateUrl: './login.component.html',
   styleUrls: ['login.component.scss']
 })
-export class JhiLoginModalComponent implements AfterViewInit {
+export class JhiLoginModalComponent implements OnInit, AfterViewInit {
   authenticationError: boolean;
   displayLoader = false;
 
@@ -32,7 +32,9 @@ export class JhiLoginModalComponent implements AfterViewInit {
     // public activeModal: NgbActiveModal,
     private fb: FormBuilder
   ) {}
-
+  ngOnInit(): void {
+    console.log('Hello');
+  }
   ngAfterViewInit() {
     // setTimeout(() => this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []), 0);
   }
@@ -73,7 +75,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
           this.stateStorageService.storeUrl(null);
           this.router.navigateByUrl(redirect);
         } else {
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl('home');
         }
       })
       .catch(() => {

@@ -3,18 +3,23 @@ import { Route, Routes } from '@angular/router';
 import { HomeComponent } from './';
 import { JhiLoginModalComponent } from 'app/shared';
 import { UserRouteAccessService } from 'app/core';
+import { AuthenticationCheckComponent } from 'app/layouts/authentication-check/authentication-check.component';
 
 export const HOME_ROUTE: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login'
+    component: AuthenticationCheckComponent,
+    data: {
+      pageTitle: 'Loading...'
+    }
   },
   {
     path: 'login',
     component: JhiLoginModalComponent,
     data: {
-      pageTitle: 'STCET AUTOMATED ATTENDANCE '
+      pageTitle: 'LOGIN',
+      authorities: []
     }
   },
   {

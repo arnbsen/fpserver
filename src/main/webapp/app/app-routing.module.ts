@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { errorRoute, navbarRoute } from './layouts';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { HOME_ROUTE } from './home';
+import { ActivateComponent } from './account';
+import { AuthenticationCheckComponent } from './layouts/authentication-check/authentication-check.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -10,13 +12,13 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
   imports: [
     RouterModule.forRoot(
       [
-        ...LAYOUT_ROUTES,
         {
           path: 'admin',
           loadChildren: './admin/admin.module#DevfpserverAdminModule'
-        }
+        },
+        ...LAYOUT_ROUTES
       ],
-      { enableTracing: DEBUG_INFO_ENABLED }
+      { enableTracing: DEBUG_INFO_ENABLED, useHash: true }
     )
   ],
   exports: [RouterModule]
