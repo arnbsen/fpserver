@@ -3,9 +3,10 @@ import { RouterModule } from '@angular/router';
 
 import { DevfpserverSharedModule } from 'app/shared';
 import { HOME_ROUTE, HomeComponent } from './';
+import { DevfpserverEntityModule } from 'app/entities/entity.module';
 
 @NgModule({
-  imports: [DevfpserverSharedModule, RouterModule.forChild(HOME_ROUTE)],
+  imports: [DevfpserverSharedModule, DevfpserverEntityModule, RouterModule.forChild(HOME_ROUTE)],
   declarations: [HomeComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

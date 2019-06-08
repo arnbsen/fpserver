@@ -1,8 +1,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
+import { DevfpserverSharedModule } from 'app/shared/shared.module';
 
 @NgModule({
   imports: [
+    DevfpserverSharedModule,
     RouterModule.forChild([
       {
         path: 'intermdiate-user',
@@ -51,9 +54,10 @@ import { RouterModule } from '@angular/router';
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
   ],
-  declarations: [],
+  declarations: [StudentDashboardComponent],
   entryComponents: [],
   providers: [],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [StudentDashboardComponent]
 })
 export class DevfpserverEntityModule {}

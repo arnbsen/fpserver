@@ -1,0 +1,32 @@
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px">
+    <div [fxFlex]="4"></div>
+    <div [fxFlex]="25">
+        <mat-card class="example-card">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon style="font-size: 55px">account_circle</mat-icon>
+                </div>
+                <mat-card-title>{{ account.firstName + ' ' + account.lastName | uppercase}}</mat-card-title>
+                <mat-card-subtitle>
+                    <p>
+                        {{department.deptName}}
+                        <br>
+                        {{'Year: ' + student.currentYear + ' Semester: ' + student.currentSem}}
+                    </p>
+                </mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+    </div>
+    <div [fxFlex]="2"></div>
+    <div [fxFlex]="45"></div>
+    <div [fxFlex]="4"></div>
+</div>
+<h3 mat-subheader>Subject Attendance Percentage</h3>
+<mat-list>
+    <mat-list-item *ngFor="let sub of subject">
+        <h4 mat-line>{{sub.subjectName}}</h4>
+        <p mat-line>
+            <mat-progress-bar mode="determinate" value="{{getNumber(sub.percentage)}}"></mat-progress-bar>
+        </p>
+    </mat-list-item>
+</mat-list>
