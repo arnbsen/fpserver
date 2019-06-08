@@ -40,6 +40,10 @@ public class Student implements Serializable {
     @Field("department")
     private Department department;
 
+    @DBRef
+    @Field("user")
+    private User user;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
@@ -154,5 +158,13 @@ public class Student implements Serializable {
             ", classRollNumber=" + getClassRollNumber() +
             ", currentSession='" + getCurrentSession() + "'" +
             "}";
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

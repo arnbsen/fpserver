@@ -12,6 +12,7 @@ export class AuthenticationCheckComponent implements OnInit {
 
   ngOnInit() {
     if (this.accountService.isAuthenticated()) {
+      this.router.navigateByUrl('home');
     } else {
       this.router.navigateByUrl('login');
     }

@@ -23,6 +23,9 @@ public class StudentDTO implements Serializable {
 
     private String departmentId;
 
+    private String userId;
+
+
     public String getId() {
         return id;
     }
@@ -111,5 +114,13 @@ public class StudentDTO implements Serializable {
             ", currentSession='" + getCurrentSession() + "'" +
             ", department=" + getDepartmentId() +
             "}";
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

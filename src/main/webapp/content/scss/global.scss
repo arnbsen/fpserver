@@ -194,3 +194,9 @@
 .mat-progress-bar-buffer {
   background: #e4e8eb;
 }
+.column-spacer {
+  flex: 1 1 auto;
+}
+.full-height {
+  height: calc(100vh - 64px);
+}

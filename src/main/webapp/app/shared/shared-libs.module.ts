@@ -8,6 +8,7 @@ import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NguCarouselModule } from '@ngu/carousel';
 @NgModule({
   imports: [
     NgbModule,
@@ -16,7 +17,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FontAwesomeModule,
     ReactiveFormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NguCarouselModule
   ],
   exports: [
     FormsModule,

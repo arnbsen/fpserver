@@ -29,6 +29,7 @@ public class UserMapper {
         return new UserDTO(user);
     }
 
+
     public List<User> userDTOsToUsers(List<UserDTO> userDTOs) {
         return userDTOs.stream()
             .filter(Objects::nonNull)

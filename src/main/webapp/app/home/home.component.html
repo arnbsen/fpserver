@@ -1,5 +1,38 @@
-
-<div class="row">
+<jhi-toolbar (openSidebar)="setShowFilter($event)" ></jhi-toolbar>
+<mat-sidenav-container class="example-container">
+    <mat-sidenav mode="side" [opened]="showFilter">
+        hello
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height">
+            <div [fxFlex]="4"></div>
+            <div [fxFlex]="45">
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <div mat-card-avatar></div>
+                        <mat-card-title>{{ account.firstName + ' ' + account.lastName | uppercase}}</mat-card-title>
+                        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>
+                            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                            bred for hunting.
+                        </p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-button>LIKE</button>
+                        <button mat-button>SHARE</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+            <div [fxFlex]="2"></div>
+            <div [fxFlex]="45"></div>
+            <div [fxFlex]="4"></div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+<!-- <div class="row">
     <div class="col-md-3">
         <span class="hipster img-fluid rounded"></span>
     </div>
@@ -39,4 +72,4 @@
             <span>If you like JHipster, don't forget to give us a star on</span> <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener">GitHub</a>!
         </p>
     </div>
-</div>
+</div> -->

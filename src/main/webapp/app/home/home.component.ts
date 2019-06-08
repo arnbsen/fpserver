@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
-
 import { LoginModalService, AccountService, Account } from 'app/core';
-
+interface User {
+  fullName: string;
+  rollNo: number;
+  dept: string;
+  year: number;
+  sem: number;
+  deviceID: string;
+}
 @Component({
   selector: 'jhi-home',
   templateUrl: './home.component.html',
@@ -12,7 +18,7 @@ import { LoginModalService, AccountService, Account } from 'app/core';
 export class HomeComponent implements OnInit {
   account: Account;
   modalRef: NgbModalRef;
-
+  showFilter = false;
   constructor(
     private accountService: AccountService,
     private loginModalService: LoginModalService,
@@ -22,6 +28,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.accountService.identity().then((account: Account) => {
       this.account = account;
+      console.log(this.account);
     });
     this.registerAuthenticationSuccess();
   }
@@ -40,5 +47,10 @@ export class HomeComponent implements OnInit {
 
   login() {
     this.modalRef = this.loginModalService.open();
+  }
+
+  setShowFilter(event: boolean) {
+    console.log(event);
+    this.showFilter = event;
   }
 }

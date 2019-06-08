@@ -51,6 +51,8 @@ public class UserDTO {
 
     private Instant lastModifiedDate;
 
+    private String deviceID;
+
     private Set<String> authorities;
 
     public UserDTO() {
@@ -70,6 +72,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        this.deviceID = user.getDeviceID();
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
@@ -179,6 +182,8 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
+
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -195,5 +200,13 @@ public class UserDTO {
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
             "}";
+    }
+
+    public String getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(String deviceID) {
+        this.deviceID = deviceID;
     }
 }
