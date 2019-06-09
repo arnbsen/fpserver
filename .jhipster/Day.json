@@ -1,0 +1,29 @@
+{
+    "name": "Day",
+    "fields": [
+        {
+            "fieldName": "type",
+            "fieldType": "DayType",
+            "fieldValues": "WORKINGALL,COLLEGEONLY,HOLIDAY,EXAM"
+        },
+        {
+            "fieldName": "dayOfTheWeek",
+            "fieldType": "DayOfWeek",
+            "fieldValues": "MONDAY,TUESDAY,WEDNESDAY,THRUSDAY,FRIDAY,SATURDAY,SUNDAY"
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190609193706",
+    "entityTableName": "day",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

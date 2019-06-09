@@ -14,7 +14,9 @@ enum DayOfWeek {
 }
 enum DayType {
 	WORKINGALL,
-    COLLEGEONLY
+    COLLEGEONLY,
+	HOLIDAY,
+	EXAM
 }
 entity Department {
 	deptCode String required,
@@ -59,6 +61,15 @@ entity TimeTable {
     year Integer,
     semester Integer,
     
+}
+entity Attendance {
+    timestamp Instant,
+    deviceID String
+}
+entity Day {
+	type DayType,
+	dayOfTheWeek DayOfWeek,
+	date Instant
 }
 relationship OneToOne {
   HOD{department required} to Department

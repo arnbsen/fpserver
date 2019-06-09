@@ -191,13 +191,14 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.mat-progress-bar-buffer {
-  background: #e4e8eb;
-}
 .column-spacer {
   flex: 1 1 auto;
 }
 .full-height {
   height: calc(100vh - 64px);
   padding-top: 2%;
+  width: 100%;
+}
+.green-progress .mat-progress-bar-fill::after {
+  background-color: #1abc9c !important;
 }

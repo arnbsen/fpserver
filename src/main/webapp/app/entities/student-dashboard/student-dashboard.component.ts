@@ -11,7 +11,7 @@ import { getNumberOfCurrencyDigits } from '@angular/common';
 @Component({
   selector: 'jhi-student-dashboard',
   templateUrl: './student-dashboard.component.html',
-  styles: []
+  styleUrls: ['./student.dashboard.scss']
 })
 export class StudentDashboardComponent implements OnInit {
   account: Account;
@@ -44,5 +44,9 @@ export class StudentDashboardComponent implements OnInit {
   }
   getNumber(num: string): number {
     return Number(num);
+  }
+  getColor(num: string): string {
+    const check = Number(num);
+    return check <= 30 ? 'warn' : check <= 50 ? 'accent' : 'primary';
   }
 }

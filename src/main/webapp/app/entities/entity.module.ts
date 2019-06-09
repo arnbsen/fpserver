@@ -50,6 +50,18 @@ import { DevfpserverSharedModule } from 'app/shared/shared.module';
       {
         path: 'faculty',
         loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      },
+      {
+        path: 'day-time-table',
+        loadChildren: './day-time-table/day-time-table.module#DevfpserverDayTimeTableModule'
+      },
+      {
+        path: 'attendance',
+        loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
+      },
+      {
+        path: 'day',
+        loadChildren: './day/day.module#DevfpserverDayModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

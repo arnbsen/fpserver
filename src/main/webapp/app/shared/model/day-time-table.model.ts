@@ -2,7 +2,9 @@ import { ISubjectTimeTable } from 'app/shared/model/subject-time-table.model';
 
 export const enum DayType {
   WORKINGALL = 'WORKINGALL',
-  COLLEGEONLY = 'COLLEGEONLY'
+  COLLEGEONLY = 'COLLEGEONLY',
+  HOLIDAY = 'HOLIDAY',
+  EXAM = 'EXAM'
 }
 
 export const enum DayOfWeek {

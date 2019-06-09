@@ -4,7 +4,7 @@
         {
             "fieldName": "dayType",
             "fieldType": "DayType",
-            "fieldValues": "WORKINGALL,COLLEGEONLY",
+            "fieldValues": "WORKINGALL,COLLEGEONLY,HOLIDAY,EXAM",
             "fieldValidateRules": [
                 "required"
             ]

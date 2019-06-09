@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" style="background-color: #042443">
     <button mat-icon-button aria-label="Menu" (click)="toggleSideNav()">
         <mat-icon>menu</mat-icon>
     </button>
@@ -9,7 +9,7 @@
     </button>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
     </button>
