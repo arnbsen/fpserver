@@ -86,6 +86,10 @@ import { UserRouteAccessService } from 'app/core';
       {
         path: 'special-occasions',
         loadChildren: './special-occasions/special-occasions.module#DevfpserverSpecialOccasionsModule'
+      },
+      {
+        path: 'subject',
+        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

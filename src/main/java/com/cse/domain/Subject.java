@@ -31,6 +31,10 @@ public class Subject implements Serializable {
     private String subjectName;
 
     @DBRef
+    @Field("ofDept")
+    private Department ofDept;
+
+    @DBRef
     @Field("faculty")
     @JsonIgnoreProperties("subjects")
     private Faculty faculty;
@@ -68,6 +72,19 @@ public class Subject implements Serializable {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public Department getOfDept() {
+        return ofDept;
+    }
+
+    public Subject ofDept(Department department) {
+        this.ofDept = department;
+        return this;
+    }
+
+    public void setOfDept(Department department) {
+        this.ofDept = department;
     }
 
     public Faculty getFaculty() {

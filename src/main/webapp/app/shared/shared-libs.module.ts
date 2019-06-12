@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NguCarouselModule } from '@ngu/carousel';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 @NgModule({
   imports: [
     NgbModule,
@@ -18,7 +19,8 @@ import { NguCarouselModule } from '@ngu/carousel';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    NguCarouselModule
+    NguCarouselModule,
+    MomentDateModule
   ],
   exports: [
     FormsModule,
@@ -30,7 +32,8 @@ import { NguCarouselModule } from '@ngu/carousel';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    NguCarouselModule
+    NguCarouselModule,
+    MomentDateModule
   ]
 })
 export class DevfpserverSharedLibsModule {

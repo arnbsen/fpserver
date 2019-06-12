@@ -8,12 +8,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Subject} and its DTO {@link SubjectDTO}.
  */
-@Mapper(componentModel = "spring", uses = {FacultyMapper.class})
+@Mapper(componentModel = "spring", uses = {DepartmentMapper.class, FacultyMapper.class})
 public interface SubjectMapper extends EntityMapper<SubjectDTO, Subject> {
 
+    @Mapping(source = "ofDept.id", target = "ofDeptId")
     @Mapping(source = "faculty.id", target = "facultyId")
     SubjectDTO toDto(Subject subject);
 
+    @Mapping(source = "ofDeptId", target = "ofDept")
     @Mapping(source = "facultyId", target = "faculty")
     Subject toEntity(SubjectDTO subjectDTO);
 

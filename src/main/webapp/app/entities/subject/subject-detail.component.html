@@ -13,6 +13,12 @@
                 <dd>
                     <span>{{subject.subjectName}}</span>
                 </dd>
+                <dt><span>Of Dept</span></dt>
+                <dd>
+                    <div *ngIf="subject.ofDeptId">
+                        <a [routerLink]="['/department', subject.ofDeptId, 'view']">{{subject.ofDeptId}}</a>
+                    </div>
+                </dd>
                 <dt><span>Faculty</span></dt>
                 <dd>
                     <div *ngIf="subject.facultyId">

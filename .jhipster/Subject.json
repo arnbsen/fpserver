@@ -18,6 +18,14 @@
     ],
     "relationships": [
         {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "subject",
+            "relationshipName": "ofDept",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
             "relationshipName": "faculty",
             "otherEntityName": "faculty",
             "relationshipType": "many-to-one",

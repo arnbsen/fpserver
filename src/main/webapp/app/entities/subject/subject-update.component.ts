@@ -7,6 +7,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ISubject, Subject } from 'app/shared/model/subject.model';
 import { SubjectService } from './subject.service';
+import { IDepartment } from 'app/shared/model/department.model';
+import { DepartmentService } from 'app/entities/department';
 import { IFaculty } from 'app/shared/model/faculty.model';
 import { FacultyService } from 'app/entities/faculty';
 
@@ -18,18 +20,22 @@ export class SubjectUpdateComponent implements OnInit {
   subject: ISubject;
   isSaving: boolean;
 
+  ofdepts: IDepartment[];
+
   faculties: IFaculty[];
 
   editForm = this.fb.group({
     id: [],
     subjectCode: [null, [Validators.required]],
     subjectName: [null, [Validators.required]],
+    ofDeptId: [],
     facultyId: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected subjectService: SubjectService,
+    protected departmentService: DepartmentService,
     protected facultyService: FacultyService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -41,6 +47,31 @@ export class SubjectUpdateComponent implements OnInit {
       this.updateForm(subject);
       this.subject = subject;
     });
+    this.departmentService
+      .query({ filter: 'subject-is-null' })
+      .pipe(
+        filter((mayBeOk: HttpResponse<IDepartment[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IDepartment[]>) => response.body)
+      )
+      .subscribe(
+        (res: IDepartment[]) => {
+          if (!this.subject.ofDeptId) {
+            this.ofdepts = res;
+          } else {
+            this.departmentService
+              .find(this.subject.ofDeptId)
+              .pipe(
+                filter((subResMayBeOk: HttpResponse<IDepartment>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<IDepartment>) => subResponse.body)
+              )
+              .subscribe(
+                (subRes: IDepartment) => (this.ofdepts = [subRes].concat(res)),
+                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+              );
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.facultyService
       .query()
       .pipe(
@@ -55,6 +86,7 @@ export class SubjectUpdateComponent implements OnInit {
       id: subject.id,
       subjectCode: subject.subjectCode,
       subjectName: subject.subjectName,
+      ofDeptId: subject.ofDeptId,
       facultyId: subject.facultyId
     });
   }
@@ -79,6 +111,7 @@ export class SubjectUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       subjectCode: this.editForm.get(['subjectCode']).value,
       subjectName: this.editForm.get(['subjectName']).value,
+      ofDeptId: this.editForm.get(['ofDeptId']).value,
       facultyId: this.editForm.get(['facultyId']).value
     };
     return entity;
@@ -98,6 +131,10 @@ export class SubjectUpdateComponent implements OnInit {
   }
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  trackDepartmentById(index: number, item: IDepartment) {
+    return item.id;
   }
 
   trackFacultyById(index: number, item: IFaculty) {

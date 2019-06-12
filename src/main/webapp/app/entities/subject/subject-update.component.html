@@ -33,6 +33,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_ofDept">Of Dept</label>
+                    <select class="form-control" id="field_ofDept" name="ofDept" formControlName="ofDeptId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of ofdepts; trackBy: trackDepartmentById">{{departmentOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_faculty">Faculty</label>
                     <select class="form-control" id="field_faculty" name="faculty" formControlName="facultyId">
                         <option [ngValue]="null"></option>

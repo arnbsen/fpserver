@@ -4,12 +4,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DevfpserverSharedModule } from 'app/shared';
 import { RouterModule } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
+import { DevfpserverEntityModule } from '../entity.module';
 
 @NgModule({
   declarations: [DashboardComponent],
   imports: [
     CommonModule,
     DevfpserverSharedModule,
+    DevfpserverEntityModule,
     RouterModule.forChild([
       {
         path: '',

@@ -86,6 +86,7 @@ relationship OneToOne {
   Student{department required} to Department
   TimeTable{department required} to Department
   Faculty{department required} to Department
+  Subject{ofDept} to Department
 }
 relationship OneToMany {
 	Faculty{subjectsTaking}  to Subject

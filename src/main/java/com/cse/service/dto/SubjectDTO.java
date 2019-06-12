@@ -17,6 +17,8 @@ public class SubjectDTO implements Serializable {
     private String subjectName;
 
 
+    private String ofDeptId;
+
     private String facultyId;
 
     public String getId() {
@@ -41,6 +43,14 @@ public class SubjectDTO implements Serializable {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public String getOfDeptId() {
+        return ofDeptId;
+    }
+
+    public void setOfDeptId(String departmentId) {
+        this.ofDeptId = departmentId;
     }
 
     public String getFacultyId() {
@@ -78,6 +88,7 @@ public class SubjectDTO implements Serializable {
             "id=" + getId() +
             ", subjectCode='" + getSubjectCode() + "'" +
             ", subjectName='" + getSubjectName() + "'" +
+            ", ofDept=" + getOfDeptId() +
             ", faculty=" + getFacultyId() +
             "}";
     }

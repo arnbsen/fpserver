@@ -209,11 +209,37 @@
   font-size: 30px;
 }
 .green-progress .mat-progress-spinner circle,
-.mat-spinner circle {
+.sub-progess .mat-spinner circle {
   stroke: #1abc9c !important;
   background-color: #1abc9c !important;
+}
+.create-new-button {
+  background-color: #16a085 !important;
 }
 .custom-dialog-container .mat-dialog-container {
   margin: 0px;
   padding: 0px;
+}
+// Grid System
+.container-grid {
+  display: grid;
+  grid-gap: 25px;
+  grid-row-gap: 25px;
+  grid-auto-rows: 215px;
+  grid-auto-columns: minmax(280, 330);
+  height: 100% !important;
+  overflow-y: scroll;
+  padding: 2%;
+}
+.container-grid-lg {
+  grid-template-columns: repeat(4, 1fr);
+}
+.container-grid-md {
+  grid-template-columns: repeat(3, 1fr);
+}
+.container-grid-sm {
+  grid-template-columns: repeat(2, 1fr);
+}
+.container-grid-xs {
+  grid-template-columns: repeat(1, 1fr);
 }
