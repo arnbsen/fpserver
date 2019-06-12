@@ -29,7 +29,8 @@ import { NguCarouselModule } from '@ngu/carousel';
     FontAwesomeModule,
     ReactiveFormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NguCarouselModule
   ]
 })
 export class DevfpserverSharedLibsModule {

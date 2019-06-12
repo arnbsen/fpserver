@@ -1,0 +1,39 @@
+<mat-toolbar color="primary" style="background-color: #042443" fxLayout="row" fxLayoutGap="5px">
+    <mat-icon>dashboard</mat-icon>
+    Adminstartor - Dashboard
+    <span class="column-spacer"></span>
+    <button mat-icon-button matTooltip="Show Time Table" aria-label="Account">
+        <mat-icon>table_chart</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="View Calender" aria-label="Account">
+        <mat-icon>calendar_today</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Notifications" aria-label="Account">
+        <mat-icon>notifications</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Account" [matMenuTriggerFor]="menu" aria-label="Account">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item>
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+    </button>
+</mat-menu>
+<mat-drawer-container class="full-height" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <p>Auto-resizing sidenav</p>
+        <p>Lorem, ipsum dolor sit amet consectetur.</p>
+        <button (click)="showFiller = !showFiller" mat-raised-button>
+            Toggle extra text
+        </button>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+        <button type="button" mat-button (click)="drawer.toggle()">
+            Toggle sidenav
+        </button>
+    </div>
+
+</mat-drawer-container>

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewRef, ElementRef } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
-import { Account } from 'app/core';
 import { IStudent } from 'app/shared/model/student.model';
 import { StudentService } from '../student/student.service';
 import { HttpResponse } from '@angular/common/http';
 import { DepartmentService } from '../department';
 import { IDepartment } from 'app/shared/model/department.model';
 import { getNumberOfCurrencyDigits } from '@angular/common';
+import { IUser } from 'app/core';
 
 @Component({
   selector: 'jhi-student-dashboard',
@@ -14,7 +14,9 @@ import { getNumberOfCurrencyDigits } from '@angular/common';
   styleUrls: ['./student.dashboard.scss']
 })
 export class StudentDashboardComponent implements OnInit {
-  account: Account;
+  @ViewChild('next', { static: true }) next: ElementRef;
+  @ViewChild('prev', { static: true }) prev: ElementRef;
+  account: IUser;
   student: IStudent;
   department: IDepartment;
   subject = [
@@ -24,6 +26,20 @@ export class StudentDashboardComponent implements OnInit {
     { subjectName: 'Subject 4', percentage: 20 }
   ];
 
+  carouselTile = {
+    grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
+    slide: 1,
+    speed: 250,
+    point: {
+      visible: true
+    },
+    load: 1,
+    loop: true,
+    velocity: 0,
+    touch: true,
+    easing: 'cubic-bezier(0, 0, 0.2, 1)'
+  };
+
   constructor(
     private accountService: AccountService,
     private studentService: StudentService,
@@ -31,7 +47,7 @@ export class StudentDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.accountService.identity().then((account: Account) => {
+    this.accountService.identity().then((account: IUser) => {
       this.account = account;
       console.log(this.account);
     });
@@ -48,5 +64,13 @@ export class StudentDashboardComponent implements OnInit {
   getColor(num: string): string {
     const check = Number(num);
     return check <= 30 ? 'warn' : check <= 50 ? 'accent' : 'primary';
+  }
+
+  goToNext() {
+    this.next.nativeElement.click();
+  }
+
+  goToPrev() {
+    this.prev.nativeElement.click();
   }
 }

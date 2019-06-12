@@ -196,9 +196,24 @@
 }
 .full-height {
   height: calc(100vh - 64px);
-  padding-top: 2%;
+  padding: 1%;
+  width: 100%;
+}
+.full-width {
   width: 100%;
 }
 .green-progress .mat-progress-bar-fill::after {
   background-color: #1abc9c !important;
+}
+.toolbar-icon-font {
+  font-size: 30px;
+}
+.green-progress .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #1abc9c !important;
+  background-color: #1abc9c !important;
+}
+.custom-dialog-container .mat-dialog-container {
+  margin: 0px;
+  padding: 0px;
 }

@@ -71,6 +71,16 @@ entity Day {
 	dayOfTheWeek DayOfWeek,
 	date Instant
 }
+entity AcademicSession {
+	academicSession String,
+	startDate Instant,
+	endDate Instant
+}
+entity SpecialOccasions {
+	date Instant,
+	type DayType,
+	description String
+}
 relationship OneToOne {
   HOD{department required} to Department
   Student{department required} to Department
@@ -84,6 +94,7 @@ relationship OneToMany {
 }
 relationship ManyToOne {
 	SubjectTimeTable{subject required} to Subject
+	SpecialOccasions{academicSession} to AcademicSession
 }
 
 dto * with mapstruct

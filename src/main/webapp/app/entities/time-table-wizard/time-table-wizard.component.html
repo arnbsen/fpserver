@@ -1,0 +1,56 @@
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="full-width">
+        <span><h3>Time Table Wizard</h3></span>
+        <span class="column-spacer"></span>
+        <button mat-raised-button color="primary" style="width: 150px" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+            Create New</button>
+        <button mat-raised-button color="accent" style="width: 150px">
+            <mat-icon>edit</mat-icon>
+            Edit
+        </button>
+        <button mat-raised-button style="width: 150px">
+            <mat-icon>remove_red_eye</mat-icon>
+            View
+        </button>
+    </div>
+    <mat-divider class="full-width"></mat-divider>
+    <div class="full-width" >
+        <h3>Your Time Table</h3>
+        <mat-divider class="full-width"></mat-divider>
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px" class="full-width">
+            <div [fxFlex]="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0px" class="full-width">
+                <span *ngFor="let col of topRow" [fxFlex]="col.span" fxLayoutAlign="center center">
+                    <h4>{{col.header}}</h4>
+                </span>
+            </div>
+            <mat-divider class="full-width"></mat-divider>
+            <div fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="5px" *ngFor="let day of daysOfWeek" class="full-width">
+                <div [fxFlex]="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="full-width">
+                     <div [fxFlex]="6"><h4>{{day}}</h4></div>
+                    <span *ngFor="let class of holiday" [fxFlex]="class" fxLayout="column" fxLayoutAlign="center center">
+                        <h6>HOLIDAY</h6>
+                    </span>
+                     <button mat-icon-button color="primary" matTooltip="Add a class" [matMenuTriggerFor]="menu"><mat-icon>add</mat-icon></button>
+                </div>
+                <mat-divider class="full-width"></mat-divider>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<mat-menu #menu="matMenu">
+<button mat-menu-item>
+    <mat-icon>class</mat-icon>
+    <span>Add A Regular Class</span>
+</button>
+<button mat-menu-item>
+    <mat-icon>device_hub</mat-icon>
+    <span>Add a Lab</span>
+</button>
+<button mat-menu-item>
+    <mat-icon>beach_access</mat-icon>
+    <span>Declare Holiday</span>
+</button>
+</mat-menu>

@@ -100,6 +100,18 @@
                             <span>Day</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="academic-session" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Academic Session</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="special-occasions" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Special Occasions</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

@@ -13,7 +13,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
     RouterModule.forRoot(
       [
         {
-          path: 'admin',
+          path: 'system',
           loadChildren: './admin/admin.module#DevfpserverAdminModule'
         },
         ...LAYOUT_ROUTES

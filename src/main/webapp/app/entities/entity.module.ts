@@ -2,6 +2,9 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { DevfpserverSharedModule } from 'app/shared/shared.module';
+import { TimeTableWizardComponent } from './time-table-wizard/time-table-wizard.component';
+import { TimeTableMetaDataDialogComponent } from './time-table-wizard/time-table-wizard.metadata';
+import { UserRouteAccessService } from 'app/core';
 
 @NgModule({
   imports: [
@@ -48,6 +51,15 @@ import { DevfpserverSharedModule } from 'app/shared/shared.module';
         loadChildren: './time-table/time-table.module#DevfpserverTimeTableModule'
       },
       {
+        path: 'timetable',
+        component: TimeTableWizardComponent,
+        data: {
+          pageTitle: 'STCET AUTOMATED ATTENDANCE ',
+          authorities: ['ROLE_ADMIN']
+        },
+        canActivate: [UserRouteAccessService]
+      },
+      {
         path: 'faculty',
         loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
       },
@@ -62,14 +74,26 @@ import { DevfpserverSharedModule } from 'app/shared/shared.module';
       {
         path: 'day',
         loadChildren: './day/day.module#DevfpserverDayModule'
+      },
+      {
+        path: 'admin',
+        loadChildren: './creator/creator.module#CreatorModule'
+      },
+      {
+        path: 'academic-session',
+        loadChildren: './academic-session/academic-session.module#DevfpserverAcademicSessionModule'
+      },
+      {
+        path: 'special-occasions',
+        loadChildren: './special-occasions/special-occasions.module#DevfpserverSpecialOccasionsModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
   ],
-  declarations: [StudentDashboardComponent],
-  entryComponents: [],
+  declarations: [StudentDashboardComponent, TimeTableWizardComponent, TimeTableMetaDataDialogComponent],
+  entryComponents: [TimeTableMetaDataDialogComponent],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [StudentDashboardComponent]
+  exports: [StudentDashboardComponent, TimeTableWizardComponent]
 })
 export class DevfpserverEntityModule {}

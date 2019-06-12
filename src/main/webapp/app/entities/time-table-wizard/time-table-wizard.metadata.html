@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Choose Your Options</h2>
+<mat-dialog-content class="mat-typography">
+    <form fxLayout="column" fxLayoutGap="10px">
+        <mat-form-field>
+            <mat-label>Select Department</mat-label>
+            <mat-select>
+                <mat-option  [value]="'CSE'">
+                    Computer Science and Engineering
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Select Year</mat-label>
+            <mat-select>
+                <mat-option [value]="'CSE'">
+                    1
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Select Semester</mat-label>
+            <mat-select>
+                <mat-option [value]="'CSE'">
+                    1
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Enter Academic Year</mat-label>
+            <input matInput placeholder="Input">
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <button mat-flat-button mat-dialog-close style="width: 170px" color="warn">Cancel</button>
+    <button mat-flat-button [mat-dialog-close]="true" style="width: 170px" color="primary" cdkFocusInitial>Create</button>
+</mat-dialog-actions>

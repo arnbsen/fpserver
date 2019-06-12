@@ -1,8 +1,10 @@
 package com.cse.web.rest;
 
 
+import com.cse.domain.Authority;
 import com.cse.domain.User;
 import com.cse.repository.UserRepository;
+import com.cse.security.AuthoritiesConstants;
 import com.cse.security.SecurityUtils;
 import com.cse.service.MailService;
 import com.cse.service.UserService;

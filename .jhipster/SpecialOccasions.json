@@ -1,0 +1,36 @@
+{
+    "name": "SpecialOccasions",
+    "fields": [
+        {
+            "fieldName": "date",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "DayType",
+            "fieldValues": "WORKINGALL,COLLEGEONLY,HOLIDAY,EXAM"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "academicSession",
+            "otherEntityRelationshipName": "specialOccasions",
+            "relationshipName": "academicSession",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190612055544",
+    "entityTableName": "special_occasions",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

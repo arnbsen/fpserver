@@ -1,26 +1,52 @@
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px" class="full-height">
-<div style="width: 100%" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px">
-    <div [fxFlex]="4"></div>
+<div style="width: 100%; height: 20vh;" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px">
+
+    <div [fxFlex]="1"></div>
     <div [fxFlex]="25">
-        <mat-card class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar>
-                    <mat-icon style="font-size: 55px">account_circle</mat-icon>
-                </div>
-                <mat-card-title>{{ account.firstName + ' ' + account.lastName | uppercase}}</mat-card-title>
-                <mat-card-subtitle>
-                    <p>
-                        {{department.deptName}}
-                        <br>
-                        {{'Year: ' + student.currentYear + ' Semester: ' + student.currentSem}}
-                    </p>
-                </mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
+       <h2 *ngIf="account"> {{ account.firstName + ' ' + account.lastName}}</h2>
+        <p style="color: gray" *ngIf="department">
+            {{department.deptName}}
+            <br>
+            {{'Year: ' + student.currentYear + ' Semester: ' + student.currentSem}}
+        </p>
     </div>
-    <div [fxFlex]="2"></div>
-    <div [fxFlex]="45"></div>
-    <div [fxFlex]="4"></div>
+    <div [fxFlex]="37"></div>
+    <div [fxFlex]="3" style="height: 100%" fxLayout="column" fxLayoutAlign="center center">
+        <button mat-mini-fab color="primary" style="background-color: white; color: black" (click)="goToPrev()">
+            <mat-icon>arrow_left</mat-icon>
+        </button>
+
+    </div>
+    <div [fxFlex]="25">
+        <ngu-carousel [inputs]="carouselTile" [dataSource]="subject" >
+            <ngu-item *nguCarouselDef="let item; let i = index">
+                <mat-card style="margin: 10px;" class="card-1">
+                    <mat-card-header>
+                        <div mat-card-avatar>
+                            <mat-icon color="primary" style="font-size: 30px">class</mat-icon>
+                        </div>
+                        <mat-card-title>{{item.subjectName}}</mat-card-title>
+                        <mat-card-subtitle>Begins In: 20 mins</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>
+                            Subject Code
+                            <br>
+                            Faculty Code
+                        </p>
+                    </mat-card-content>
+                </mat-card>
+            </ngu-item>
+            <button NguCarouselPrev #prev style="display: none">Prev</button>
+            <button NguCarouselNext #next style="display: none">Next</button>
+        </ngu-carousel>
+    </div>
+    <div [fxFlex]="3" style="height: 100%" fxLayout="column" fxLayoutAlign="center center">
+        <button mat-mini-fab color="primary" style="background-color: white; color: black" (click)="goToNext()">
+            <mat-icon>arrow_right</mat-icon>
+        </button>
+
+    </div>
 </div>
 <div style="width: 100%" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px">
     <div [fxFlex]="50" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px">
