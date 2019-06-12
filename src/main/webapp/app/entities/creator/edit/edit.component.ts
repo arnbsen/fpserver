@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IDepartment } from 'app/shared/model/department.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-edit',
@@ -10,15 +10,17 @@ import { ActivatedRoute } from '@angular/router';
 export class EditComponent implements OnInit {
   department: IDepartment;
 
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  constructor(protected activatedRoute: ActivatedRoute, protected router: Router) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe(({ department }) => {
       this.department = department;
-      console.log(department);
     });
   }
   previousState() {
     window.history.back();
+  }
+  goToRegisterHod() {
+    this.router.navigate(['/register', this.department.id, 'hod']);
   }
 }

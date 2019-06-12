@@ -6,11 +6,11 @@
                 <mat-card-subtitle>{{'Code: ' + department.deptCode }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px">
-                <button mat-button  color="primary">
+                <button mat-stroked-button color="primary" style="width: 200px">
                     <mat-icon>open_in_new</mat-icon>
                     View Time Table
                 </button>
-                <button mat-button color="primary">
+                <button mat-stroked-button color="primary" style="width: 200px" (click)="goToRegisterHod()" >
                     <mat-icon>person_add</mat-icon>
                     Add HOD
                 </button>
