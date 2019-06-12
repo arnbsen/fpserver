@@ -15,6 +15,8 @@ public class FacultyDTO implements Serializable {
 
     private String departmentId;
 
+    private String userId;
+
     public String getId() {
         return id;
     }
@@ -67,5 +69,13 @@ public class FacultyDTO implements Serializable {
             ", facultyCode='" + getFacultyCode() + "'" +
             ", department=" + getDepartmentId() +
             "}";
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

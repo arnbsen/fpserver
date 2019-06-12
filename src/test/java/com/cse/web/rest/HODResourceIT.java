@@ -2,6 +2,7 @@ package com.cse.web.rest;
 
 import com.cse.DevfpserverApp;
 import com.cse.domain.HOD;
+import com.cse.domain.User;
 import com.cse.domain.Department;
 import com.cse.repository.HODRepository;
 import com.cse.service.HODService;
@@ -64,6 +65,8 @@ public class HODResourceIT {
 
     private HOD hOD;
 
+    private static User user;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -89,6 +92,8 @@ public class HODResourceIT {
         Department department;
         department = DepartmentResourceIT.createEntity();
         department.setId("fixed-id-for-tests");
+        user = UserResourceIT.createEntity();
+        user.setId("fixed-id-for-tests");
         // if (TestUtil.findAll(em, Department.class).isEmpty()) {
         //     department = DepartmentResourceIT.createEntity();
         //     department.setId("fixed-id-for-tests");
@@ -96,6 +101,7 @@ public class HODResourceIT {
         //     department = TestUtil.findAll(em, Department.class).get(0);
         // }
         hOD.setDepartment(department);
+        hOD.setUser(user);
         return hOD;
     }
     /**
@@ -209,6 +215,7 @@ public class HODResourceIT {
         HOD updatedHOD = hODRepository.findById(hOD.getId()).get();
         updatedHOD
             .authCode(UPDATED_AUTH_CODE);
+        updatedHOD.setUser(user);
         HODDTO hODDTO = hODMapper.toDto(updatedHOD);
 
         restHODMockMvc.perform(put("/api/hods")

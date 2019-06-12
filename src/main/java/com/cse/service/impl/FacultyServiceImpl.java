@@ -1,8 +1,11 @@
 package com.cse.service.impl;
 
 import com.cse.service.FacultyService;
+import com.cse.domain.Authority;
 import com.cse.domain.Faculty;
+import com.cse.domain.User;
 import com.cse.repository.FacultyRepository;
+import com.cse.security.AuthoritiesConstants;
 import com.cse.service.dto.FacultyDTO;
 import com.cse.service.mapper.FacultyMapper;
 import org.slf4j.Logger;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -42,6 +46,15 @@ public class FacultyServiceImpl implements FacultyService {
     public FacultyDTO save(FacultyDTO facultyDTO) {
         log.debug("Request to save Faculty : {}", facultyDTO);
         Faculty faculty = facultyMapper.toEntity(facultyDTO);
+        Set<Authority> auth = faculty.getUser().getAuthorities();
+        Authority authr = new Authority();
+        authr.setName(AuthoritiesConstants.FACULTY);
+        auth.add(authr);
+        authr.setName(AuthoritiesConstants.USER);
+        auth.add(authr);
+        User user = faculty.getUser();
+        user.setAuthorities(auth);
+        faculty.setUser(user);
         faculty = facultyRepository.save(faculty);
         return facultyMapper.toDto(faculty);
     }

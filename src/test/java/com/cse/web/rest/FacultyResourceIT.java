@@ -2,6 +2,7 @@ package com.cse.web.rest;
 
 import com.cse.DevfpserverApp;
 import com.cse.domain.Faculty;
+import com.cse.domain.User;
 import com.cse.domain.Department;
 import com.cse.repository.FacultyRepository;
 import com.cse.service.FacultyService;
@@ -64,6 +65,8 @@ public class FacultyResourceIT {
 
     private Faculty faculty;
 
+    static User user;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -90,10 +93,13 @@ public class FacultyResourceIT {
        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
             department = DepartmentResourceIT.createEntity();
             department.setId("fixed-id-for-tests");
+            user = UserResourceIT.createEntity();
+            user.setId("fixed-id-for-tests");
         // } else {
         //     department = TestUtil.findAll(em, Department.class).get(0);
         // }
         faculty.setDepartment(department);
+        faculty.setUser(user);
         return faculty;
     }
     /**
@@ -110,6 +116,7 @@ public class FacultyResourceIT {
         // if (TestUtil.findAll(em, Department.class).isEmpty()) {
             department = DepartmentResourceIT.createUpdatedEntity();
             department.setId("fixed-id-for-tests");
+
         // } else {
         //     department = TestUtil.findAll(em, Department.class).get(0);
         // }
@@ -205,8 +212,8 @@ public class FacultyResourceIT {
         Faculty updatedFaculty = facultyRepository.findById(faculty.getId()).get();
         updatedFaculty
             .facultyCode(UPDATED_FACULTY_CODE);
+        updatedFaculty.setUser(user);
         FacultyDTO facultyDTO = facultyMapper.toDto(updatedFaculty);
-
         restFacultyMockMvc.perform(put("/api/faculties")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(facultyDTO)))

@@ -1,26 +1,4 @@
-<mat-toolbar color="primary" style="background-color: #042443" fxLayout="row" fxLayoutGap="5px">
-    <mat-icon>dashboard</mat-icon>
-    Adminstartor - Dashboard
-    <span class="column-spacer"></span>
-    <button mat-icon-button matTooltip="Show Time Table" aria-label="Account">
-        <mat-icon>table_chart</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="View Calender" aria-label="Account">
-        <mat-icon>calendar_today</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="Notifications" aria-label="Account">
-        <mat-icon>notifications</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="Account" [matMenuTriggerFor]="menu" aria-label="Account">
-        <mat-icon>account_circle</mat-icon>
-    </button>
-</mat-toolbar>
-<mat-menu #menu="matMenu">
-    <button mat-menu-item>
-        <mat-icon>exit_to_app</mat-icon>
-        <span>Logout</span>
-    </button>
-</mat-menu>
+
 <div class="full-height">
 <h3>Common Actions</h3>
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" class="full-width">
@@ -102,6 +80,10 @@
         <h3 style="width: 25%">{{dept.deptCode}}</h3>
         <span style="width: 25%">{{dept.deptName}}</span>
         <span class="column-spacer"></span>
+        <button mat-raised-button  color="primary" (click)="goToDeptEdit(dept.id)">
+            <mat-icon>open_in_new</mat-icon>
+            Department Actions
+        </button>
         <button mat-raised-button color="accent" style="width: 150px">
             <mat-icon>edit</mat-icon>
             Edit

@@ -15,6 +15,8 @@ public class HODDTO implements Serializable {
 
     private String departmentId;
 
+    private String userId;
+
     public String getId() {
         return id;
     }
@@ -67,5 +69,13 @@ public class HODDTO implements Serializable {
             ", authCode='" + getAuthCode() + "'" +
             ", department=" + getDepartmentId() +
             "}";
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { filter, map } from 'rxjs/operators';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department/department.service';
+import { Router } from '@angular/router';
 
 export const MY_FORMATS2 = {
   parse: {
@@ -48,7 +49,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     protected academicSessionService: AcademicSessionService,
-    protected departmentService: DepartmentService
+    protected departmentService: DepartmentService,
+    protected router: Router
   ) {}
 
   ngOnInit() {
@@ -168,5 +170,9 @@ export class DashboardComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  goToDeptEdit(id: String) {
+    this.router.navigate(['/admin', id, 'edit']);
   }
 }

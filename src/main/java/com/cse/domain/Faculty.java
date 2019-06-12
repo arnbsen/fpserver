@@ -35,6 +35,10 @@ public class Faculty implements Serializable {
     @Field("subjectsTaking")
     private Set<Subject> subjectsTakings = new HashSet<>();
 
+    @DBRef
+    @Field("user")
+    private User user;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
@@ -118,5 +122,13 @@ public class Faculty implements Serializable {
             "id=" + getId() +
             ", facultyCode='" + getFacultyCode() + "'" +
             "}";
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
