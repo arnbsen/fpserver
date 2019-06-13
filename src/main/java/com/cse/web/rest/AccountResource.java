@@ -62,13 +62,13 @@ public class AccountResource {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public String registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+    public User registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
-        // mailService.sendActivationEmail(user);
-        return user.getActivationKey();
+        mailService.sendActivationEmail(user);
+        return user;
     }
 
     /**
@@ -86,6 +86,14 @@ public class AccountResource {
         return user;
     }
 
+    @GetMapping("/activatebyId")
+    public Optional<User> activateAccountByID(@RequestParam(value = "key") String key) {
+        Optional<User> user = userService.activateRegistrationByID(key);
+        if (!user.isPresent()) {
+            throw new AccountResourceException("No user was found for this activation key");
+        }
+        return user;
+    }
     /**
      * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
      *

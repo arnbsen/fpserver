@@ -164,7 +164,7 @@
                 </span>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success">
+        <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm">
             <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px">
                 <mat-form-field style="width: 60%" appearance="standard">
                     <mat-label>Username</mat-label>
@@ -194,7 +194,7 @@
                     <mat-error class="form-text text-danger" *ngIf="registerForm.get('email').hasError('required')">
                         Your email is required.
                     </mat-error>
-                    <mat-error class="form-text text-danger" *ngIf="registerForm.get('email').hasError('invalid')">
+                    <mat-error class="form-text text-danger" *ngIf="registerForm.get('email').hasError('email')">
                         Your email is invalid.
                     </mat-error>
                     <mat-error class="form-text text-danger" *ngIf="registerForm.get('email').hasError('minlength')">
@@ -237,27 +237,24 @@
                     </mat-error>
                 </mat-form-field>
             </div>
-        <mat-action-row>
-            <mat-spinner [diameter]="40" ></mat-spinner> &nbsp; &nbsp;
-            <button mat-flat-button type="submit" color="primary" [disabled]="registerForm.invalid" (click)="nextStep()">Create</button>
+        <mat-action-row fxLayout="row" fxLayoutAlign="end center">
+            <mat-spinner [diameter]="40" *ngIf="isSaving"></mat-spinner> &nbsp; &nbsp; <span  *ngIf="isSaving">{{savingMsg}} &nbsp; &nbsp;</span>
+            <button mat-flat-button type="submit" color="primary" [disabled]="registerForm.invalid">Create</button>
         </mat-action-row>
         </form>
     </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(1)" hideToggle>
+    <mat-expansion-panel [expanded]="step === 2" hideToggle>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Destination
+                Activate Account & Basic Personal Information
             </mat-panel-title>
             <mat-panel-description>
-                Type the country name
+                Activate your account and type in personal Details
                 <mat-icon>map</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
-
-        <mat-form-field>
-            <input matInput placeholder="Country">
-        </mat-form-field>
+        <button mat-button (click)="activateAccount(activationKey)">Activate</button>
 
         <mat-action-row>
             <button mat-button color="warn" (click)="prevStep()">Previous</button>

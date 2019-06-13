@@ -7,6 +7,7 @@ import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared';
 import { LoginModalService, UserService } from 'app/core';
 import { Register } from './register.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ActivateService } from '../activate/activate.service';
 
 @Component({
   selector: 'jhi-register',
@@ -22,8 +23,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   data: any;
   mode: string;
   step = 0;
-  isSaving = true;
+  isSaving = false;
   savingMsg = '';
+  activationKey: any;
 
   registerForm = this.fb.group({
     login: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern('^[_.@A-Za-z0-9-]*$')]],
@@ -40,7 +42,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     protected router: Router,
     protected activatedRoute: ActivatedRoute,
-    protected userService: UserService
+    protected userService: UserService,
+    protected activateService: ActivateService
   ) {}
 
   ngOnInit() {
@@ -74,13 +77,25 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
       this.registerService.save(registerAccount).subscribe(
         (res: HttpResponse<any>) => {
-          this.success = true;
           console.log(res.body);
           this.savingMsg = 'Saved Basic Account. Activating...';
+          this.activationKey = res.body;
+          this.nextStep();
         },
         response => this.processError(response)
       );
     }
+  }
+
+  activateAccount(key: string) {
+    this.activateService.get(key).subscribe(
+      (res: HttpResponse<any>) => {
+        console.log(res.body);
+      },
+      err => {
+        console.log(this.error);
+      }
+    );
   }
 
   openLogin() {
