@@ -31,6 +31,11 @@ public class Subject implements Serializable {
     private String subjectName;
 
     @DBRef
+    @Field("hOD")
+    @JsonIgnoreProperties("subjects")
+    private HOD hOD;
+
+    @DBRef
     @Field("ofDept")
     private Department ofDept;
 
@@ -72,6 +77,19 @@ public class Subject implements Serializable {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public HOD getHOD() {
+        return hOD;
+    }
+
+    public Subject hOD(HOD hOD) {
+        this.hOD = hOD;
+        return this;
+    }
+
+    public void setHOD(HOD hOD) {
+        this.hOD = hOD;
     }
 
     public Department getOfDept() {
@@ -124,5 +142,13 @@ public class Subject implements Serializable {
             ", subjectCode='" + getSubjectCode() + "'" +
             ", subjectName='" + getSubjectName() + "'" +
             "}";
+    }
+
+    public HOD gethOD() {
+        return hOD;
+    }
+
+    public void sethOD(HOD hOD) {
+        this.hOD = hOD;
     }
 }

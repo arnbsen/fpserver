@@ -15,6 +15,12 @@
             "relationshipName": "department",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "subject",
+            "otherEntityRelationshipName": "hOD",
+            "relationshipName": "subjectTaking"
         }
     ],
     "changelogDate": "20190603094852",

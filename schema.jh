@@ -90,6 +90,7 @@ relationship OneToOne {
 }
 relationship OneToMany {
 	Faculty{subjectsTaking}  to Subject
+	HOD{subjectTaking} to Subject
     DayTimeTable{subjects} to SubjectTimeTable
     TimeTable{dayTimeTable} to DayTimeTable
 }

@@ -18,6 +18,12 @@
     ],
     "relationships": [
         {
+            "relationshipName": "hOD",
+            "otherEntityName": "hOD",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipType": "one-to-one",
             "otherEntityName": "department",
             "otherEntityRelationshipName": "subject",

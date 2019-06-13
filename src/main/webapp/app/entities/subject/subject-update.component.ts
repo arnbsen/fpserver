@@ -7,6 +7,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ISubject, Subject } from 'app/shared/model/subject.model';
 import { SubjectService } from './subject.service';
+import { IHOD } from 'app/shared/model/hod.model';
+import { HODService } from 'app/entities/hod';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
 import { IFaculty } from 'app/shared/model/faculty.model';
@@ -20,6 +22,8 @@ export class SubjectUpdateComponent implements OnInit {
   subject: ISubject;
   isSaving: boolean;
 
+  hods: IHOD[];
+
   ofdepts: IDepartment[];
 
   faculties: IFaculty[];
@@ -28,6 +32,7 @@ export class SubjectUpdateComponent implements OnInit {
     id: [],
     subjectCode: [null, [Validators.required]],
     subjectName: [null, [Validators.required]],
+    hODId: [],
     ofDeptId: [],
     facultyId: []
   });
@@ -35,6 +40,7 @@ export class SubjectUpdateComponent implements OnInit {
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected subjectService: SubjectService,
+    protected hODService: HODService,
     protected departmentService: DepartmentService,
     protected facultyService: FacultyService,
     protected activatedRoute: ActivatedRoute,
@@ -47,6 +53,13 @@ export class SubjectUpdateComponent implements OnInit {
       this.updateForm(subject);
       this.subject = subject;
     });
+    this.hODService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IHOD[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IHOD[]>) => response.body)
+      )
+      .subscribe((res: IHOD[]) => (this.hods = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.departmentService
       .query({ filter: 'subject-is-null' })
       .pipe(
@@ -86,6 +99,7 @@ export class SubjectUpdateComponent implements OnInit {
       id: subject.id,
       subjectCode: subject.subjectCode,
       subjectName: subject.subjectName,
+      hODId: subject.hODId,
       ofDeptId: subject.ofDeptId,
       facultyId: subject.facultyId
     });
@@ -111,6 +125,7 @@ export class SubjectUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       subjectCode: this.editForm.get(['subjectCode']).value,
       subjectName: this.editForm.get(['subjectName']).value,
+      hODId: this.editForm.get(['hODId']).value,
       ofDeptId: this.editForm.get(['ofDeptId']).value,
       facultyId: this.editForm.get(['facultyId']).value
     };
@@ -131,6 +146,10 @@ export class SubjectUpdateComponent implements OnInit {
   }
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  trackHODById(index: number, item: IHOD) {
+    return item.id;
   }
 
   trackDepartmentById(index: number, item: IDepartment) {

@@ -1,6 +1,5 @@
 package com.cse.domain;
 
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,7 +7,9 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A HOD.
@@ -31,6 +32,10 @@ public class HOD implements Serializable {
     @DBRef
     @Field("user")
     private User user;
+
+    @DBRef
+    @Field("subjectTaking")
+    private Set<Subject> subjectTakings = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -98,5 +103,13 @@ public class HOD implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Subject> getSubjectTakings() {
+        return subjectTakings;
+    }
+
+    public void setSubjectTakings(Set<Subject> subjectTakings) {
+        this.subjectTakings = subjectTakings;
     }
 }
