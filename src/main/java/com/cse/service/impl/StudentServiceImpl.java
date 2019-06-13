@@ -1,8 +1,11 @@
 package com.cse.service.impl;
 
 import com.cse.service.StudentService;
+import com.cse.domain.Authority;
 import com.cse.domain.Student;
+import com.cse.domain.User;
 import com.cse.repository.StudentRepository;
+import com.cse.repository.UserRepository;
 import com.cse.service.dto.StudentDTO;
 import com.cse.service.mapper.StudentMapper;
 import org.slf4j.Logger;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -27,9 +31,12 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentMapper studentMapper;
 
-    public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper) {
+    private final UserRepository userRepository;
+
+    public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper, UserRepository userRepository) {
         this.studentRepository = studentRepository;
         this.studentMapper = studentMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -42,6 +49,17 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO save(StudentDTO studentDTO) {
         log.debug("Request to save Student : {}", studentDTO);
         Student student = studentMapper.toEntity(studentDTO);
+        User user = userRepository.findById(student.getUser().getId()).get();
+        Set<Authority> auth = student.getUser().getAuthorities();
+        Authority authr = new Authority();
+        authr.setName("ROLE_USER");
+        auth.add(authr);
+        authr = new Authority();
+        authr.setName("ROLE_STUDENT");
+        auth.add(authr);
+        user.setAuthorities(auth);
+        userRepository.save(user);
+        student.setUser(user);
         student = studentRepository.save(student);
         return studentMapper.toDto(student);
     }

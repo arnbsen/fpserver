@@ -8,10 +8,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Device} and its DTO {@link DeviceDTO}.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface DeviceMapper extends EntityMapper<DeviceDTO, Device> {
 
+    @Mapping(source = "user.id", target = "userId")
+    DeviceDTO toDto(Device hOD);
 
+    @Mapping(source = "userId", target = "user")
+    Device toEntity(DeviceDTO hODDTO);
 
     default Device fromId(String id) {
         if (id == null) {

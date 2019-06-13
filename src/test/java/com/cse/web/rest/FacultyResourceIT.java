@@ -5,6 +5,7 @@ import com.cse.domain.Faculty;
 import com.cse.domain.User;
 import com.cse.domain.Department;
 import com.cse.repository.FacultyRepository;
+import com.cse.repository.UserRepository;
 import com.cse.service.FacultyService;
 import com.cse.service.dto.FacultyDTO;
 import com.cse.service.mapper.FacultyMapper;
@@ -66,6 +67,9 @@ public class FacultyResourceIT {
     private Faculty faculty;
 
     static User user;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     public void setup() {
@@ -133,7 +137,7 @@ public class FacultyResourceIT {
     @Test
     public void createFaculty() throws Exception {
         int databaseSizeBeforeCreate = facultyRepository.findAll().size();
-
+        userRepository.save(user);
         // Create the Faculty
         FacultyDTO facultyDTO = facultyMapper.toDto(faculty);
         restFacultyMockMvc.perform(post("/api/faculties")
@@ -205,6 +209,7 @@ public class FacultyResourceIT {
     public void updateFaculty() throws Exception {
         // Initialize the database
         facultyRepository.save(faculty);
+        userRepository.save(user);
 
         int databaseSizeBeforeUpdate = facultyRepository.findAll().size();
 

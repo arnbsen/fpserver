@@ -1,8 +1,8 @@
 package com.cse.domain;
 
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.*;
 
@@ -36,6 +36,10 @@ public class Device implements Serializable {
     @NotNull
     @Field("location_serial")
     private Integer locationSerial;
+
+    @DBRef
+    @Field("user")
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -124,5 +128,13 @@ public class Device implements Serializable {
             ", location='" + getLocation() + "'" +
             ", locationSerial=" + getLocationSerial() +
             "}";
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -2,8 +2,10 @@ package com.cse.web.rest;
 
 import com.cse.DevfpserverApp;
 import com.cse.domain.Student;
+import com.cse.domain.User;
 import com.cse.domain.Department;
 import com.cse.repository.StudentRepository;
+import com.cse.repository.UserRepository;
 import com.cse.service.StudentService;
 import com.cse.service.dto.StudentDTO;
 import com.cse.service.mapper.StudentMapper;
@@ -76,6 +78,11 @@ public class StudentResourceIT {
 
     private Student student;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    private static User user;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -109,9 +116,12 @@ public class StudentResourceIT {
         // } else {
         //     department = TestUtil.findAll(em, Department.class).get(0);
         // }
+        user = UserResourceIT.createEntity();
+        user.setId("fixed-id-for-tests");
         department = DepartmentResourceIT.createEntity();
         department.setId("fixed-id-for-tests");
         student.setDepartment(department);
+        student.setUser(user);
         return student;
     }
     /**
@@ -150,7 +160,7 @@ public class StudentResourceIT {
     @Test
     public void createStudent() throws Exception {
         int databaseSizeBeforeCreate = studentRepository.findAll().size();
-
+        userRepository.save(user);
         // Create the Student
         StudentDTO studentDTO = studentMapper.toDto(student);
         restStudentMockMvc.perform(post("/api/students")
@@ -172,7 +182,7 @@ public class StudentResourceIT {
     @Test
     public void createStudentWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = studentRepository.findAll().size();
-
+        userRepository.save(user);
         // Create the Student with an existing ID
         student.setId("existing_id");
         StudentDTO studentDTO = studentMapper.toDto(student);

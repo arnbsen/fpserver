@@ -4,10 +4,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared';
-import { LoginModalService, UserService } from 'app/core';
+import { LoginModalService, UserService, IUser } from 'app/core';
 import { Register } from './register.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivateService } from '../activate/activate.service';
+import { HODService } from 'app/entities/hod';
+import { IHOD } from 'app/shared/model/hod.model';
+import { IDepartment, Department } from 'app/shared/model/department.model';
 
 @Component({
   selector: 'jhi-register',
@@ -26,12 +29,25 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   isSaving = false;
   savingMsg = '';
   activationKey: any;
+  user: IUser;
+  isActivating = false;
+  activated = false;
+  hod: IHOD;
+  dept: Department;
+  isSavingEntity = false;
+  savedEnitity = false;
 
   registerForm = this.fb.group({
     login: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern('^[_.@A-Za-z0-9-]*$')]],
     email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-    confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]]
+    confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    firstName: ['', [Validators.required, Validators.maxLength(50)]],
+    lastName: ['', [Validators.required, Validators.maxLength(50)]]
+  });
+
+  hodForm = this.fb.group({
+    authCode: ['', Validators.required]
   });
 
   constructor(
@@ -43,7 +59,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     protected router: Router,
     protected activatedRoute: ActivatedRoute,
     protected userService: UserService,
-    protected activateService: ActivateService
+    protected activateService: ActivateService,
+    protected hodService: HODService
   ) {}
 
   ngOnInit() {
@@ -63,12 +80,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     const login = this.registerForm.get(['login']).value;
     const email = this.registerForm.get(['email']).value;
     const password = this.registerForm.get(['password']).value;
+    const firstName = this.registerForm.get(['firstName']).value;
+    const lastName = this.registerForm.get(['lastName']).value;
     if (password !== this.registerForm.get(['confirmPassword']).value) {
       this.doNotMatch = 'ERROR';
       this.isSaving = false;
       this.savingMsg = 'Passwords Do not match';
     } else {
-      registerAccount = { ...registerAccount, login, email, password };
+      registerAccount = { ...registerAccount, login, email, password, firstName, lastName };
       this.doNotMatch = null;
       this.error = null;
       this.errorUserExists = null;
@@ -78,8 +97,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       this.registerService.save(registerAccount).subscribe(
         (res: HttpResponse<any>) => {
           console.log(res.body);
-          this.savingMsg = 'Saved Basic Account. Activating...';
-          this.activationKey = res.body;
+          this.savingMsg = 'Saved Basic Account.';
+          this.user = res.body;
           this.nextStep();
         },
         response => this.processError(response)
@@ -88,12 +107,17 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   }
 
   activateAccount(key: string) {
+    this.isActivating = true;
+    this.savingMsg = 'Activating';
     this.activateService.get(key).subscribe(
       (res: HttpResponse<any>) => {
         console.log(res.body);
+        this.activated = true;
+        this.isActivating = false;
       },
       err => {
         console.log(this.error);
+        this.isActivating = false;
       }
     );
   }
@@ -124,5 +148,35 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   prevStep() {
     this.step--;
+  }
+
+  // Specfic User kind Registration
+  registerHOD() {
+    this.isSavingEntity = true;
+    this.savingMsg = 'Saving the details';
+    this.hod = {
+      departmentId: this.data.id,
+      userId: this.user.id,
+      authCode: this.hodForm.get('authCode').value
+    };
+    this.hodService.create(this.hod).subscribe(
+      (res: HttpResponse<IHOD>) => {
+        console.log(res.body);
+        this.savedEnitity = true;
+        this.closeEntityLoader();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  openEnitityLoader() {
+    this.isSavingEntity = true;
+  }
+
+  closeEntityLoader() {
+    this.isSavingEntity = false;
+    this.nextStep();
   }
 }

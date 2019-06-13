@@ -50,18 +50,22 @@ public class HODServiceImpl implements HODService {
     public HODDTO save(HODDTO hODDTO) {
         log.debug("Request to save HOD : {}", hODDTO);
         HOD hOD = hODMapper.toEntity(hODDTO);
-        User user = userRepository.findById(hOD.getUser().getId()).get();
         Set<Authority> auth = hOD.getUser().getAuthorities();
+        User user = userRepository.findById(hOD.getUser().getId()).get();
         Authority authr = new Authority();
-        authr.setName(AuthoritiesConstants.HOD);
+        authr.setName("ROLE_HOD");
         auth.add(authr);
-        authr.setName(AuthoritiesConstants.FACULTY);
+        authr = new Authority();
+        authr.setName("ROLE_USER");
         auth.add(authr);
-        authr.setName(AuthoritiesConstants.USER);
+        authr = new Authority();
+        authr.setName("ROLE_FACULTY");
         auth.add(authr);
         user.setAuthorities(auth);
         hOD.setUser(user);
+        userRepository.save(user);
         hOD = hODRepository.save(hOD);
+
         return hODMapper.toDto(hOD);
     }
 

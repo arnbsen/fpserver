@@ -59,8 +59,6 @@ public class HODResourceIT {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private Validator validator;
@@ -68,6 +66,9 @@ public class HODResourceIT {
     private MockMvc restHODMockMvc;
 
     private HOD hOD;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private static User user;
 

@@ -22,6 +22,7 @@ public class DeviceDTO implements Serializable {
     @NotNull
     private Integer locationSerial;
 
+    private String userId;
 
     public String getId() {
         return id;
@@ -93,5 +94,13 @@ public class DeviceDTO implements Serializable {
             ", location='" + getLocation() + "'" +
             ", locationSerial=" + getLocationSerial() +
             "}";
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

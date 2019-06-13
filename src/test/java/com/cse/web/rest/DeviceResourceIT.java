@@ -2,7 +2,9 @@ package com.cse.web.rest;
 
 import com.cse.DevfpserverApp;
 import com.cse.domain.Device;
+import com.cse.domain.User;
 import com.cse.repository.DeviceRepository;
+import com.cse.repository.UserRepository;
 import com.cse.service.DeviceService;
 import com.cse.service.dto.DeviceDTO;
 import com.cse.service.mapper.DeviceMapper;
@@ -20,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.Validator;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static com.cse.web.rest.TestUtil.createFormattingConversionService;
@@ -30,6 +32,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.cse.domain.enumeration.DeviceLocation;
+
+
 /**
  * Integration tests for the {@Link DeviceResource} REST controller.
  */
@@ -71,6 +75,11 @@ public class DeviceResourceIT {
 
     private MockMvc restDeviceMockMvc;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    private static User user;
+
     private Device device;
 
     @BeforeEach
@@ -97,6 +106,9 @@ public class DeviceResourceIT {
             .lastUpdated(DEFAULT_LAST_UPDATED)
             .location(DEFAULT_LOCATION)
             .locationSerial(DEFAULT_LOCATION_SERIAL);
+        user = UserResourceIT.createEntity();
+        user.setId("fixed-id-for-tests");
+        device.setUser(user);
         return device;
     }
     /**
@@ -123,7 +135,7 @@ public class DeviceResourceIT {
     @Test
     public void createDevice() throws Exception {
         int databaseSizeBeforeCreate = deviceRepository.findAll().size();
-
+        userRepository.save(user);
         // Create the Device
         DeviceDTO deviceDTO = deviceMapper.toDto(device);
         restDeviceMockMvc.perform(post("/api/devices")
@@ -230,7 +242,7 @@ public class DeviceResourceIT {
             .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
             .andExpect(jsonPath("$.[*].locationSerial").value(hasItem(DEFAULT_LOCATION_SERIAL)));
     }
-    
+
     @Test
     public void getDevice() throws Exception {
         // Initialize the database
@@ -258,7 +270,7 @@ public class DeviceResourceIT {
     public void updateDevice() throws Exception {
         // Initialize the database
         deviceRepository.save(device);
-
+        userRepository.save(user);
         int databaseSizeBeforeUpdate = deviceRepository.findAll().size();
 
         // Update the device

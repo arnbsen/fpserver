@@ -5,6 +5,7 @@ export interface IHOD {
   authCode?: string;
   departmentId?: string;
   subjectTakings?: ISubject[];
+  userId?: string;
 }
 
 export class HOD implements IHOD {

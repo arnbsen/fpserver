@@ -5,6 +5,7 @@ import com.cse.domain.Authority;
 import com.cse.domain.Faculty;
 import com.cse.domain.User;
 import com.cse.repository.FacultyRepository;
+import com.cse.repository.UserRepository;
 import com.cse.security.AuthoritiesConstants;
 import com.cse.service.dto.FacultyDTO;
 import com.cse.service.mapper.FacultyMapper;
@@ -31,9 +32,13 @@ public class FacultyServiceImpl implements FacultyService {
 
     private final FacultyMapper facultyMapper;
 
-    public FacultyServiceImpl(FacultyRepository facultyRepository, FacultyMapper facultyMapper) {
+    private final UserRepository userRepository;
+
+    public FacultyServiceImpl(FacultyRepository facultyRepository, FacultyMapper facultyMapper,
+            UserRepository userRepository) {
         this.facultyRepository = facultyRepository;
         this.facultyMapper = facultyMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -46,14 +51,16 @@ public class FacultyServiceImpl implements FacultyService {
     public FacultyDTO save(FacultyDTO facultyDTO) {
         log.debug("Request to save Faculty : {}", facultyDTO);
         Faculty faculty = facultyMapper.toEntity(facultyDTO);
+        User user = userRepository.findById(faculty.getUser().getId()).get();
         Set<Authority> auth = faculty.getUser().getAuthorities();
         Authority authr = new Authority();
-        authr.setName(AuthoritiesConstants.FACULTY);
+        authr.setName("ROLE_USER");
         auth.add(authr);
-        authr.setName(AuthoritiesConstants.USER);
+        authr = new Authority();
+        authr.setName("ROLE_FACULTY");
         auth.add(authr);
-        User user = faculty.getUser();
         user.setAuthorities(auth);
+        userRepository.save(user);
         faculty.setUser(user);
         faculty = facultyRepository.save(faculty);
         return facultyMapper.toDto(faculty);
