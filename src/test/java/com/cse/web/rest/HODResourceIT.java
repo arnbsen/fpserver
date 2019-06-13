@@ -5,6 +5,7 @@ import com.cse.domain.HOD;
 import com.cse.domain.User;
 import com.cse.domain.Department;
 import com.cse.repository.HODRepository;
+import com.cse.repository.UserRepository;
 import com.cse.service.HODService;
 import com.cse.service.dto.HODDTO;
 import com.cse.service.mapper.HODMapper;
@@ -57,6 +58,9 @@ public class HODResourceIT {
 
     @Autowired
     private ExceptionTranslator exceptionTranslator;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private Validator validator;
@@ -136,7 +140,7 @@ public class HODResourceIT {
     @Test
     public void createHOD() throws Exception {
         int databaseSizeBeforeCreate = hODRepository.findAll().size();
-
+        userRepository.save(user);
         // Create the HOD
         HODDTO hODDTO = hODMapper.toDto(hOD);
         restHODMockMvc.perform(post("/api/hods")
@@ -208,6 +212,7 @@ public class HODResourceIT {
     public void updateHOD() throws Exception {
         // Initialize the database
         hODRepository.save(hOD);
+        userRepository.save(user);
 
         int databaseSizeBeforeUpdate = hODRepository.findAll().size();
 
@@ -215,9 +220,8 @@ public class HODResourceIT {
         HOD updatedHOD = hODRepository.findById(hOD.getId()).get();
         updatedHOD
             .authCode(UPDATED_AUTH_CODE);
-        updatedHOD.setUser(user);
         HODDTO hODDTO = hODMapper.toDto(updatedHOD);
-
+        hODDTO.setUserId(user.getId());
         restHODMockMvc.perform(put("/api/hods")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(hODDTO)))

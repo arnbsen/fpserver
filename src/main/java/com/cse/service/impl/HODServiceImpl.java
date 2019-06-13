@@ -5,6 +5,7 @@ import com.cse.domain.Authority;
 import com.cse.domain.HOD;
 import com.cse.domain.User;
 import com.cse.repository.HODRepository;
+import com.cse.repository.UserRepository;
 import com.cse.security.AuthoritiesConstants;
 import com.cse.service.dto.HODDTO;
 import com.cse.service.mapper.HODMapper;
@@ -31,9 +32,12 @@ public class HODServiceImpl implements HODService {
 
     private final HODMapper hODMapper;
 
-    public HODServiceImpl(HODRepository hODRepository, HODMapper hODMapper) {
+    private final UserRepository userRepository;
+
+    public HODServiceImpl(HODRepository hODRepository, HODMapper hODMapper, UserRepository userRepository) {
         this.hODRepository = hODRepository;
         this.hODMapper = hODMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -46,6 +50,7 @@ public class HODServiceImpl implements HODService {
     public HODDTO save(HODDTO hODDTO) {
         log.debug("Request to save HOD : {}", hODDTO);
         HOD hOD = hODMapper.toEntity(hODDTO);
+        User user = userRepository.findById(hOD.getUser().getId()).get();
         Set<Authority> auth = hOD.getUser().getAuthorities();
         Authority authr = new Authority();
         authr.setName(AuthoritiesConstants.HOD);
@@ -54,7 +59,6 @@ public class HODServiceImpl implements HODService {
         auth.add(authr);
         authr.setName(AuthoritiesConstants.USER);
         auth.add(authr);
-        User user = hOD.getUser();
         user.setAuthorities(auth);
         hOD.setUser(user);
         hOD = hODRepository.save(hOD);
