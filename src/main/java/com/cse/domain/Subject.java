@@ -39,9 +39,9 @@ public class Subject implements Serializable {
     private Integer semester;
 
     @DBRef
-    @Field("hOD")
+    @Field("hod")
     @JsonIgnoreProperties("subjects")
-    private HOD hOD;
+    private HOD hod;
 
     @DBRef
     @Field("ofDept")
@@ -113,17 +113,17 @@ public class Subject implements Serializable {
         this.semester = semester;
     }
 
-    public HOD getHOD() {
-        return hOD;
+    public HOD gethod() {
+        return hod;
     }
 
-    public Subject hOD(HOD hOD) {
-        this.hOD = hOD;
+    public Subject hod(HOD hod) {
+        this.hod = hod;
         return this;
     }
 
-    public void setHOD(HOD hOD) {
-        this.hOD = hOD;
+    public void sethod(HOD hod) {
+        this.hod = hod;
     }
 
     public Department getOfDept() {
