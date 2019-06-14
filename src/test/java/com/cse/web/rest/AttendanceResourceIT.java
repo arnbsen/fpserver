@@ -31,6 +31,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.cse.domain.enumeration.UserType;
 /**
  * Integration tests for the {@Link AttendanceResource} REST controller.
  */
@@ -42,6 +43,9 @@ public class AttendanceResourceIT {
 
     private static final String DEFAULT_DEVICE_ID = "AAAAAAAAAA";
     private static final String UPDATED_DEVICE_ID = "BBBBBBBBBB";
+
+    private static final UserType DEFAULT_TYPE = UserType.STUDENT;
+    private static final UserType UPDATED_TYPE = UserType.FACULTY;
 
     @Autowired
     private AttendanceRepository attendanceRepository;
@@ -89,7 +93,8 @@ public class AttendanceResourceIT {
     public static Attendance createEntity() {
         Attendance attendance = new Attendance()
             .timestamp(DEFAULT_TIMESTAMP)
-            .deviceID(DEFAULT_DEVICE_ID);
+            .deviceID(DEFAULT_DEVICE_ID)
+            .type(DEFAULT_TYPE);
         return attendance;
     }
     /**
@@ -101,7 +106,8 @@ public class AttendanceResourceIT {
     public static Attendance createUpdatedEntity() {
         Attendance attendance = new Attendance()
             .timestamp(UPDATED_TIMESTAMP)
-            .deviceID(UPDATED_DEVICE_ID);
+            .deviceID(UPDATED_DEVICE_ID)
+            .type(UPDATED_TYPE);
         return attendance;
     }
 
@@ -128,6 +134,7 @@ public class AttendanceResourceIT {
         Attendance testAttendance = attendanceList.get(attendanceList.size() - 1);
         assertThat(testAttendance.getTimestamp()).isEqualTo(DEFAULT_TIMESTAMP);
         assertThat(testAttendance.getDeviceID()).isEqualTo(DEFAULT_DEVICE_ID);
+        assertThat(testAttendance.getType()).isEqualTo(DEFAULT_TYPE);
     }
 
     @Test
@@ -161,7 +168,8 @@ public class AttendanceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId())))
             .andExpect(jsonPath("$.[*].timestamp").value(hasItem(DEFAULT_TIMESTAMP.toString())))
-            .andExpect(jsonPath("$.[*].deviceID").value(hasItem(DEFAULT_DEVICE_ID.toString())));
+            .andExpect(jsonPath("$.[*].deviceID").value(hasItem(DEFAULT_DEVICE_ID.toString())))
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
     }
     
     @Test
@@ -175,7 +183,8 @@ public class AttendanceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(attendance.getId()))
             .andExpect(jsonPath("$.timestamp").value(DEFAULT_TIMESTAMP.toString()))
-            .andExpect(jsonPath("$.deviceID").value(DEFAULT_DEVICE_ID.toString()));
+            .andExpect(jsonPath("$.deviceID").value(DEFAULT_DEVICE_ID.toString()))
+            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()));
     }
 
     @Test
@@ -196,7 +205,8 @@ public class AttendanceResourceIT {
         Attendance updatedAttendance = attendanceRepository.findById(attendance.getId()).get();
         updatedAttendance
             .timestamp(UPDATED_TIMESTAMP)
-            .deviceID(UPDATED_DEVICE_ID);
+            .deviceID(UPDATED_DEVICE_ID)
+            .type(UPDATED_TYPE);
         AttendanceDTO attendanceDTO = attendanceMapper.toDto(updatedAttendance);
 
         restAttendanceMockMvc.perform(put("/api/attendances")
@@ -210,6 +220,7 @@ public class AttendanceResourceIT {
         Attendance testAttendance = attendanceList.get(attendanceList.size() - 1);
         assertThat(testAttendance.getTimestamp()).isEqualTo(UPDATED_TIMESTAMP);
         assertThat(testAttendance.getDeviceID()).isEqualTo(UPDATED_DEVICE_ID);
+        assertThat(testAttendance.getType()).isEqualTo(UPDATED_TYPE);
     }
 
     @Test

@@ -18,6 +18,9 @@ enum DayType {
 	HOLIDAY,
 	EXAM
 }
+enum UserType {
+	STUDENT, FACULTY, SSTAFF, HOD, CADMIN
+}
 entity Department {
 	deptCode String required,
     deptName String required
@@ -64,7 +67,9 @@ entity TimeTable {
 }
 entity Attendance {
     timestamp Instant,
-    deviceID String
+    deviceID String,
+    type UserType
+	
 }
 entity Day {
 	type DayType,

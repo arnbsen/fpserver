@@ -98,6 +98,10 @@ import { UserRouteAccessService } from 'app/core';
       {
         path: 'subject',
         loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      },
+      {
+        path: 'attendance',
+        loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { AttendanceService } from 'app/entities/attendance/attendance.service';
-import { IAttendance, Attendance } from 'app/shared/model/attendance.model';
+import { IAttendance, Attendance, UserType } from 'app/shared/model/attendance.model';
 
 describe('Service Tests', () => {
   describe('Attendance Service', () => {
@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Attendance('ID', currentDate, 'AAAAAAA');
+      elemDefault = new Attendance('ID', currentDate, 'AAAAAAA', UserType.STUDENT);
     });
 
     describe('Service methods', () => {
@@ -75,7 +75,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             timestamp: currentDate.format(DATE_TIME_FORMAT),
-            deviceID: 'BBBBBB'
+            deviceID: 'BBBBBB',
+            type: 'BBBBBB'
           },
           elemDefault
         );
@@ -99,7 +100,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             timestamp: currentDate.format(DATE_TIME_FORMAT),
-            deviceID: 'BBBBBB'
+            deviceID: 'BBBBBB',
+            type: 'BBBBBB'
           },
           elemDefault
         );

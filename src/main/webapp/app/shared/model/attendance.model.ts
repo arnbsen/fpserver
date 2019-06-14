@@ -1,11 +1,20 @@
 import { Moment } from 'moment';
 
+export const enum UserType {
+  STUDENT = 'STUDENT',
+  FACULTY = 'FACULTY',
+  SSTAFF = 'SSTAFF',
+  HOD = 'HOD',
+  CADMIN = 'CADMIN'
+}
+
 export interface IAttendance {
   id?: string;
   timestamp?: Moment;
   deviceID?: string;
+  type?: UserType;
 }
 
 export class Attendance implements IAttendance {
-  constructor(public id?: string, public timestamp?: Moment, public deviceID?: string) {}
+  constructor(public id?: string, public timestamp?: Moment, public deviceID?: string, public type?: UserType) {}
 }

@@ -1,13 +1,15 @@
 package com.cse.domain;
 
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+
+import com.cse.domain.enumeration.UserType;
 
 /**
  * A Attendance.
@@ -25,6 +27,9 @@ public class Attendance implements Serializable {
 
     @Field("device_id")
     private String deviceID;
+
+    @Field("type")
+    private UserType type;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -60,6 +65,19 @@ public class Attendance implements Serializable {
     public void setDeviceID(String deviceID) {
         this.deviceID = deviceID;
     }
+
+    public UserType getType() {
+        return type;
+    }
+
+    public Attendance type(UserType type) {
+        this.type = type;
+        return this;
+    }
+
+    public void setType(UserType type) {
+        this.type = type;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -84,6 +102,7 @@ public class Attendance implements Serializable {
             "id=" + getId() +
             ", timestamp='" + getTimestamp() + "'" +
             ", deviceID='" + getDeviceID() + "'" +
+            ", type='" + getType() + "'" +
             "}";
     }
 }

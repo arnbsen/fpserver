@@ -17,6 +17,7 @@
             <th><span>ID</span></th>
             <th><span>Timestamp</span></th>
             <th><span>Device ID</span></th>
+            <th><span>Type</span></th>
             <th></th>
             </tr>
             </thead>
@@ -25,6 +26,7 @@
                 <td><a [routerLink]="['/attendance', attendance.id, 'view' ]">{{attendance.id}}</a></td>
                 <td>{{attendance.timestamp | date:'medium'}}</td>
                 <td>{{attendance.deviceID}}</td>
+                <td>{{attendance.type}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

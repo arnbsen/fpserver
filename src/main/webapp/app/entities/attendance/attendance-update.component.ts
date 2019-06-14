@@ -19,7 +19,8 @@ export class AttendanceUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     timestamp: [],
-    deviceID: []
+    deviceID: [],
+    type: []
   });
 
   constructor(protected attendanceService: AttendanceService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -36,7 +37,8 @@ export class AttendanceUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: attendance.id,
       timestamp: attendance.timestamp != null ? attendance.timestamp.format(DATE_TIME_FORMAT) : null,
-      deviceID: attendance.deviceID
+      deviceID: attendance.deviceID,
+      type: attendance.type
     });
   }
 
@@ -60,7 +62,8 @@ export class AttendanceUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       timestamp:
         this.editForm.get(['timestamp']).value != null ? moment(this.editForm.get(['timestamp']).value, DATE_TIME_FORMAT) : undefined,
-      deviceID: this.editForm.get(['deviceID']).value
+      deviceID: this.editForm.get(['deviceID']).value,
+      type: this.editForm.get(['type']).value
     };
     return entity;
   }

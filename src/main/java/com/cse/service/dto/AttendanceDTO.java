@@ -2,6 +2,7 @@ package com.cse.service.dto;
 import java.time.Instant;
 import java.io.Serializable;
 import java.util.Objects;
+import com.cse.domain.enumeration.UserType;
 
 /**
  * A DTO for the {@link com.cse.domain.Attendance} entity.
@@ -13,6 +14,8 @@ public class AttendanceDTO implements Serializable {
     private Instant timestamp;
 
     private String deviceID;
+
+    private UserType type;
 
 
     public String getId() {
@@ -37,6 +40,14 @@ public class AttendanceDTO implements Serializable {
 
     public void setDeviceID(String deviceID) {
         this.deviceID = deviceID;
+    }
+
+    public UserType getType() {
+        return type;
+    }
+
+    public void setType(UserType type) {
+        this.type = type;
     }
 
     @Override
@@ -66,6 +77,7 @@ public class AttendanceDTO implements Serializable {
             "id=" + getId() +
             ", timestamp='" + getTimestamp() + "'" +
             ", deviceID='" + getDeviceID() + "'" +
+            ", type='" + getType() + "'" +
             "}";
     }
 }
