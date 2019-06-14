@@ -6,6 +6,7 @@ export interface IStudent {
   classRollNumber?: number;
   currentSession?: string;
   departmentId?: string;
+  userId?: string;
 }
 
 export class Student implements IStudent {

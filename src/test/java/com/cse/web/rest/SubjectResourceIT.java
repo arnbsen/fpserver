@@ -41,6 +41,12 @@ public class SubjectResourceIT {
     private static final String DEFAULT_SUBJECT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_SUBJECT_NAME = "BBBBBBBBBB";
 
+    private static final Integer DEFAULT_YEAR = 1;
+    private static final Integer UPDATED_YEAR = 2;
+
+    private static final Integer DEFAULT_SEMESTER = 1;
+    private static final Integer UPDATED_SEMESTER = 2;
+
     @Autowired
     private SubjectRepository subjectRepository;
 
@@ -87,7 +93,9 @@ public class SubjectResourceIT {
     public static Subject createEntity() {
         Subject subject = new Subject()
             .subjectCode(DEFAULT_SUBJECT_CODE)
-            .subjectName(DEFAULT_SUBJECT_NAME);
+            .subjectName(DEFAULT_SUBJECT_NAME)
+            .year(DEFAULT_YEAR)
+            .semester(DEFAULT_SEMESTER);
         return subject;
     }
     /**
@@ -99,7 +107,9 @@ public class SubjectResourceIT {
     public static Subject createUpdatedEntity() {
         Subject subject = new Subject()
             .subjectCode(UPDATED_SUBJECT_CODE)
-            .subjectName(UPDATED_SUBJECT_NAME);
+            .subjectName(UPDATED_SUBJECT_NAME)
+            .year(UPDATED_YEAR)
+            .semester(UPDATED_SEMESTER);
         return subject;
     }
 
@@ -126,6 +136,8 @@ public class SubjectResourceIT {
         Subject testSubject = subjectList.get(subjectList.size() - 1);
         assertThat(testSubject.getSubjectCode()).isEqualTo(DEFAULT_SUBJECT_CODE);
         assertThat(testSubject.getSubjectName()).isEqualTo(DEFAULT_SUBJECT_NAME);
+        assertThat(testSubject.getYear()).isEqualTo(DEFAULT_YEAR);
+        assertThat(testSubject.getSemester()).isEqualTo(DEFAULT_SEMESTER);
     }
 
     @Test
@@ -185,6 +197,42 @@ public class SubjectResourceIT {
     }
 
     @Test
+    public void checkYearIsRequired() throws Exception {
+        int databaseSizeBeforeTest = subjectRepository.findAll().size();
+        // set the field null
+        subject.setYear(null);
+
+        // Create the Subject, which fails.
+        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
+
+        restSubjectMockMvc.perform(post("/api/subjects")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(subjectDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Subject> subjectList = subjectRepository.findAll();
+        assertThat(subjectList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    public void checkSemesterIsRequired() throws Exception {
+        int databaseSizeBeforeTest = subjectRepository.findAll().size();
+        // set the field null
+        subject.setSemester(null);
+
+        // Create the Subject, which fails.
+        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
+
+        restSubjectMockMvc.perform(post("/api/subjects")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(subjectDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Subject> subjectList = subjectRepository.findAll();
+        assertThat(subjectList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
     public void getAllSubjects() throws Exception {
         // Initialize the database
         subjectRepository.save(subject);
@@ -195,7 +243,9 @@ public class SubjectResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(subject.getId())))
             .andExpect(jsonPath("$.[*].subjectCode").value(hasItem(DEFAULT_SUBJECT_CODE.toString())))
-            .andExpect(jsonPath("$.[*].subjectName").value(hasItem(DEFAULT_SUBJECT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].subjectName").value(hasItem(DEFAULT_SUBJECT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
+            .andExpect(jsonPath("$.[*].semester").value(hasItem(DEFAULT_SEMESTER)));
     }
     
     @Test
@@ -209,7 +259,9 @@ public class SubjectResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(subject.getId()))
             .andExpect(jsonPath("$.subjectCode").value(DEFAULT_SUBJECT_CODE.toString()))
-            .andExpect(jsonPath("$.subjectName").value(DEFAULT_SUBJECT_NAME.toString()));
+            .andExpect(jsonPath("$.subjectName").value(DEFAULT_SUBJECT_NAME.toString()))
+            .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
+            .andExpect(jsonPath("$.semester").value(DEFAULT_SEMESTER));
     }
 
     @Test
@@ -230,7 +282,9 @@ public class SubjectResourceIT {
         Subject updatedSubject = subjectRepository.findById(subject.getId()).get();
         updatedSubject
             .subjectCode(UPDATED_SUBJECT_CODE)
-            .subjectName(UPDATED_SUBJECT_NAME);
+            .subjectName(UPDATED_SUBJECT_NAME)
+            .year(UPDATED_YEAR)
+            .semester(UPDATED_SEMESTER);
         SubjectDTO subjectDTO = subjectMapper.toDto(updatedSubject);
 
         restSubjectMockMvc.perform(put("/api/subjects")
@@ -244,6 +298,8 @@ public class SubjectResourceIT {
         Subject testSubject = subjectList.get(subjectList.size() - 1);
         assertThat(testSubject.getSubjectCode()).isEqualTo(UPDATED_SUBJECT_CODE);
         assertThat(testSubject.getSubjectName()).isEqualTo(UPDATED_SUBJECT_NAME);
+        assertThat(testSubject.getYear()).isEqualTo(UPDATED_YEAR);
+        assertThat(testSubject.getSemester()).isEqualTo(UPDATED_SEMESTER);
     }
 
     @Test

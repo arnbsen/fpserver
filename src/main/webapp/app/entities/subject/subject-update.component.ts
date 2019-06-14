@@ -32,6 +32,8 @@ export class SubjectUpdateComponent implements OnInit {
     id: [],
     subjectCode: [null, [Validators.required]],
     subjectName: [null, [Validators.required]],
+    year: [null, [Validators.required]],
+    semester: [null, [Validators.required]],
     hODId: [],
     ofDeptId: [],
     facultyId: []
@@ -99,6 +101,8 @@ export class SubjectUpdateComponent implements OnInit {
       id: subject.id,
       subjectCode: subject.subjectCode,
       subjectName: subject.subjectName,
+      year: subject.year,
+      semester: subject.semester,
       hODId: subject.hODId,
       ofDeptId: subject.ofDeptId,
       facultyId: subject.facultyId
@@ -125,6 +129,8 @@ export class SubjectUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       subjectCode: this.editForm.get(['subjectCode']).value,
       subjectName: this.editForm.get(['subjectName']).value,
+      year: this.editForm.get(['year']).value,
+      semester: this.editForm.get(['semester']).value,
       hODId: this.editForm.get(['hODId']).value,
       ofDeptId: this.editForm.get(['ofDeptId']).value,
       facultyId: this.editForm.get(['facultyId']).value

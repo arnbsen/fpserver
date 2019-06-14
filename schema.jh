@@ -37,6 +37,8 @@ entity HOD {
 entity Subject {
 	subjectCode String required,
     subjectName String required
+	year Integer required,
+	semester Integer required
 }
 entity Faculty {
     facultyCode String

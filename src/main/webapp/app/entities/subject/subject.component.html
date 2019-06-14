@@ -17,6 +17,8 @@
             <th><span>ID</span></th>
             <th><span>Subject Code</span></th>
             <th><span>Subject Name</span></th>
+            <th><span>Year</span></th>
+            <th><span>Semester</span></th>
             <th><span>H OD</span></th>
             <th><span>Of Dept</span></th>
             <th><span>Faculty</span></th>
@@ -28,6 +30,8 @@
                 <td><a [routerLink]="['/subject', subject.id, 'view' ]">{{subject.id}}</a></td>
                 <td>{{subject.subjectCode}}</td>
                 <td>{{subject.subjectName}}</td>
+                <td>{{subject.year}}</td>
+                <td>{{subject.semester}}</td>
                 <td>
                     <div *ngIf="subject.hODId">
                         <a [routerLink]="['../hod', subject.hODId , 'view' ]" >{{subject.hODId}}</a>

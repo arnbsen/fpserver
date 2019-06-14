@@ -1,0 +1,36 @@
+<mat-toolbar color="primary" style="background-color: #042443" fxLayout="row" fxLayoutGap="5px">
+<mat-icon>dashboard</mat-icon>
+&nbsp; &nbsp; Register User - Select Depatment
+</mat-toolbar>
+<div class="full-height" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+    <form fxLayout="column" (ngSubmit)="onSubmit()" fxLayoutAlign="start start" fxLayoutGap="10px" [formGroup]="selectionForm" style="width: 40%">
+    <h3>Select Your Role / User Type</h3>
+    <mat-form-field style="width: 100%">
+        <mat-label>Select Role</mat-label>
+        <mat-select formControlName="role" required>
+            <mat-option  [value]="'student'">
+               Student
+            </mat-option>
+            <mat-option [value]="'hod'">
+                HOD
+            </mat-option>
+            <mat-option [value]="'faculty'">
+               Faculty
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <h3>Select Your Department</h3>
+    <mat-form-field style="width: 100%" >
+        <mat-label>Select Department</mat-label>
+        <mat-select formControlName="dept" required>
+            <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                {{dept.deptCode + ' - ' + dept.deptName}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-raised-button style="width: 100%" color="primary" type="submit" [disabled]="selectionForm.invalid">
+        <mat-icon>open_in_new</mat-icon>
+        Go To Registration
+    </button>
+ </form>
+</div>

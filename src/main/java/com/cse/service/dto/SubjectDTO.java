@@ -16,8 +16,14 @@ public class SubjectDTO implements Serializable {
     @NotNull
     private String subjectName;
 
+    @NotNull
+    private Integer year;
 
-    private String hodId;
+    @NotNull
+    private Integer semester;
+
+
+    private String hODId;
 
     private String ofDeptId;
 
@@ -47,7 +53,29 @@ public class SubjectDTO implements Serializable {
         this.subjectName = subjectName;
     }
 
+    public Integer getYear() {
+        return year;
+    }
 
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Integer semester) {
+        this.semester = semester;
+    }
+
+    public String getHODId() {
+        return hODId;
+    }
+
+    public void setHODId(String hODId) {
+        this.hODId = hODId;
+    }
 
     public String getOfDeptId() {
         return ofDeptId;
@@ -92,17 +120,11 @@ public class SubjectDTO implements Serializable {
             "id=" + getId() +
             ", subjectCode='" + getSubjectCode() + "'" +
             ", subjectName='" + getSubjectName() + "'" +
-            ", hOD=" + getHodId() +
+            ", year=" + getYear() +
+            ", semester=" + getSemester() +
+            ", hOD=" + getHODId() +
             ", ofDept=" + getOfDeptId() +
             ", faculty=" + getFacultyId() +
             "}";
-    }
-
-    public String getHodId() {
-        return hodId;
-    }
-
-    public void setHodId(String hodId) {
-        this.hodId = hodId;
     }
 }

@@ -31,6 +31,36 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_year">Year</label>
+                    <input type="number" class="form-control" name="year" id="field_year"
+                           formControlName="year"/>
+                    <div *ngIf="editForm.get('year').invalid && (editForm.get('year').dirty || editForm.get('year').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('year').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('year')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_semester">Semester</label>
+                    <input type="number" class="form-control" name="semester" id="field_semester"
+                           formControlName="semester"/>
+                    <div *ngIf="editForm.get('semester').invalid && (editForm.get('semester').dirty || editForm.get('semester').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('semester').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('semester')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_hOD">H OD</label>

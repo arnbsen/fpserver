@@ -2,6 +2,8 @@ export interface ISubject {
   id?: string;
   subjectCode?: string;
   subjectName?: string;
+  year?: number;
+  semester?: number;
   hODId?: string;
   ofDeptId?: string;
   facultyId?: string;
@@ -12,6 +14,8 @@ export class Subject implements ISubject {
     public id?: string,
     public subjectCode?: string,
     public subjectName?: string,
+    public year?: number,
+    public semester?: number,
     public hODId?: string,
     public ofDeptId?: string,
     public facultyId?: string

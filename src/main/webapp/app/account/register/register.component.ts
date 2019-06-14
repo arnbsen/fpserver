@@ -11,6 +11,10 @@ import { ActivateService } from '../activate/activate.service';
 import { HODService } from 'app/entities/hod';
 import { IHOD } from 'app/shared/model/hod.model';
 import { IDepartment, Department } from 'app/shared/model/department.model';
+import { IFaculty } from 'app/shared/model/faculty.model';
+import { FacultyService } from 'app/entities/faculty';
+import { IStudent } from 'app/shared/model/student.model';
+import { StudentService } from 'app/entities/student';
 
 @Component({
   selector: 'jhi-register',
@@ -34,6 +38,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   activated = false;
   hod: IHOD;
   dept: Department;
+  faculty: IFaculty;
+  student: IStudent;
   isSavingEntity = false;
   savedEnitity = false;
 
@@ -55,12 +61,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   });
 
   studentForm = this.fb.group({
-    yearJoined: [],
-    currentYear: [],
-    currentSem: [],
-    classRollNumber: [],
-    currentSession: [],
-    departmentId: [null, Validators.required]
+    yearJoined: ['', Validators.required],
+    currentYear: ['', Validators.required],
+    currentSem: ['', Validators.required],
+    classRollNumber: ['', Validators.required],
+    currentSession: ['', Validators.required]
   });
 
   constructor(
@@ -73,7 +78,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     protected activatedRoute: ActivatedRoute,
     protected userService: UserService,
     protected activateService: ActivateService,
-    protected hodService: HODService
+    protected hodService: HODService,
+    protected facultyService: FacultyService,
+    protected studentService: StudentService
   ) {}
 
   ngOnInit() {
@@ -174,6 +181,54 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     };
     this.hodService.create(this.hod).subscribe(
       (res: HttpResponse<IHOD>) => {
+        console.log(res.body);
+        this.savedEnitity = true;
+        this.closeEntityLoader();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  registerFaculty() {
+    this.isSavingEntity = true;
+    this.savingMsg = 'Saving the details';
+    this.faculty = {
+      departmentId: this.data.id,
+      facultyCode: this.facultyForm.get('facultyCode').value,
+      userId: this.user.id
+    };
+    this.facultyService.create(this.faculty).subscribe(
+      (res: HttpResponse<IFaculty>) => {
+        console.log(res.body);
+        this.savedEnitity = true;
+        this.closeEntityLoader();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  getSemester(val: number): number[] {
+    return [val * 2 - 1, val * 2];
+  }
+
+  registerStudent() {
+    this.isSavingEntity = true;
+    this.savingMsg = 'Saving the details';
+    this.student = {
+      departmentId: this.data.id,
+      classRollNumber: this.studentForm.get('classRollNumber').value,
+      currentSession: this.studentForm.get('currentSession').value,
+      yearJoined: this.studentForm.get('yearJoined').value,
+      currentSem: Number(this.studentForm.get('currentSem').value),
+      currentYear: this.studentForm.get('currentYear').value,
+      userId: this.user.id
+    };
+    this.studentService.create(this.student).subscribe(
+      (res: HttpResponse<IStudent>) => {
         console.log(res.body);
         this.savedEnitity = true;
         this.closeEntityLoader();

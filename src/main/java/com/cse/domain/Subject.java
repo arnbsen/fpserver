@@ -30,6 +30,14 @@ public class Subject implements Serializable {
     @Field("subject_name")
     private String subjectName;
 
+    @NotNull
+    @Field("year")
+    private Integer year;
+
+    @NotNull
+    @Field("semester")
+    private Integer semester;
+
     @DBRef
     @Field("hOD")
     @JsonIgnoreProperties("subjects")
@@ -77,6 +85,32 @@ public class Subject implements Serializable {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public Subject year(Integer year) {
+        this.year = year;
+        return this;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getSemester() {
+        return semester;
+    }
+
+    public Subject semester(Integer semester) {
+        this.semester = semester;
+        return this;
+    }
+
+    public void setSemester(Integer semester) {
+        this.semester = semester;
     }
 
     public HOD getHOD() {
@@ -141,14 +175,8 @@ public class Subject implements Serializable {
             "id=" + getId() +
             ", subjectCode='" + getSubjectCode() + "'" +
             ", subjectName='" + getSubjectName() + "'" +
+            ", year=" + getYear() +
+            ", semester=" + getSemester() +
             "}";
-    }
-
-    public HOD gethOD() {
-        return hOD;
-    }
-
-    public void sethOD(HOD hOD) {
-        this.hOD = hOD;
     }
 }

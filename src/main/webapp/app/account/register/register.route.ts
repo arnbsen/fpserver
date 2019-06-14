@@ -7,6 +7,7 @@ import { DepartmentService } from 'app/entities/department';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
+import { PreregisterComponent } from '../preregister/preregister.component';
 @Injectable({ providedIn: 'root' })
 export class DepartmentResolve implements Resolve<IDepartment> {
   constructor(private service: DepartmentService) {}
@@ -26,10 +27,10 @@ export const registerRoute: Routes = [
   {
     path: 'register',
     pathMatch: 'full',
-    component: RegisterComponent,
+    component: PreregisterComponent,
     data: {
       authorities: [],
-      pageTitle: 'Registration'
+      pageTitle: 'Registration - Department Selection'
     }
   },
   {

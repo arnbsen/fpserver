@@ -5,6 +5,7 @@ export interface IFaculty {
   facultyCode?: string;
   departmentId?: string;
   subjectsTakings?: ISubject[];
+  userId?: string;
 }
 
 export class Faculty implements IFaculty {

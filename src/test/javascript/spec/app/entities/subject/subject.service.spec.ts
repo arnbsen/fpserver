@@ -23,7 +23,7 @@ describe('Service Tests', () => {
       service = injector.get(SubjectService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Subject('ID', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Subject('ID', 'AAAAAAA', 'AAAAAAA', 0, 0);
     });
 
     describe('Service methods', () => {
@@ -60,7 +60,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             subjectCode: 'BBBBBB',
-            subjectName: 'BBBBBB'
+            subjectName: 'BBBBBB',
+            year: 1,
+            semester: 1
           },
           elemDefault
         );
@@ -79,7 +81,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             subjectCode: 'BBBBBB',
-            subjectName: 'BBBBBB'
+            subjectName: 'BBBBBB',
+            year: 1,
+            semester: 1
           },
           elemDefault
         );
