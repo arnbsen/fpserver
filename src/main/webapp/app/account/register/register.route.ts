@@ -40,7 +40,29 @@ export const registerRoute: Routes = [
     },
     data: {
       authorities: [],
-      pageTitle: 'Registration'
+      pageTitle: 'Registration - HOD'
+    }
+  },
+  {
+    path: 'register/:id/student',
+    component: RegisterComponent,
+    resolve: {
+      data: DepartmentResolve
+    },
+    data: {
+      authorities: [],
+      pageTitle: 'Registration - Student'
+    }
+  },
+  {
+    path: 'register/:id/faculty',
+    component: RegisterComponent,
+    resolve: {
+      data: DepartmentResolve
+    },
+    data: {
+      authorities: [],
+      pageTitle: 'Registration - Faculty'
     }
   }
 ];

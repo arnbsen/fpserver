@@ -50,6 +50,19 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     authCode: ['', Validators.required]
   });
 
+  facultyForm = this.fb.group({
+    facultyCode: ['', Validators.required]
+  });
+
+  studentForm = this.fb.group({
+    yearJoined: [],
+    currentYear: [],
+    currentSem: [],
+    classRollNumber: [],
+    currentSession: [],
+    departmentId: [null, Validators.required]
+  });
+
   constructor(
     private loginModalService: LoginModalService,
     private registerService: Register,
