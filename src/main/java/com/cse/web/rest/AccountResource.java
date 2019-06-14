@@ -1,6 +1,5 @@
 package com.cse.web.rest;
 
-
 import com.cse.domain.Authority;
 import com.cse.domain.User;
 import com.cse.repository.UserRepository;
@@ -18,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,6 +89,16 @@ public class AccountResource {
     @GetMapping("/activatebyId")
     public Optional<User> activateAccountByID(@RequestParam(value = "key") String key) {
         Optional<User> user = userService.activateRegistrationByID(key);
+        if (!user.isPresent()) {
+            throw new AccountResourceException("No user was found for this activation key");
+        }
+        return user;
+    }
+
+    @PostMapping("/deviceID")
+    @PreAuthorize("hasRole('USER')")
+    public Optional<User> setDeviceID(@Valid @RequestBody UserDTO userDTO ) {
+        Optional<User> user = userService.addDeviceID(userDTO.getId(), userDTO.getDeviceID());
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this activation key");
         }

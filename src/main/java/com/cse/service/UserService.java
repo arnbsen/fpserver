@@ -70,6 +70,17 @@ public class UserService {
         });
     }
 
+    public Optional<User> addDeviceID(String id, String deviceID) {
+        log.debug("Adding Device ID {}", id);
+        return userRepository.findById(id).map(user -> {
+            // activate given user for the registration id.
+            user.setDeviceID(deviceID);
+            userRepository.save(user);
+            log.debug("Activated user: {}", user);
+            return user;
+        });
+    }
+
     public Optional<User> completePasswordReset(String newPassword, String key) {
         log.debug("Reset user password for reset key {}", key);
         return userRepository.findOneByResetKey(key)
