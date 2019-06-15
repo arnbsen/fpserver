@@ -247,4 +247,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.isSavingEntity = false;
     this.nextStep();
   }
+
+  goToLogin() {
+    this.router.navigateByUrl('/login');
+  }
 }
