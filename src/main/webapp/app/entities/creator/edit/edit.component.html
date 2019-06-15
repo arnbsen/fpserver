@@ -30,6 +30,15 @@
         </button>
     </div>
     <mat-divider class="full-width"></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
+    <h3 [fxFlex]="15">Subject Code</h3>
+        <h5 [fxFlex]="25">Subject Name</h5>
+        <h5 [fxFlex]="7">Year</h5>
+        <h5 [fxFlex]="7">Semester</h5>
+        <h5 [fxFlex]="16">
+            Faculty Code
+        </h5>
+    </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%" *ngFor="let subject of subjects">
         <h3 [fxFlex]="15">{{subject.subjectCode}}</h3>
         <span [fxFlex]="25">{{subject.subjectName}}</span>

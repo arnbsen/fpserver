@@ -11,6 +11,7 @@ import { filter, map } from 'rxjs/operators';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department/department.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 export const MY_FORMATS2 = {
   parse: {
@@ -50,7 +51,8 @@ export class DashboardComponent implements OnInit {
     private fb: FormBuilder,
     protected academicSessionService: AcademicSessionService,
     protected departmentService: DepartmentService,
-    protected router: Router
+    protected router: Router,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -174,5 +176,23 @@ export class DashboardComponent implements OnInit {
 
   goToDeptEdit(id: String) {
     this.router.navigate(['/admin', id, 'edit']);
+  }
+
+  // Deleting Methods
+  deleteAcademicSessions(id: string) {
+    this.academicSessionService.delete(id).subscribe(
+      (res: HttpResponse<any>) => {
+        this.openSnackBar('Academic Session Successfully Deleted', 'Done');
+      },
+      err => {
+        this.openSnackBar('Seomthing Bad Happened. Retry again', 'Okay');
+      }
+    );
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000
+    });
   }
 }
