@@ -1,8 +1,13 @@
 package com.cse.web.rest;
 
+import com.cse.domain.Faculty;
+import com.cse.domain.Subject;
+import com.cse.service.FacultyService;
 import com.cse.service.SubjectService;
 import com.cse.web.rest.errors.BadRequestAlertException;
+import com.cse.service.dto.FacultyDTO;
 import com.cse.service.dto.SubjectDTO;
+import com.cse.service.mapper.FacultyMapper;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -35,8 +40,10 @@ public class SubjectResource {
 
     private final SubjectService subjectService;
 
-    public SubjectResource(SubjectService subjectService) {
+    private final FacultyService facultyService;
+    public SubjectResource(SubjectService subjectService, FacultyService facultyService) {
         this.subjectService = subjectService;
+        this.facultyService = facultyService;
     }
 
     /**
@@ -58,6 +65,19 @@ public class SubjectResource {
             .body(result);
     }
 
+    @PostMapping("/subjects/create")
+    public ResponseEntity<Subject> createSubjectWihFaculty(@Valid @RequestBody Subject subject)
+            throws URISyntaxException {
+        log.debug("REST request to save Subject : {}", subject);
+        if (subject.getId() != null) {
+            throw new BadRequestAlertException("A new subject cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Subject result = subjectService.saveWithFaculty(subject);
+        return ResponseEntity
+                .created(new URI("/api/subjects/" + result.getId())).headers(HeaderUtil
+                        .createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+    }
     /**
      * {@code PUT  /subjects} : Updates an existing subject.
      *

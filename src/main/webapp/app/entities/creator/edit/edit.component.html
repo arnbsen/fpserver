@@ -31,16 +31,16 @@
     </div>
     <mat-divider class="full-width"></mat-divider>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%" *ngFor="let subject of subjects">
-        <h3 style="width: 10%">{{subject.subjectCode}}</h3>
-        <span style="width: 10%">{{subject.subjectName}}</span>
-        <span style="width: 10%">{{subject.year}}</span>
-        <span style="width: 10%">{{subject.semester}}</span>
-        <span style="width: 10%">
-            <span *ngFor="let fac of subject.faculties">
+        <h3 [fxFlex]="15">{{subject.subjectCode}}</h3>
+        <span [fxFlex]="25">{{subject.subjectName}}</span>
+        <span [fxFlex]="7">{{subject.year}}</span>
+        <span [fxFlex]="7">{{subject.semester}}</span>
+        <span [fxFlex]="16">
+            <span *ngFor="let fac of subject.faculty">
                 {{fac.facultyCode}}
             </span>
         </span>
-        <span class="column-spacer"></span>
+         <span class="column-spacer"></span>
         <button mat-raised-button color="accent" style="width: 150px">
             <mat-icon>edit</mat-icon>
             Edit

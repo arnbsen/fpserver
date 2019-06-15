@@ -4,6 +4,7 @@ import com.cse.DevfpserverApp;
 import com.cse.domain.Subject;
 import com.cse.domain.Faculty;
 import com.cse.repository.SubjectRepository;
+import com.cse.service.FacultyService;
 import com.cse.service.SubjectService;
 import com.cse.service.dto.SubjectDTO;
 import com.cse.service.mapper.SubjectMapper;
@@ -58,6 +59,9 @@ public class SubjectResourceIT {
     private SubjectService subjectService;
 
     @Autowired
+    private FacultyService facultyService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -76,7 +80,7 @@ public class SubjectResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SubjectResource subjectResource = new SubjectResource(subjectService);
+        final SubjectResource subjectResource = new SubjectResource(subjectService, facultyService);
         this.restSubjectMockMvc = MockMvcBuilders.standaloneSetup(subjectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -1,5 +1,6 @@
 package com.cse.service;
 
+import com.cse.domain.Subject;
 import com.cse.service.dto.SubjectDTO;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface SubjectService {
      * @return the persisted entity.
      */
     SubjectDTO save(SubjectDTO subjectDTO);
+
+    Subject saveWithFaculty(Subject subject);
 
     /**
      * Get all the subjects.

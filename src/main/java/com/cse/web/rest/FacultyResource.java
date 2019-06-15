@@ -46,7 +46,7 @@ public class FacultyResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new facultyDTO, or with status {@code 400 (Bad Request)} if the faculty has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/faculties")
+    @PostMapping("/faculties/create")
     public ResponseEntity<FacultyDTO> createFaculty(@Valid @RequestBody FacultyDTO facultyDTO) throws URISyntaxException {
         log.debug("REST request to save Faculty : {}", facultyDTO);
         if (facultyDTO.getId() != null) {

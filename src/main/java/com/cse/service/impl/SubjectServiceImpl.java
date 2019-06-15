@@ -83,4 +83,10 @@ public class SubjectServiceImpl implements SubjectService {
         log.debug("Request to delete Subject : {}", id);
         subjectRepository.deleteById(id);
     }
+
+    @Override
+    public Subject saveWithFaculty(Subject subject) {
+        log.debug("Request to save Subject : {}", subject);
+        return subjectRepository.save(subject);
+    }
 }

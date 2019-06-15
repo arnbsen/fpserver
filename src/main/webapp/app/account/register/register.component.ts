@@ -195,6 +195,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.isSavingEntity = true;
     this.savingMsg = 'Saving the details';
     this.faculty = {
+      userId: this.user.id,
       departmentId: this.data.id,
       facultyCode: this.facultyForm.get('facultyCode').value
     };

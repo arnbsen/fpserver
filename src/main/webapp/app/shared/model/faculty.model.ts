@@ -3,6 +3,7 @@ export interface IFaculty {
   facultyCode?: string;
   departmentId?: string;
   subjectId?: string;
+  userId?: string;
 }
 
 export class Faculty implements IFaculty {

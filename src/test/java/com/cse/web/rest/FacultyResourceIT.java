@@ -138,7 +138,7 @@ public class FacultyResourceIT {
 
         // Create the Faculty
         FacultyDTO facultyDTO = facultyMapper.toDto(faculty);
-        restFacultyMockMvc.perform(post("/api/faculties")
+        restFacultyMockMvc.perform(post("/api/faculties/create")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(facultyDTO)))
             .andExpect(status().isCreated());
@@ -159,7 +159,7 @@ public class FacultyResourceIT {
         FacultyDTO facultyDTO = facultyMapper.toDto(faculty);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restFacultyMockMvc.perform(post("/api/faculties")
+        restFacultyMockMvc.perform(post("/api/faculties/create")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(facultyDTO)))
             .andExpect(status().isBadRequest());

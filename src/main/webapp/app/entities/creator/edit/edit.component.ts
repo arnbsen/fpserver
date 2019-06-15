@@ -117,7 +117,7 @@ export class EditComponent implements OnInit {
     console.log(this.subjectForm.get('semester').value);
     this.isSubjectCreationSaving = true;
     this.subject = {
-      faculties: this.subjectForm.get('facultyId').value,
+      faculty: this.subjectForm.get('facultyId').value,
       ofDeptId: this.subjectForm.get('ofDeptId').value,
       semester: this.subjectForm.get('semester').value,
       year: this.subjectForm.get('year').value,
@@ -144,6 +144,18 @@ export class EditComponent implements OnInit {
     this.isSubjectCreationSaving = false;
     this.subjectForm = null;
     this.loadAllSubjects();
+  }
+
+  getDepartmentName(id: string): IDepartment {
+    this.departmentService.find(id).subscribe(
+      (res: HttpResponse<IDepartment>) => {
+        return res.body;
+      },
+      err => {
+        return null;
+      }
+    );
+    return null;
   }
 
   protected onSaveError() {
