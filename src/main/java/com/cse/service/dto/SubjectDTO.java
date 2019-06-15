@@ -25,8 +25,6 @@ public class SubjectDTO implements Serializable {
 
     private String ofDeptId;
 
-    private String facultyId;
-
     public String getId() {
         return id;
     }
@@ -75,14 +73,6 @@ public class SubjectDTO implements Serializable {
         this.ofDeptId = departmentId;
     }
 
-    public String getFacultyId() {
-        return facultyId;
-    }
-
-    public void setFacultyId(String facultyId) {
-        this.facultyId = facultyId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -113,7 +103,6 @@ public class SubjectDTO implements Serializable {
             ", year=" + getYear() +
             ", semester=" + getSemester() +
             ", ofDept=" + getOfDeptId() +
-            ", faculty=" + getFacultyId() +
             "}";
     }
 }

@@ -118,6 +118,38 @@ import { UserRouteAccessService } from 'app/core';
       {
         path: 'faculty',
         loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      },
+      {
+        path: 'subject',
+        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      },
+      {
+        path: 'faculty',
+        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      },
+      {
+        path: 'subject',
+        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      },
+      {
+        path: 'faculty',
+        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      },
+      {
+        path: 'faculty',
+        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      },
+      {
+        path: 'subject-time-table',
+        loadChildren: './subject-time-table/subject-time-table.module#DevfpserverSubjectTimeTableModule'
+      },
+      {
+        path: 'day-time-table',
+        loadChildren: './day-time-table/day-time-table.module#DevfpserverDayTimeTableModule'
+      },
+      {
+        path: 'subject',
+        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

@@ -2,7 +2,6 @@ package com.cse.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -46,14 +45,8 @@ public class Subject implements Serializable {
     private Department ofDept;
 
     @DBRef
-    @Field("faculties")
-    @JsonIgnore
-    private Set<Faculty> faculties = new HashSet<>();
-
-    @DBRef
     @Field("faculty")
-    @JsonIgnoreProperties("subjects")
-    private Faculty faculty;
+    private Set<Faculty> faculties = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -140,31 +133,18 @@ public class Subject implements Serializable {
 
     public Subject addFaculty(Faculty faculty) {
         this.faculties.add(faculty);
-        faculty.getSubjectsTakings().add(this);
+        faculty.setSubject(this);
         return this;
     }
 
     public Subject removeFaculty(Faculty faculty) {
         this.faculties.remove(faculty);
-        faculty.getSubjectsTakings().remove(this);
+        faculty.setSubject(null);
         return this;
     }
 
     public void setFaculties(Set<Faculty> faculties) {
         this.faculties = faculties;
-    }
-
-    public Faculty getFaculty() {
-        return faculty;
-    }
-
-    public Subject faculty(Faculty faculty) {
-        this.faculty = faculty;
-        return this;
-    }
-
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

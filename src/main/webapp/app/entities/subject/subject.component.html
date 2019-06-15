@@ -20,7 +20,6 @@
             <th><span>Year</span></th>
             <th><span>Semester</span></th>
             <th><span>Of Dept</span></th>
-            <th><span>Faculty</span></th>
             <th></th>
             </tr>
             </thead>
@@ -34,11 +33,6 @@
                 <td>
                     <div *ngIf="subject.ofDeptId">
                         <a [routerLink]="['../department', subject.ofDeptId , 'view' ]" >{{subject.ofDeptId}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="subject.facultyId">
-                        <a [routerLink]="['../faculty', subject.facultyId , 'view' ]" >{{subject.facultyId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

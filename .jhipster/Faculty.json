@@ -17,18 +17,11 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-one",
             "otherEntityName": "subject",
             "otherEntityRelationshipName": "faculty",
-            "relationshipName": "subjectsTaking"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "otherEntityName": "subject",
-            "otherEntityRelationshipName": "faculty",
-            "relationshipName": "subjectsTaking",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "relationshipName": "subject",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190603094854",

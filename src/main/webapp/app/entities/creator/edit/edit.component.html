@@ -35,6 +35,11 @@
         <span style="width: 10%">{{subject.subjectName}}</span>
         <span style="width: 10%">{{subject.year}}</span>
         <span style="width: 10%">{{subject.semester}}</span>
+        <span style="width: 10%">
+            <span *ngFor="let fac of subject.faculties">
+                {{fac.facultyCode}}
+            </span>
+        </span>
         <span class="column-spacer"></span>
         <button mat-raised-button color="accent" style="width: 150px">
             <mat-icon>edit</mat-icon>
@@ -78,7 +83,7 @@
         <mat-form-field [fxFlex]="7" appearance="standard" *ngIf="subjectForm.get('year').valid">
             <mat-label>Semester</mat-label>
             <mat-select formControlName="semester">
-                <mat-option *ngFor="let sem of getSemester(subjectForm.get('year').value)" value="sem">{{sem}}
+                <mat-option *ngFor="let sem of getSemester(subjectForm.get('year').value)" [value]="sem">{{sem}}
                 </mat-option>
             </mat-select>
             <mat-error *ngIf="subjectForm.get('semester').hasError('required')">
@@ -88,10 +93,10 @@
         <mat-form-field [fxFlex]="16" appearance="standard">
             <mat-label>Faculty Teaching</mat-label>
             <mat-select formControlName="facultyId" multiple>
-                <mat-option *ngFor="let faculty of faculties" [value]="faculty.id">{{faculty.facultyCode}}</mat-option>
+                <mat-option *ngFor="let faculty of faculties" [value]="faculty">{{faculty.facultyCode}}</mat-option>
             </mat-select>
             <mat-error *ngIf="subjectForm.get('facultyId').hasError('required')">
-                Semester is required
+                Faculty is required
             </mat-error>
         </mat-form-field>
         <mat-form-field [fxFlex]="17" appearance="standard">

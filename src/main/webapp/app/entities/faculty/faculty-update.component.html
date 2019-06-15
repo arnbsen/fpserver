@@ -29,9 +29,10 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label for="field_subjectsTakings">Subjects Taking</label>
-                    <select class="form-control" id="field_subjectsTakings" multiple name="subjectsTakings" formControlName="subjectsTakings">
-                        <option [ngValue]="getSelected(editForm.get('subjectsTakings').value, subjectOption)" *ngFor="let subjectOption of subjects; trackBy: trackSubjectById">{{subjectOption.id}}</option>
+                    <label class="form-control-label" for="field_subject">Subject</label>
+                    <select class="form-control" id="field_subject" name="subject" formControlName="subjectId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="subjectOption.id" *ngFor="let subjectOption of subjects; trackBy: trackSubjectById">{{subjectOption.id}}</option>
                     </select>
                 </div>
             </div>

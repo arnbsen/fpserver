@@ -15,11 +15,11 @@
                         <a [routerLink]="['/department', faculty.departmentId, 'view']">{{faculty.departmentId}}</a>
                     </div>
                 </dd>
-                <dt><span>Subjects Taking</span></dt>
+                <dt><span>Subject</span></dt>
                 <dd>
-                    <span *ngFor="let subjectsTaking of faculty.subjectsTakings; let last = last">
-                        <a [routerLink]="['/subject', subjectsTaking?.id, 'view' ]">{{subjectsTaking.id}}</a>{{last ? '' : ', '}}
-                    </span>
+                    <div *ngIf="faculty.subjectId">
+                        <a [routerLink]="['/subject', faculty.subjectId, 'view']">{{faculty.subjectId}}</a>
+                    </div>
                 </dd>
             </dl>
 

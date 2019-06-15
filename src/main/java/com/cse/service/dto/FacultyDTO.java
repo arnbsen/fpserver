@@ -1,10 +1,7 @@
 package com.cse.service.dto;
-
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * A DTO for the {@link com.cse.domain.Faculty} entity.
@@ -18,9 +15,9 @@ public class FacultyDTO implements Serializable {
 
     private String departmentId;
 
-    private String userId;
+    private String subjectId;
 
-    private Set<SubjectDTO> subjectsTakings = new HashSet<>();
+    private String userId;
 
     public String getId() {
         return id;
@@ -44,6 +41,14 @@ public class FacultyDTO implements Serializable {
 
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
     }
 
     @Override
@@ -73,6 +78,7 @@ public class FacultyDTO implements Serializable {
             "id=" + getId() +
             ", facultyCode='" + getFacultyCode() + "'" +
             ", department=" + getDepartmentId() +
+            ", subject=" + getSubjectId() +
             "}";
     }
 
@@ -82,13 +88,5 @@ public class FacultyDTO implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public Set<SubjectDTO> getSubjectsTakings() {
-        return subjectsTakings;
-    }
-
-    public void setSubjectsTakings(Set<SubjectDTO> subjectsTakings) {
-        this.subjectsTakings = subjectsTakings;
     }
 }

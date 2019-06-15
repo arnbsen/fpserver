@@ -25,9 +25,10 @@
             "otherEntityField": "id"
         },
         {
-            "relationshipName": "dayTimeTable",
-            "otherEntityName": "dayTimeTable",
             "relationshipType": "many-to-one",
+            "otherEntityName": "dayTimeTable",
+            "otherEntityRelationshipName": "subjects",
+            "relationshipName": "dayTimeTable",
             "otherEntityField": "id"
         }
     ],

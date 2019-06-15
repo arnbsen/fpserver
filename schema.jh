@@ -96,16 +96,13 @@ relationship OneToOne {
   Subject{ofDept} to Department
 }
 relationship OneToMany {
-	Faculty{subjectsTaking}  to Subject
-	DayTimeTable{subjects} to SubjectTimeTable
-    TimeTable{dayTimeTable} to DayTimeTable
+    Subject{faculty required} to Faculty{subject}
+    DayTimeTable{subjects} to SubjectTimeTable{dayTimeTable}
+    TimeTable{dayTimeTable} to DayTimeTable{timeTable}
 }
 relationship ManyToOne {
 	SubjectTimeTable{subject required} to Subject
 	SpecialOccasions{academicSession} to AcademicSession
-}
-relationship ManyToMany {
-	Faculty{subjectsTaking}  to Subject {faculty}
 }
 
 dto * with mapstruct

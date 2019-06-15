@@ -114,9 +114,10 @@ export class EditComponent implements OnInit {
   }
 
   saveSubject() {
+    console.log(this.subjectForm.get('semester').value);
     this.isSubjectCreationSaving = true;
     this.subject = {
-      facultyId: this.subjectForm.get('facultyId').value,
+      faculties: this.subjectForm.get('facultyId').value,
       ofDeptId: this.subjectForm.get('ofDeptId').value,
       semester: this.subjectForm.get('semester').value,
       year: this.subjectForm.get('year').value,
@@ -131,12 +132,18 @@ export class EditComponent implements OnInit {
   }
 
   protected subscribeToSubjectSaveResponse(result: Observable<HttpResponse<ISubject>>) {
-    result.subscribe((res: HttpResponse<ISubject>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    result.subscribe(
+      (res: HttpResponse<ISubject>) => {
+        console.log(res.body), this.onSaveSuccess();
+      },
+      (res: HttpErrorResponse) => this.onSaveError()
+    );
   }
 
   protected onSaveSuccess() {
     this.isSubjectCreationSaving = false;
-    this.previousState();
+    this.subjectForm = null;
+    this.loadAllSubjects();
   }
 
   protected onSaveError() {

@@ -27,12 +27,6 @@
                         <a [routerLink]="['/department', subject.ofDeptId, 'view']">{{subject.ofDeptId}}</a>
                     </div>
                 </dd>
-                <dt><span>Faculty</span></dt>
-                <dd>
-                    <div *ngIf="subject.facultyId">
-                        <a [routerLink]="['/faculty', subject.facultyId, 'view']">{{subject.facultyId}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"

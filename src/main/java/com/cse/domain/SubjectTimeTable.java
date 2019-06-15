@@ -40,7 +40,7 @@ public class SubjectTimeTable implements Serializable {
 
     @DBRef
     @Field("dayTimeTable")
-    @JsonIgnoreProperties("subjectTimeTables")
+    @JsonIgnoreProperties("subjects")
     private DayTimeTable dayTimeTable;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

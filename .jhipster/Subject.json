@@ -40,18 +40,11 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "many-to-many",
+            "relationshipType": "one-to-many",
             "otherEntityName": "faculty",
-            "otherEntityRelationshipName": "subjectsTaking",
-            "relationshipName": "faculty",
-            "otherEntityField": "id",
-            "ownerSide": false
-        },
-        {
-            "relationshipName": "faculty",
-            "otherEntityName": "faculty",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityRelationshipName": "subject",
+            "relationshipValidateRules": "required",
+            "relationshipName": "faculty"
         }
     ],
     "changelogDate": "20190603094853",

@@ -8,7 +8,6 @@ export interface ISubject {
   semester?: number;
   ofDeptId?: string;
   faculties?: IFaculty[];
-  facultyId?: string;
 }
 
 export class Subject implements ISubject {
@@ -19,7 +18,6 @@ export class Subject implements ISubject {
     public year?: number,
     public semester?: number,
     public ofDeptId?: string,
-    public faculties?: IFaculty[],
-    public facultyId?: string
+    public faculties?: IFaculty[]
   ) {}
 }

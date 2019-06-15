@@ -28,7 +28,7 @@ export class FacultyUpdateComponent implements OnInit {
     id: [],
     facultyCode: [],
     departmentId: [null, Validators.required],
-    subjectsTakings: []
+    subjectId: []
   });
 
   constructor(
@@ -85,7 +85,7 @@ export class FacultyUpdateComponent implements OnInit {
       id: faculty.id,
       facultyCode: faculty.facultyCode,
       departmentId: faculty.departmentId,
-      subjectsTakings: faculty.subjectsTakings
+      subjectId: faculty.subjectId
     });
   }
 
@@ -109,7 +109,7 @@ export class FacultyUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       facultyCode: this.editForm.get(['facultyCode']).value,
       departmentId: this.editForm.get(['departmentId']).value,
-      subjectsTakings: this.editForm.get(['subjectsTakings']).value
+      subjectId: this.editForm.get(['subjectId']).value
     };
     return entity;
   }
@@ -136,16 +136,5 @@ export class FacultyUpdateComponent implements OnInit {
 
   trackSubjectById(index: number, item: ISubject) {
     return item.id;
-  }
-
-  getSelected(selectedVals: Array<any>, option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }

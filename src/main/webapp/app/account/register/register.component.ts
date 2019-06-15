@@ -196,8 +196,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.savingMsg = 'Saving the details';
     this.faculty = {
       departmentId: this.data.id,
-      facultyCode: this.facultyForm.get('facultyCode').value,
-      userId: this.user.id
+      facultyCode: this.facultyForm.get('facultyCode').value
     };
     this.facultyService.create(this.faculty).subscribe(
       (res: HttpResponse<IFaculty>) => {

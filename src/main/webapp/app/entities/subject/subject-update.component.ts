@@ -9,8 +9,6 @@ import { ISubject, Subject } from 'app/shared/model/subject.model';
 import { SubjectService } from './subject.service';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
-import { IFaculty } from 'app/shared/model/faculty.model';
-import { FacultyService } from 'app/entities/faculty';
 
 @Component({
   selector: 'jhi-subject-update',
@@ -22,23 +20,19 @@ export class SubjectUpdateComponent implements OnInit {
 
   ofdepts: IDepartment[];
 
-  faculties: IFaculty[];
-
   editForm = this.fb.group({
     id: [],
     subjectCode: [null, [Validators.required]],
     subjectName: [null, [Validators.required]],
     year: [null, [Validators.required]],
     semester: [null, [Validators.required]],
-    ofDeptId: [],
-    facultyId: []
+    ofDeptId: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected subjectService: SubjectService,
     protected departmentService: DepartmentService,
-    protected facultyService: FacultyService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -74,13 +68,6 @@ export class SubjectUpdateComponent implements OnInit {
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
-    this.facultyService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IFaculty[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IFaculty[]>) => response.body)
-      )
-      .subscribe((res: IFaculty[]) => (this.faculties = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(subject: ISubject) {
@@ -90,8 +77,7 @@ export class SubjectUpdateComponent implements OnInit {
       subjectName: subject.subjectName,
       year: subject.year,
       semester: subject.semester,
-      ofDeptId: subject.ofDeptId,
-      facultyId: subject.facultyId
+      ofDeptId: subject.ofDeptId
     });
   }
 
@@ -117,8 +103,7 @@ export class SubjectUpdateComponent implements OnInit {
       subjectName: this.editForm.get(['subjectName']).value,
       year: this.editForm.get(['year']).value,
       semester: this.editForm.get(['semester']).value,
-      ofDeptId: this.editForm.get(['ofDeptId']).value,
-      facultyId: this.editForm.get(['facultyId']).value
+      ofDeptId: this.editForm.get(['ofDeptId']).value
     };
     return entity;
   }
@@ -141,20 +126,5 @@ export class SubjectUpdateComponent implements OnInit {
 
   trackDepartmentById(index: number, item: IDepartment) {
     return item.id;
-  }
-
-  trackFacultyById(index: number, item: IFaculty) {
-    return item.id;
-  }
-
-  getSelected(selectedVals: Array<any>, option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }

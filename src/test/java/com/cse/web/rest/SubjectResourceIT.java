@@ -2,6 +2,7 @@ package com.cse.web.rest;
 
 import com.cse.DevfpserverApp;
 import com.cse.domain.Subject;
+import com.cse.domain.Faculty;
 import com.cse.repository.SubjectRepository;
 import com.cse.service.SubjectService;
 import com.cse.service.dto.SubjectDTO;
@@ -96,6 +97,15 @@ public class SubjectResourceIT {
             .subjectName(DEFAULT_SUBJECT_NAME)
             .year(DEFAULT_YEAR)
             .semester(DEFAULT_SEMESTER);
+        // Add required entity
+        Faculty faculty;
+        // if (TestUtil.findAll(em, Faculty.class).isEmpty()) {
+            faculty = FacultyResourceIT.createEntity();
+            faculty.setId("fixed-id-for-tests");
+        // } else {
+        //     faculty = TestUtil.findAll(em, Faculty.class).get(0);
+        // }
+        subject.getFaculties().add(faculty);
         return subject;
     }
     /**
@@ -110,6 +120,15 @@ public class SubjectResourceIT {
             .subjectName(UPDATED_SUBJECT_NAME)
             .year(UPDATED_YEAR)
             .semester(UPDATED_SEMESTER);
+        // Add required entity
+        Faculty faculty;
+        // if (TestUtil.findAll(em, Faculty.class).isEmpty()) {
+            faculty = FacultyResourceIT.createUpdatedEntity();
+            faculty.setId("fixed-id-for-tests");
+        // } else {
+        //     faculty = TestUtil.findAll(em, Faculty.class).get(0);
+        // }
+        subject.getFaculties().add(faculty);
         return subject;
     }
 
@@ -247,7 +266,7 @@ public class SubjectResourceIT {
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].semester").value(hasItem(DEFAULT_SEMESTER)));
     }
-    
+
     @Test
     public void getSubject() throws Exception {
         // Initialize the database

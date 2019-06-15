@@ -69,12 +69,11 @@
                         <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of ofdepts; trackBy: trackDepartmentById">{{departmentOption.id}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_faculty">Faculty</label>
-                    <select class="form-control" id="field_faculty" name="faculty" formControlName="facultyId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="facultyOption.id" *ngFor="let facultyOption of faculties; trackBy: trackFacultyById">{{facultyOption.id}}</option>
-                    </select>
+                <div *ngIf="editForm.get('faculty').invalid && (editForm.get('faculty').dirty || editForm.get('faculty').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('faculty').errors.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
             <div>
