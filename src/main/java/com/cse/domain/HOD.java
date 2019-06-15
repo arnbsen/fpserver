@@ -33,10 +33,6 @@ public class HOD implements Serializable {
     @Field("user")
     private User user;
 
-    @DBRef
-    @Field("subjectTaking")
-    private Set<Subject> subjectTakings = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
@@ -103,13 +99,5 @@ public class HOD implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<Subject> getSubjectTakings() {
-        return subjectTakings;
-    }
-
-    public void setSubjectTakings(Set<Subject> subjectTakings) {
-        this.subjectTakings = subjectTakings;
     }
 }

@@ -11,7 +11,8 @@ import com.cse.service.dto.FacultyDTO;
 import com.cse.service.mapper.FacultyMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -67,6 +68,17 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     /**
+     * Delete the faculty by id.
+     *
+     * @param id the id of the entity.
+     */
+    @Override
+    public void delete(String id) {
+        log.debug("Request to delete Faculty : {}", id);
+        facultyRepository.deleteById(id);
+    }
+
+    /**
      * Get all the faculties.
      *
      * @return the list of entities.
@@ -74,11 +86,18 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public List<FacultyDTO> findAll() {
         log.debug("Request to get all Faculties");
-        return facultyRepository.findAll().stream()
-            .map(facultyMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return facultyRepository.findAllWithEagerRelationships().stream().map(facultyMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
+    /**
+     * Get all the faculties with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<FacultyDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return facultyRepository.findAllWithEagerRelationships(pageable).map(facultyMapper::toDto);
+    }
 
     /**
      * Get one faculty by id.
@@ -89,18 +108,7 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public Optional<FacultyDTO> findOne(String id) {
         log.debug("Request to get Faculty : {}", id);
-        return facultyRepository.findById(id)
-            .map(facultyMapper::toDto);
+        return facultyRepository.findOneWithEagerRelationships(id).map(facultyMapper::toDto);
     }
 
-    /**
-     * Delete the faculty by id.
-     *
-     * @param id the id of the entity.
-     */
-    @Override
-    public void delete(String id) {
-        log.debug("Request to delete Faculty : {}", id);
-        facultyRepository.deleteById(id);
-    }
 }

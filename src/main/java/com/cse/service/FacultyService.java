@@ -2,6 +2,9 @@ package com.cse.service;
 
 import com.cse.service.dto.FacultyDTO;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +28,13 @@ public interface FacultyService {
      */
     List<FacultyDTO> findAll();
 
-
+    /**
+     * Get all the faculties with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    Page<FacultyDTO> findAllWithEagerRelationships(Pageable pageable);
+    
     /**
      * Get the "id" faculty.
      *

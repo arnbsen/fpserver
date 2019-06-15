@@ -46,7 +46,7 @@ public class StudentResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new studentDTO, or with status {@code 400 (Bad Request)} if the student has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/students")
+    @PostMapping("/students/create")
     public ResponseEntity<StudentDTO> createStudent(@Valid @RequestBody StudentDTO studentDTO) throws URISyntaxException {
         log.debug("REST request to save Student : {}", studentDTO);
         if (studentDTO.getId() != null) {

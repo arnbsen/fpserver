@@ -32,18 +32,20 @@
     ],
     "relationships": [
         {
-            "relationshipName": "hOD",
-            "otherEntityName": "hOD",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipType": "one-to-one",
             "otherEntityName": "department",
             "otherEntityRelationshipName": "subject",
             "relationshipName": "ofDept",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "faculty",
+            "otherEntityRelationshipName": "subjectsTaking",
+            "relationshipName": "faculty",
+            "otherEntityField": "id",
+            "ownerSide": false
         },
         {
             "relationshipName": "faculty",

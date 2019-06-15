@@ -286,7 +286,7 @@
                 <span class="column-spacer"></span>
                 <span fxLayout="row" fxLayoutAlign="start center" style="color: #1abc9c">
                     <mat-icon *ngIf="savedEnitity">check_circle_outline</mat-icon>&nbsp;&nbsp; <span *ngIf="savedEnitity">Done</span>
-                    &nbsp;&nbsp; <button mat-button color="primary" *ngIf="savedEnitity"><mat-icon>open_in_new</mat-icon>Login</button>
+                    &nbsp;&nbsp; <button mat-button color="primary" *ngIf="savedEnitity" (click)="router.navigateByUrl('login')"><mat-icon>open_in_new</mat-icon>Login</button>
                 </span>
             </mat-panel-description>
         </mat-expansion-panel-header>

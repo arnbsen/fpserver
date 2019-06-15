@@ -163,7 +163,7 @@ public class StudentResourceIT {
         userRepository.save(user);
         // Create the Student
         StudentDTO studentDTO = studentMapper.toDto(student);
-        restStudentMockMvc.perform(post("/api/students")
+        restStudentMockMvc.perform(post("/api/students/create")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(studentDTO)))
             .andExpect(status().isCreated());
@@ -188,7 +188,7 @@ public class StudentResourceIT {
         StudentDTO studentDTO = studentMapper.toDto(student);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restStudentMockMvc.perform(post("/api/students")
+        restStudentMockMvc.perform(post("/api/students/create")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(studentDTO)))
             .andExpect(status().isBadRequest());

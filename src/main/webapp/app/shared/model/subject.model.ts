@@ -1,11 +1,13 @@
+import { IFaculty } from 'app/shared/model/faculty.model';
+
 export interface ISubject {
   id?: string;
   subjectCode?: string;
   subjectName?: string;
   year?: number;
   semester?: number;
-  hODId?: string;
   ofDeptId?: string;
+  faculties?: IFaculty[];
   facultyId?: string;
 }
 
@@ -16,8 +18,8 @@ export class Subject implements ISubject {
     public subjectName?: string,
     public year?: number,
     public semester?: number,
-    public hODId?: string,
     public ofDeptId?: string,
+    public faculties?: IFaculty[],
     public facultyId?: string
   ) {}
 }

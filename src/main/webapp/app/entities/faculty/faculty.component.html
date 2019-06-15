@@ -17,6 +17,7 @@
             <th><span>ID</span></th>
             <th><span>Faculty Code</span></th>
             <th><span>Department</span></th>
+            <th><span>Subjects Taking</span></th>
             <th></th>
             </tr>
             </thead>
@@ -28,6 +29,11 @@
                     <div *ngIf="faculty.departmentId">
                         <a [routerLink]="['../department', faculty.departmentId , 'view' ]" >{{faculty.departmentId}}</a>
                     </div>
+                </td>
+                <td>
+                    <span *ngFor="let subjectsTaking of faculty.subjectsTakings; let last = last">
+                            <a class="form-control-static" [routerLink]="['../subject', subjectsTaking?.id, 'view' ]">{{subjectsTaking.id}}</a>{{last ? '' : ', '}}
+                        </span>
                 </td>
                 <td class="text-right">
                     <div class="btn-group">

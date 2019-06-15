@@ -1,6 +1,7 @@
 package com.cse.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -9,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -39,13 +42,13 @@ public class Subject implements Serializable {
     private Integer semester;
 
     @DBRef
-    @Field("hod")
-    @JsonIgnoreProperties("subjects")
-    private HOD hod;
-
-    @DBRef
     @Field("ofDept")
     private Department ofDept;
+
+    @DBRef
+    @Field("faculties")
+    @JsonIgnore
+    private Set<Faculty> faculties = new HashSet<>();
 
     @DBRef
     @Field("faculty")
@@ -113,19 +116,6 @@ public class Subject implements Serializable {
         this.semester = semester;
     }
 
-    public HOD gethod() {
-        return hod;
-    }
-
-    public Subject hod(HOD hod) {
-        this.hod = hod;
-        return this;
-    }
-
-    public void sethod(HOD hod) {
-        this.hod = hod;
-    }
-
     public Department getOfDept() {
         return ofDept;
     }
@@ -137,6 +127,31 @@ public class Subject implements Serializable {
 
     public void setOfDept(Department department) {
         this.ofDept = department;
+    }
+
+    public Set<Faculty> getFaculties() {
+        return faculties;
+    }
+
+    public Subject faculties(Set<Faculty> faculties) {
+        this.faculties = faculties;
+        return this;
+    }
+
+    public Subject addFaculty(Faculty faculty) {
+        this.faculties.add(faculty);
+        faculty.getSubjectsTakings().add(this);
+        return this;
+    }
+
+    public Subject removeFaculty(Faculty faculty) {
+        this.faculties.remove(faculty);
+        faculty.getSubjectsTakings().remove(this);
+        return this;
+    }
+
+    public void setFaculties(Set<Faculty> faculties) {
+        this.faculties = faculties;
     }
 
     public Faculty getFaculty() {

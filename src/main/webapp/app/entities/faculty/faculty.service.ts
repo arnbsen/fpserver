@@ -16,7 +16,7 @@ export class FacultyService {
   constructor(protected http: HttpClient) {}
 
   create(faculty: IFaculty): Observable<EntityResponseType> {
-    return this.http.post<IFaculty>(this.resourceUrl, faculty, { observe: 'response' });
+    return this.http.post<IFaculty>(this.resourceUrl + '/create', faculty, { observe: 'response' });
   }
 
   update(faculty: IFaculty): Observable<EntityResponseType> {

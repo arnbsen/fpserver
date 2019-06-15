@@ -17,5 +17,99 @@
             </mat-card-actions>
         </mat-card>
     </div>
-    <h3>Common Actions</h3>
+    <h2>Common Actions</h2>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
+        <span>
+            <h3>Subject</h3>
+        </span>
+        <span class="column-spacer"></span>
+        <button mat-raised-button color="primary" style="width: 150px" class="create-new-button"
+            (click)="createSubjectForm()">
+            <mat-icon>add</mat-icon>
+            Create New
+        </button>
+    </div>
+    <mat-divider class="full-width"></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%" *ngFor="let subject of subjects">
+        <h3 style="width: 10%">{{subject.subjectCode}}</h3>
+        <span style="width: 10%">{{subject.subjectName}}</span>
+        <span style="width: 10%">{{subject.year}}</span>
+        <span style="width: 10%">{{subject.semester}}</span>
+        <span class="column-spacer"></span>
+        <button mat-raised-button color="accent" style="width: 150px">
+            <mat-icon>edit</mat-icon>
+            Edit
+        </button>
+        <button mat-raised-button color="warn" style="width: 150px">
+            <mat-icon>delete</mat-icon>
+            Delete
+        </button>
+    </div>
+
+    <form fxLayout="row" fxLayoutAlign="start center" (ngSubmit)=" saveSubject()" fxLayoutGap="10px"
+        style="width: 98%" [formGroup]="subjectForm" *ngIf="subjectForm">
+        <mat-form-field [fxFlex]="15" appearance="standard" cdkFocusInitial>
+            <mat-label>Subject Code</mat-label>
+            <input type="text" matInput placeholder="Type in Subject Code" formControlName="subjectCode">
+            <mat-icon matSuffix>more_horiz</mat-icon>
+            <mat-hint>Like CS801A</mat-hint>
+            <mat-error *ngIf="subjectForm.get('subjectCode').hasError('required')">Cannot be left blank
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="25" appearance="standard">
+            <mat-label>Subject Name</mat-label>
+            <input type="text" matInput placeholder="Enter Subject Name" formControlName="subjectName">
+            <mat-icon matSuffix>work</mat-icon>
+            <mat-hint>Full Subject Name as per syllabus</mat-hint>
+            <mat-error *ngIf="subjectForm.get('subjectName').hasError('required')">Required field</mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="7" appearance="standard">
+            <mat-label>Year </mat-label>
+            <mat-select formControlName="year">
+                <mat-option value="1">1</mat-option>
+                <mat-option value="2">2</mat-option>
+                <mat-option value="3">3</mat-option>
+                <mat-option value="4">4</mat-option>
+            </mat-select>
+            <mat-error *ngIf="subjectForm.get('year').hasError('required')">
+                Year is required
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="7" appearance="standard" *ngIf="subjectForm.get('year').valid">
+            <mat-label>Semester</mat-label>
+            <mat-select formControlName="semester">
+                <mat-option *ngFor="let sem of getSemester(subjectForm.get('year').value)" value="sem">{{sem}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="subjectForm.get('semester').hasError('required')">
+                Semester is required
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="16" appearance="standard">
+            <mat-label>Faculty Teaching</mat-label>
+            <mat-select formControlName="facultyId" multiple>
+                <mat-option *ngFor="let faculty of faculties" [value]="faculty.id">{{faculty.facultyCode}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="subjectForm.get('facultyId').hasError('required')">
+                Semester is required
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="17" appearance="standard">
+            <mat-label>Of Department</mat-label>
+            <mat-select formControlName="ofDeptId">
+                <mat-option *ngFor="let dept of departments" [value]="dept.id">{{dept.deptCode}}</mat-option>
+            </mat-select>
+            <mat-hint>Select the department where is subject is being taught</mat-hint>
+            <mat-error *ngIf="subjectForm.get('ofDeptId').hasError('required')">
+                Department is required
+            </mat-error>
+        </mat-form-field>
+        <mat-spinner [diameter]="30" *ngIf="isSubjectCreationSaving"></mat-spinner>
+        <button mat-raised-button type="submit" color="primary" style="width: 150px"
+            [disabled]="subjectForm.invalid || isSubjectCreationSaving">
+            <mat-icon>add</mat-icon>
+            Create
+        </button>
+    </form>
+    <mat-divider class="full-width"></mat-divider>
 </div>

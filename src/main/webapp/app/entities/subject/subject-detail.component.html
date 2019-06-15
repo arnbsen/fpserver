@@ -21,12 +21,6 @@
                 <dd>
                     <span>{{subject.semester}}</span>
                 </dd>
-                <dt><span>H OD</span></dt>
-                <dd>
-                    <div *ngIf="subject.hODId">
-                        <a [routerLink]="['/hod', subject.hODId, 'view']">{{subject.hODId}}</a>
-                    </div>
-                </dd>
                 <dt><span>Of Dept</span></dt>
                 <dd>
                     <div *ngIf="subject.ofDeptId">

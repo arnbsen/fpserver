@@ -59,7 +59,6 @@ public class HODResourceIT {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
-
     @Autowired
     private Validator validator;
 
@@ -95,18 +94,19 @@ public class HODResourceIT {
             .authCode(DEFAULT_AUTH_CODE);
         // Add required entity
         Department department;
-        department = DepartmentResourceIT.createEntity();
-        department.setId("fixed-id-for-tests");
         user = UserResourceIT.createEntity();
         user.setId("fixed-id-for-tests");
         // if (TestUtil.findAll(em, Department.class).isEmpty()) {
-        //     department = DepartmentResourceIT.createEntity();
-        //     department.setId("fixed-id-for-tests");
+        department = DepartmentResourceIT.createEntity();
+        department.setId("fixed-id-for-tests");
         // } else {
-        //     department = TestUtil.findAll(em, Department.class).get(0);
+        // department = TestUtil.findAll(em, Department.class).get(0);
         // }
         hOD.setDepartment(department);
         hOD.setUser(user);
+            department = DepartmentResourceIT.createEntity();
+            department.setId("fixed-id-for-tests");
+        hOD.setDepartment(department);
         return hOD;
     }
     /**
@@ -120,14 +120,9 @@ public class HODResourceIT {
             .authCode(UPDATED_AUTH_CODE);
         // Add required entity
         Department department;
-        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
-        //     department = DepartmentResourceIT.createUpdatedEntity();
-        //     department.setId("fixed-id-for-tests");
-        // } else {
-        //     department = TestUtil.findAll(em, Department.class).get(0);
-        // }
-        department = DepartmentResourceIT.createEntity();
-        department.setId("fixed-id-for-tests");
+
+            department = DepartmentResourceIT.createUpdatedEntity();
+            department.setId("fixed-id-for-tests");
         hOD.setDepartment(department);
         return hOD;
     }
@@ -141,7 +136,7 @@ public class HODResourceIT {
     @Test
     public void createHOD() throws Exception {
         int databaseSizeBeforeCreate = hODRepository.findAll().size();
-        userRepository.save(user);
+
         // Create the HOD
         HODDTO hODDTO = hODMapper.toDto(hOD);
         restHODMockMvc.perform(post("/api/hods")
@@ -214,7 +209,6 @@ public class HODResourceIT {
         // Initialize the database
         hODRepository.save(hOD);
         userRepository.save(user);
-
         int databaseSizeBeforeUpdate = hODRepository.findAll().size();
 
         // Update the hOD

@@ -16,7 +16,7 @@ export class StudentService {
   constructor(protected http: HttpClient) {}
 
   create(student: IStudent): Observable<EntityResponseType> {
-    return this.http.post<IStudent>(this.resourceUrl, student, { observe: 'response' });
+    return this.http.post<IStudent>(this.resourceUrl + '/create', student, { observe: 'response' });
   }
 
   update(student: IStudent): Observable<EntityResponseType> {

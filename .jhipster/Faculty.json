@@ -21,6 +21,14 @@
             "otherEntityName": "subject",
             "otherEntityRelationshipName": "faculty",
             "relationshipName": "subjectsTaking"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "subject",
+            "otherEntityRelationshipName": "faculty",
+            "relationshipName": "subjectsTaking",
+            "otherEntityField": "id",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20190603094854",

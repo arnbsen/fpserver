@@ -9,6 +9,8 @@ import { IFaculty, Faculty } from 'app/shared/model/faculty.model';
 import { FacultyService } from './faculty.service';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
+import { ISubject } from 'app/shared/model/subject.model';
+import { SubjectService } from 'app/entities/subject';
 
 @Component({
   selector: 'jhi-faculty-update',
@@ -20,16 +22,20 @@ export class FacultyUpdateComponent implements OnInit {
 
   departments: IDepartment[];
 
+  subjects: ISubject[];
+
   editForm = this.fb.group({
     id: [],
     facultyCode: [],
-    departmentId: [null, Validators.required]
+    departmentId: [null, Validators.required],
+    subjectsTakings: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected facultyService: FacultyService,
     protected departmentService: DepartmentService,
+    protected subjectService: SubjectService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -65,13 +71,21 @@ export class FacultyUpdateComponent implements OnInit {
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
+    this.subjectService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ISubject[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ISubject[]>) => response.body)
+      )
+      .subscribe((res: ISubject[]) => (this.subjects = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(faculty: IFaculty) {
     this.editForm.patchValue({
       id: faculty.id,
       facultyCode: faculty.facultyCode,
-      departmentId: faculty.departmentId
+      departmentId: faculty.departmentId,
+      subjectsTakings: faculty.subjectsTakings
     });
   }
 
@@ -94,7 +108,8 @@ export class FacultyUpdateComponent implements OnInit {
       ...new Faculty(),
       id: this.editForm.get(['id']).value,
       facultyCode: this.editForm.get(['facultyCode']).value,
-      departmentId: this.editForm.get(['departmentId']).value
+      departmentId: this.editForm.get(['departmentId']).value,
+      subjectsTakings: this.editForm.get(['subjectsTakings']).value
     };
     return entity;
   }
@@ -117,5 +132,20 @@ export class FacultyUpdateComponent implements OnInit {
 
   trackDepartmentById(index: number, item: IDepartment) {
     return item.id;
+  }
+
+  trackSubjectById(index: number, item: ISubject) {
+    return item.id;
+  }
+
+  getSelected(selectedVals: Array<any>, option: any) {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

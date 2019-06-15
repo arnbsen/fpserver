@@ -5,17 +5,20 @@ import com.cse.domain.Faculty;
 import com.cse.domain.User;
 import com.cse.domain.Department;
 import com.cse.repository.FacultyRepository;
-import com.cse.repository.UserRepository;
 import com.cse.service.FacultyService;
+import com.cse.repository.UserRepository;
 import com.cse.service.dto.FacultyDTO;
 import com.cse.service.mapper.FacultyMapper;
 import com.cse.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -24,11 +27,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.Validator;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.cse.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -44,8 +49,14 @@ public class FacultyResourceIT {
     @Autowired
     private FacultyRepository facultyRepository;
 
+    @Mock
+    private FacultyRepository facultyRepositoryMock;
+
     @Autowired
     private FacultyMapper facultyMapper;
+
+    @Mock
+    private FacultyService facultyServiceMock;
 
     @Autowired
     private FacultyService facultyService;
@@ -59,17 +70,17 @@ public class FacultyResourceIT {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
+    static User user;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private Validator validator;
 
     private MockMvc restFacultyMockMvc;
 
     private Faculty faculty;
-
-    static User user;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @BeforeEach
     public void setup() {
@@ -93,7 +104,7 @@ public class FacultyResourceIT {
         Faculty faculty = new Faculty()
             .facultyCode(DEFAULT_FACULTY_CODE);
         // Add required entity
-        Department department;
+       Department department;
        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
             department = DepartmentResourceIT.createEntity();
             department.setId("fixed-id-for-tests");
@@ -117,13 +128,9 @@ public class FacultyResourceIT {
             .facultyCode(UPDATED_FACULTY_CODE);
         // Add required entity
         Department department;
-        // if (TestUtil.findAll(em, Department.class).isEmpty()) {
+
             department = DepartmentResourceIT.createUpdatedEntity();
             department.setId("fixed-id-for-tests");
-
-        // } else {
-        //     department = TestUtil.findAll(em, Department.class).get(0);
-        // }
         faculty.setDepartment(department);
         return faculty;
     }
@@ -137,10 +144,12 @@ public class FacultyResourceIT {
     @Test
     public void createFaculty() throws Exception {
         int databaseSizeBeforeCreate = facultyRepository.findAll().size();
+
+
         userRepository.save(user);
         // Create the Faculty
         FacultyDTO facultyDTO = facultyMapper.toDto(faculty);
-        restFacultyMockMvc.perform(post("/api/faculties")
+        restFacultyMockMvc.perform(post("/api/faculties/create")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(facultyDTO)))
             .andExpect(status().isCreated());
@@ -161,7 +170,7 @@ public class FacultyResourceIT {
         FacultyDTO facultyDTO = facultyMapper.toDto(faculty);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restFacultyMockMvc.perform(post("/api/faculties")
+        restFacultyMockMvc.perform(post("/api/faculties/create")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(facultyDTO)))
             .andExpect(status().isBadRequest());
@@ -183,6 +192,39 @@ public class FacultyResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(faculty.getId())))
             .andExpect(jsonPath("$.[*].facultyCode").value(hasItem(DEFAULT_FACULTY_CODE.toString())));
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllFacultiesWithEagerRelationshipsIsEnabled() throws Exception {
+        FacultyResource facultyResource = new FacultyResource(facultyServiceMock);
+        when(facultyServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restFacultyMockMvc = MockMvcBuilders.standaloneSetup(facultyResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restFacultyMockMvc.perform(get("/api/faculties?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(facultyServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllFacultiesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        FacultyResource facultyResource = new FacultyResource(facultyServiceMock);
+            when(facultyServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restFacultyMockMvc = MockMvcBuilders.standaloneSetup(facultyResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restFacultyMockMvc.perform(get("/api/faculties?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(facultyServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -209,7 +251,6 @@ public class FacultyResourceIT {
     public void updateFaculty() throws Exception {
         // Initialize the database
         facultyRepository.save(faculty);
-        userRepository.save(user);
 
         int databaseSizeBeforeUpdate = facultyRepository.findAll().size();
 
@@ -217,8 +258,8 @@ public class FacultyResourceIT {
         Faculty updatedFaculty = facultyRepository.findById(faculty.getId()).get();
         updatedFaculty
             .facultyCode(UPDATED_FACULTY_CODE);
-        updatedFaculty.setUser(user);
         FacultyDTO facultyDTO = facultyMapper.toDto(updatedFaculty);
+
         restFacultyMockMvc.perform(put("/api/faculties")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(facultyDTO)))
