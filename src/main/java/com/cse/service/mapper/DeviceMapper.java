@@ -12,7 +12,7 @@ import org.mapstruct.*;
 public interface DeviceMapper extends EntityMapper<DeviceDTO, Device> {
 
     @Mapping(source = "user.id", target = "userId")
-    DeviceDTO toDto(Device hOD);
+    DeviceDTO toDto(Device Device);
 
     @Mapping(source = "userId", target = "user")
     Device toEntity(DeviceDTO hODDTO);

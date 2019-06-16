@@ -32,25 +32,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.cse.domain.enumeration.DeviceLocation;
-
-
 /**
  * Integration tests for the {@Link DeviceResource} REST controller.
  */
 @SpringBootTest(classes = DevfpserverApp.class)
 public class DeviceResourceIT {
 
-    private static final String DEFAULT_DEVICE_ID = "AAAAAAAAAA";
-    private static final String UPDATED_DEVICE_ID = "BBBBBBBBBB";
-
     private static final Long DEFAULT_LAST_UPDATED = 1L;
     private static final Long UPDATED_LAST_UPDATED = 2L;
 
     private static final DeviceLocation DEFAULT_LOCATION = DeviceLocation.LAB;
     private static final DeviceLocation UPDATED_LOCATION = DeviceLocation.CLASS;
-
-    private static final Integer DEFAULT_LOCATION_SERIAL = 1;
-    private static final Integer UPDATED_LOCATION_SERIAL = 2;
 
     @Autowired
     private DeviceRepository deviceRepository;
@@ -79,7 +71,6 @@ public class DeviceResourceIT {
     private UserRepository userRepository;
 
     private static User user;
-
     private Device device;
 
     @BeforeEach
@@ -102,10 +93,8 @@ public class DeviceResourceIT {
      */
     public static Device createEntity() {
         Device device = new Device()
-            .deviceID(DEFAULT_DEVICE_ID)
             .lastUpdated(DEFAULT_LAST_UPDATED)
-            .location(DEFAULT_LOCATION)
-            .locationSerial(DEFAULT_LOCATION_SERIAL);
+            .location(DEFAULT_LOCATION);
         user = UserResourceIT.createEntity();
         user.setId("fixed-id-for-tests");
         device.setUser(user);
@@ -119,10 +108,8 @@ public class DeviceResourceIT {
      */
     public static Device createUpdatedEntity() {
         Device device = new Device()
-            .deviceID(UPDATED_DEVICE_ID)
             .lastUpdated(UPDATED_LAST_UPDATED)
-            .location(UPDATED_LOCATION)
-            .locationSerial(UPDATED_LOCATION_SERIAL);
+            .location(UPDATED_LOCATION);
         return device;
     }
 
@@ -136,6 +123,7 @@ public class DeviceResourceIT {
     public void createDevice() throws Exception {
         int databaseSizeBeforeCreate = deviceRepository.findAll().size();
         userRepository.save(user);
+
         // Create the Device
         DeviceDTO deviceDTO = deviceMapper.toDto(device);
         restDeviceMockMvc.perform(post("/api/devices")
@@ -147,10 +135,8 @@ public class DeviceResourceIT {
         List<Device> deviceList = deviceRepository.findAll();
         assertThat(deviceList).hasSize(databaseSizeBeforeCreate + 1);
         Device testDevice = deviceList.get(deviceList.size() - 1);
-        assertThat(testDevice.getDeviceID()).isEqualTo(DEFAULT_DEVICE_ID);
         assertThat(testDevice.getLastUpdated()).isEqualTo(DEFAULT_LAST_UPDATED);
         assertThat(testDevice.getLocation()).isEqualTo(DEFAULT_LOCATION);
-        assertThat(testDevice.getLocationSerial()).isEqualTo(DEFAULT_LOCATION_SERIAL);
     }
 
     @Test
@@ -174,46 +160,10 @@ public class DeviceResourceIT {
 
 
     @Test
-    public void checkDeviceIDIsRequired() throws Exception {
-        int databaseSizeBeforeTest = deviceRepository.findAll().size();
-        // set the field null
-        device.setDeviceID(null);
-
-        // Create the Device, which fails.
-        DeviceDTO deviceDTO = deviceMapper.toDto(device);
-
-        restDeviceMockMvc.perform(post("/api/devices")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(deviceDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Device> deviceList = deviceRepository.findAll();
-        assertThat(deviceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
     public void checkLocationIsRequired() throws Exception {
         int databaseSizeBeforeTest = deviceRepository.findAll().size();
         // set the field null
         device.setLocation(null);
-
-        // Create the Device, which fails.
-        DeviceDTO deviceDTO = deviceMapper.toDto(device);
-
-        restDeviceMockMvc.perform(post("/api/devices")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(deviceDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Device> deviceList = deviceRepository.findAll();
-        assertThat(deviceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    public void checkLocationSerialIsRequired() throws Exception {
-        int databaseSizeBeforeTest = deviceRepository.findAll().size();
-        // set the field null
-        device.setLocationSerial(null);
 
         // Create the Device, which fails.
         DeviceDTO deviceDTO = deviceMapper.toDto(device);
@@ -237,10 +187,8 @@ public class DeviceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(device.getId())))
-            .andExpect(jsonPath("$.[*].deviceID").value(hasItem(DEFAULT_DEVICE_ID.toString())))
             .andExpect(jsonPath("$.[*].lastUpdated").value(hasItem(DEFAULT_LAST_UPDATED.intValue())))
-            .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
-            .andExpect(jsonPath("$.[*].locationSerial").value(hasItem(DEFAULT_LOCATION_SERIAL)));
+            .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())));
     }
 
     @Test
@@ -253,10 +201,8 @@ public class DeviceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(device.getId()))
-            .andExpect(jsonPath("$.deviceID").value(DEFAULT_DEVICE_ID.toString()))
             .andExpect(jsonPath("$.lastUpdated").value(DEFAULT_LAST_UPDATED.intValue()))
-            .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION.toString()))
-            .andExpect(jsonPath("$.locationSerial").value(DEFAULT_LOCATION_SERIAL));
+            .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION.toString()));
     }
 
     @Test
@@ -271,15 +217,14 @@ public class DeviceResourceIT {
         // Initialize the database
         deviceRepository.save(device);
         userRepository.save(user);
+
         int databaseSizeBeforeUpdate = deviceRepository.findAll().size();
 
         // Update the device
         Device updatedDevice = deviceRepository.findById(device.getId()).get();
         updatedDevice
-            .deviceID(UPDATED_DEVICE_ID)
             .lastUpdated(UPDATED_LAST_UPDATED)
-            .location(UPDATED_LOCATION)
-            .locationSerial(UPDATED_LOCATION_SERIAL);
+            .location(UPDATED_LOCATION);
         DeviceDTO deviceDTO = deviceMapper.toDto(updatedDevice);
 
         restDeviceMockMvc.perform(put("/api/devices")
@@ -291,10 +236,8 @@ public class DeviceResourceIT {
         List<Device> deviceList = deviceRepository.findAll();
         assertThat(deviceList).hasSize(databaseSizeBeforeUpdate);
         Device testDevice = deviceList.get(deviceList.size() - 1);
-        assertThat(testDevice.getDeviceID()).isEqualTo(UPDATED_DEVICE_ID);
         assertThat(testDevice.getLastUpdated()).isEqualTo(UPDATED_LAST_UPDATED);
         assertThat(testDevice.getLocation()).isEqualTo(UPDATED_LOCATION);
-        assertThat(testDevice.getLocationSerial()).isEqualTo(UPDATED_LOCATION_SERIAL);
     }
 
     @Test

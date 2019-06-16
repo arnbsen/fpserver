@@ -2,13 +2,6 @@
     "name": "Device",
     "fields": [
         {
-            "fieldName": "deviceID",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "lastUpdated",
             "fieldType": "Long"
         },
@@ -16,13 +9,6 @@
             "fieldName": "location",
             "fieldType": "DeviceLocation",
             "fieldValues": "LAB,CLASS,FACULTYROOM,SSTAFFROOM",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "locationSerial",
-            "fieldType": "Integer",
             "fieldValidateRules": [
                 "required"
             ]

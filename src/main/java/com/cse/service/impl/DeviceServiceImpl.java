@@ -33,7 +33,8 @@ public class DeviceServiceImpl implements DeviceService {
 
     private final UserRepository userRepository;
 
-    public DeviceServiceImpl(DeviceRepository deviceRepository, DeviceMapper deviceMapper, UserRepository userRepository) {
+    public DeviceServiceImpl(DeviceRepository deviceRepository, DeviceMapper deviceMapper,
+            UserRepository userRepository) {
         this.deviceRepository = deviceRepository;
         this.deviceMapper = deviceMapper;
         this.userRepository = userRepository;

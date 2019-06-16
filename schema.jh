@@ -26,10 +26,8 @@ entity Department {
     deptName String required
 }
 entity Device {
-	deviceID String required,
     lastUpdated Long,
-    location DeviceLocation required,
-    locationSerial Integer required
+    location DeviceLocation required
 }
 entity HOD {
 	authCode String

@@ -11,16 +11,10 @@ public class DeviceDTO implements Serializable {
 
     private String id;
 
-    @NotNull
-    private String deviceID;
-
     private Long lastUpdated;
 
     @NotNull
     private DeviceLocation location;
-
-    @NotNull
-    private Integer locationSerial;
 
     private String userId;
 
@@ -30,14 +24,6 @@ public class DeviceDTO implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getDeviceID() {
-        return deviceID;
-    }
-
-    public void setDeviceID(String deviceID) {
-        this.deviceID = deviceID;
     }
 
     public Long getLastUpdated() {
@@ -54,14 +40,6 @@ public class DeviceDTO implements Serializable {
 
     public void setLocation(DeviceLocation location) {
         this.location = location;
-    }
-
-    public Integer getLocationSerial() {
-        return locationSerial;
-    }
-
-    public void setLocationSerial(Integer locationSerial) {
-        this.locationSerial = locationSerial;
     }
 
     @Override
@@ -89,10 +67,8 @@ public class DeviceDTO implements Serializable {
     public String toString() {
         return "DeviceDTO{" +
             "id=" + getId() +
-            ", deviceID='" + getDeviceID() + "'" +
             ", lastUpdated=" + getLastUpdated() +
             ", location='" + getLocation() + "'" +
-            ", locationSerial=" + getLocationSerial() +
             "}";
     }
 

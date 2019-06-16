@@ -136,7 +136,7 @@ public class HODResourceIT {
     @Test
     public void createHOD() throws Exception {
         int databaseSizeBeforeCreate = hODRepository.findAll().size();
-
+        userRepository.save(user);
         // Create the HOD
         HODDTO hODDTO = hODMapper.toDto(hOD);
         restHODMockMvc.perform(post("/api/hods")

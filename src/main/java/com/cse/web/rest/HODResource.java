@@ -58,6 +58,19 @@ public class HODResource {
             .body(result);
     }
 
+    @PostMapping("/hods/create")
+    public ResponseEntity<HODDTO> createHODReg(@Valid @RequestBody HODDTO hODDTO) throws URISyntaxException {
+        log.debug("REST request to save HOD : {}", hODDTO);
+        if (hODDTO.getId() != null) {
+            throw new BadRequestAlertException("A new hOD cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        HODDTO result = hODService.save(hODDTO);
+        return ResponseEntity
+                .created(new URI("/api/hods/" + result.getId())).headers(HeaderUtil
+                        .createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+    }
+
     /**
      * {@code PUT  /hods} : Updates an existing hOD.
      *

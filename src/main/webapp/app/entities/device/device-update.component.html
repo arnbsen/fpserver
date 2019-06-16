@@ -10,17 +10,6 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_deviceID">Device ID</label>
-                    <input type="text" class="form-control" name="deviceID" id="field_deviceID"
-                           formControlName="deviceID"/>
-                    <div *ngIf="editForm.get('deviceID').invalid && (editForm.get('deviceID').dirty || editForm.get('deviceID').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('deviceID').errors.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_lastUpdated">Last Updated</label>
                     <input type="number" class="form-control" name="lastUpdated" id="field_lastUpdated"
                            formControlName="lastUpdated"/>
@@ -37,21 +26,6 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('location').errors.required">
                         This field is required.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_locationSerial">Location Serial</label>
-                    <input type="number" class="form-control" name="locationSerial" id="field_locationSerial"
-                           formControlName="locationSerial"/>
-                    <div *ngIf="editForm.get('locationSerial').invalid && (editForm.get('locationSerial').dirty || editForm.get('locationSerial').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('locationSerial').errors.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('locationSerial')?.errors?.number">
-                            This field should be a number.
                         </small>
                     </div>
                 </div>

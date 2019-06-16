@@ -40,4 +40,6 @@ public interface AttendanceService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    List<AttendanceDTO> saveAll(List<AttendanceDTO> attendances);
 }

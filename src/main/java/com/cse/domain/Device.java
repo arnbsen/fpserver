@@ -22,20 +22,12 @@ public class Device implements Serializable {
     @Id
     private String id;
 
-    @NotNull
-    @Field("device_id")
-    private String deviceID;
-
     @Field("last_updated")
     private Long lastUpdated;
 
     @NotNull
     @Field("location")
     private DeviceLocation location;
-
-    @NotNull
-    @Field("location_serial")
-    private Integer locationSerial;
 
     @DBRef
     @Field("user")
@@ -48,19 +40,6 @@ public class Device implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getDeviceID() {
-        return deviceID;
-    }
-
-    public Device deviceID(String deviceID) {
-        this.deviceID = deviceID;
-        return this;
-    }
-
-    public void setDeviceID(String deviceID) {
-        this.deviceID = deviceID;
     }
 
     public Long getLastUpdated() {
@@ -88,19 +67,6 @@ public class Device implements Serializable {
     public void setLocation(DeviceLocation location) {
         this.location = location;
     }
-
-    public Integer getLocationSerial() {
-        return locationSerial;
-    }
-
-    public Device locationSerial(Integer locationSerial) {
-        this.locationSerial = locationSerial;
-        return this;
-    }
-
-    public void setLocationSerial(Integer locationSerial) {
-        this.locationSerial = locationSerial;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -123,10 +89,8 @@ public class Device implements Serializable {
     public String toString() {
         return "Device{" +
             "id=" + getId() +
-            ", deviceID='" + getDeviceID() + "'" +
             ", lastUpdated=" + getLastUpdated() +
             ", location='" + getLocation() + "'" +
-            ", locationSerial=" + getLocationSerial() +
             "}";
     }
 

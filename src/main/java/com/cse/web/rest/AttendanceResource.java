@@ -114,4 +114,9 @@ public class AttendanceResource {
         attendanceService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @PostMapping("/attendances/saveatonce")
+    public ResponseEntity<List<AttendanceDTO>> saveAtOnce(@RequestBody List<AttendanceDTO> attendances) {
+        return ResponseEntity.ok().body(this.attendanceService.saveAll(attendances));
+    }
 }

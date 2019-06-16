@@ -155,6 +155,10 @@ import { SubjectChooserDialogComponent } from './time-table-wizard/subject.choos
       {
         path: 'subject',
         loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      },
+      {
+        path: 'device',
+        loadChildren: './device/device.module#DevfpserverDeviceModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
