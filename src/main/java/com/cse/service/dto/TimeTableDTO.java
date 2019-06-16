@@ -1,7 +1,10 @@
 package com.cse.service.dto;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.cse.domain.TimeTable} entity.
@@ -16,6 +19,9 @@ public class TimeTableDTO implements Serializable {
 
 
     private String departmentId;
+
+    private Set<DayTimeTableDTO> dayTimeTables = new HashSet<>();
+
 
     public String getId() {
         return id;
@@ -78,5 +84,13 @@ public class TimeTableDTO implements Serializable {
             ", semester=" + getSemester() +
             ", department=" + getDepartmentId() +
             "}";
+    }
+
+    public Set<DayTimeTableDTO> getDayTimeTables() {
+        return dayTimeTables;
+    }
+
+    public void setDayTimeTables(Set<DayTimeTableDTO> dayTimeTables) {
+        this.dayTimeTables = dayTimeTables;
     }
 }

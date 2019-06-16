@@ -3,8 +3,10 @@ import { RouterModule } from '@angular/router';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { DevfpserverSharedModule } from 'app/shared/shared.module';
 import { TimeTableWizardComponent } from './time-table-wizard/time-table-wizard.component';
-import { TimeTableMetaDataDialogComponent } from './time-table-wizard/time-table-wizard.metadata';
 import { UserRouteAccessService } from 'app/core';
+import { DepartmentResolve } from './department';
+import { TimeTableMetaDataDialogComponent } from './time-table-wizard/time-table-wizard.metadata';
+import { SubjectChooserDialogComponent } from './time-table-wizard/subject.chooser.dialog.component';
 
 @NgModule({
   imports: [
@@ -51,8 +53,11 @@ import { UserRouteAccessService } from 'app/core';
         loadChildren: './time-table/time-table.module#DevfpserverTimeTableModule'
       },
       {
-        path: 'timetable',
+        path: 'admin/:id/timetable/edit',
         component: TimeTableWizardComponent,
+        resolve: {
+          department: DepartmentResolve
+        },
         data: {
           pageTitle: 'STCET AUTOMATED ATTENDANCE ',
           authorities: ['ROLE_ADMIN']
@@ -154,8 +159,8 @@ import { UserRouteAccessService } from 'app/core';
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
   ],
-  declarations: [StudentDashboardComponent, TimeTableWizardComponent, TimeTableMetaDataDialogComponent],
-  entryComponents: [TimeTableMetaDataDialogComponent],
+  declarations: [StudentDashboardComponent, TimeTableWizardComponent, TimeTableMetaDataDialogComponent, SubjectChooserDialogComponent],
+  entryComponents: [TimeTableMetaDataDialogComponent, SubjectChooserDialogComponent],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [StudentDashboardComponent, TimeTableWizardComponent]

@@ -1,7 +1,11 @@
 package com.cse.service.dto;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 import com.cse.domain.enumeration.DayType;
 import com.cse.domain.enumeration.DayOfWeek;
 
@@ -20,6 +24,8 @@ public class DayTimeTableDTO implements Serializable {
 
 
     private String timeTableId;
+
+    private Set<SubjectTimeTableDTO> subjects = new HashSet<>();
 
     public String getId() {
         return id;
@@ -82,5 +88,13 @@ public class DayTimeTableDTO implements Serializable {
             ", dayOfWeek='" + getDayOfWeek() + "'" +
             ", timeTable=" + getTimeTableId() +
             "}";
+    }
+
+    public Set<SubjectTimeTableDTO> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Set<SubjectTimeTableDTO> subjects) {
+        this.subjects = subjects;
     }
 }

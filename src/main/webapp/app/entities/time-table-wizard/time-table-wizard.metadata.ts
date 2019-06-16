@@ -6,4 +6,12 @@ import { DialogData } from './time-table-wizard.component';
   selector: 'jhi-time-table-metadata-dialog',
   templateUrl: 'time-table-wizard.metadata.html'
 })
-export class TimeTableMetaDataDialogComponent {}
+export class TimeTableMetaDataDialogComponent {
+  dialogData: DialogData = {
+    year: 1,
+    semester: 1
+  };
+  getSemester(val: number): number[] {
+    return [val * 2 - 1, val * 2];
+  }
+}

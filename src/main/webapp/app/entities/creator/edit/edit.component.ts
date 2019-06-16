@@ -62,7 +62,9 @@ export class EditComponent implements OnInit {
 
   loadAllFaculty() {
     this.facultyService
-      .query()
+      .query({
+        departmentId: this.department.id
+      })
       .pipe(
         filter((res: HttpResponse<IFaculty[]>) => res.ok),
         map((res: HttpResponse<IFaculty[]>) => res.body)
@@ -160,5 +162,9 @@ export class EditComponent implements OnInit {
 
   protected onSaveError() {
     this.isSubjectCreationSaving = false;
+  }
+
+  openTimeTableWizard() {
+    this.router.navigate(['/admin', this.department.id, 'timetable', 'edit']);
   }
 }

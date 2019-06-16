@@ -8,14 +8,15 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link DayTimeTable} and its DTO {@link DayTimeTableDTO}.
  */
-@Mapper(componentModel = "spring", uses = {TimeTableMapper.class})
+@Mapper(componentModel = "spring", uses = {TimeTableMapper.class, SubjectTimeTableMapper.class})
 public interface DayTimeTableMapper extends EntityMapper<DayTimeTableDTO, DayTimeTable> {
 
     @Mapping(source = "timeTable.id", target = "timeTableId")
+    @Mapping(source = "subjects", target = "subjects")
     DayTimeTableDTO toDto(DayTimeTable dayTimeTable);
 
-    @Mapping(target = "subjects", ignore = true)
     @Mapping(source = "timeTableId", target = "timeTable")
+    @Mapping(source = "subjects", target = "subjects")
     DayTimeTable toEntity(DayTimeTableDTO dayTimeTableDTO);
 
     default DayTimeTable fromId(String id) {

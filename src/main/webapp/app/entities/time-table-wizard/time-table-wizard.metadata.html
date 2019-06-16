@@ -1,37 +1,23 @@
 <h2 mat-dialog-title>Choose Your Options</h2>
 <mat-dialog-content class="mat-typography">
-    <form fxLayout="column" fxLayoutGap="10px">
-        <mat-form-field>
-            <mat-label>Select Department</mat-label>
-            <mat-select>
-                <mat-option  [value]="'CSE'">
-                    Computer Science and Engineering
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Select Year</mat-label>
-            <mat-select>
-                <mat-option [value]="'CSE'">
-                    1
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Select Semester</mat-label>
-            <mat-select>
-                <mat-option [value]="'CSE'">
-                    1
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Enter Academic Year</mat-label>
-            <input matInput placeholder="Input">
-        </mat-form-field>
-    </form>
+    <mat-form-field  appearance="standard">
+        <mat-label>Year </mat-label>
+        <mat-select [(ngModel)]="dialogData.year" required>
+            <mat-option [value]="1">1</mat-option>
+            <mat-option [value]="2">2</mat-option>
+            <mat-option [value]="3">3</mat-option>
+            <mat-option [value]="4">4</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field  appearance="standard">
+        <mat-label>Semester</mat-label>
+        <mat-select [(ngModel)]="dialogData.semester" required>
+            <mat-option *ngFor="let sem of getSemester(dialogData.year)" [value]="sem">{{sem}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-    <button mat-flat-button mat-dialog-close style="width: 170px" color="warn">Cancel</button>
-    <button mat-flat-button [mat-dialog-close]="true" style="width: 170px" color="primary" cdkFocusInitial>Create</button>
+    <button mat-flat-button [mat-dialog-close]="null" style="width: 170px" color="warn">Cancel</button>
+    <button mat-flat-button [mat-dialog-close]="dialogData" style="width: 170px" color="primary" cdkFocusInitial>Create</button>
 </mat-dialog-actions>

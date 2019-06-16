@@ -243,3 +243,11 @@
 .container-grid-xs {
   grid-template-columns: repeat(1, 1fr);
 }
+.timetable-span {
+  border-right: gray solid 1px;
+  border-left: gray solid 1px;
+}
+.timetable-span-p {
+  word-wrap: break-word;
+  text-align: center;
+}

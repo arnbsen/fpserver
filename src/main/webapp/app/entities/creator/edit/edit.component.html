@@ -6,7 +6,7 @@
                 <mat-card-subtitle>{{'Code: ' + department.deptCode }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px">
-                <button mat-stroked-button color="primary" style="width: 200px">
+                <button mat-stroked-button color="primary" style="width: 200px" (click)="openTimeTableWizard()">
                     <mat-icon>open_in_new</mat-icon>
                     View Time Table
                 </button>
