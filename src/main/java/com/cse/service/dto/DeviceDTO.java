@@ -16,6 +16,11 @@ public class DeviceDTO implements Serializable {
     @NotNull
     private DeviceLocation location;
 
+    private String locationName;
+
+
+    private String devLocId;
+
     private String userId;
 
     public String getId() {
@@ -40,6 +45,22 @@ public class DeviceDTO implements Serializable {
 
     public void setLocation(DeviceLocation location) {
         this.location = location;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getDevLocId() {
+        return devLocId;
+    }
+
+    public void setDevLocId(String locationId) {
+        this.devLocId = locationId;
     }
 
     @Override
@@ -69,7 +90,10 @@ public class DeviceDTO implements Serializable {
             "id=" + getId() +
             ", lastUpdated=" + getLastUpdated() +
             ", location='" + getLocation() + "'" +
+            ", locationName='" + getLocationName() + "'" +
+            ", devLoc=" + getDevLocId() +
             "}";
+
     }
 
     public String getUserId() {

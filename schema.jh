@@ -1,13 +1,13 @@
 entity IntermdiateUser {
 	deviceUserName String required,
-    hardwareID String required,
-    otherParams String
+    	hardwareID String required,
+    	otherParams String
 }
 enum DeviceLocation {
 	LAB, CLASS, FACULTYROOM, SSTAFFROOM
 }
 enum DayOfWeek {
-	MONDAY, TUESDAY,
+    MONDAY, TUESDAY,
     WEDNESDAY, THRUSDAY,
     FRIDAY, SATURDAY,
     SUNDAY
@@ -22,19 +22,23 @@ enum UserType {
 	STUDENT, FACULTY, SSTAFF, HOD, CADMIN
 }
 entity Department {
-	deptCode String required,
+    deptCode String required,
     deptName String required
 }
 entity Device {
     lastUpdated Long,
-    location DeviceLocation required
+    location DeviceLocation required,
+    locationName String
+}
+entity Location {
+	locationName String
 }
 entity HOD {
 	authCode String
 }
 entity Subject {
 	subjectCode String required,
-    subjectName String required
+    	subjectName String required,
 	year Integer required,
 	semester Integer required
 }
@@ -42,7 +46,7 @@ entity Faculty {
     facultyCode String
 }
 entity Student {
-	yearJoined Long,
+    yearJoined Long,
     currentYear Integer,
     currentSem Integer,
     classRollNumber Integer,
@@ -86,12 +90,20 @@ entity SpecialOccasions {
 	type DayType,
 	description String
 }
+entity BiometricBackup {
+	forUserType UserType,
+	identifier String,
+	jsonFile Blob
+
+}
 relationship OneToOne {
   HOD{department required} to Department
   Student{department required} to Department
   TimeTable{department required} to Department
   Faculty{department required} to Department
   Subject{ofDept} to Department
+  SubjectTimeTable{location} to Location
+  Device{devLoc} to Location
 }
 relationship OneToMany {
     Subject{faculty required} to Faculty{subject}

@@ -23,7 +23,7 @@ describe('Service Tests', () => {
       service = injector.get(DeviceService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Device('ID', 0, DeviceLocation.LAB);
+      elemDefault = new Device('ID', 0, DeviceLocation.LAB, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -60,7 +60,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             lastUpdated: 1,
-            location: 'BBBBBB'
+            location: 'BBBBBB',
+            locationName: 'BBBBBB'
           },
           elemDefault
         );
@@ -79,7 +80,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             lastUpdated: 1,
-            location: 'BBBBBB'
+            location: 'BBBBBB',
+            locationName: 'BBBBBB'
           },
           elemDefault
         );

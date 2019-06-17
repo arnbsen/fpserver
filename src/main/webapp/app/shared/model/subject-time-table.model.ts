@@ -10,6 +10,7 @@ export interface ISubjectTimeTable {
   startTime?: number;
   endTime?: number;
   classType?: ClassType;
+  locationId?: string;
   subjectId?: string;
   dayTimeTableId?: string;
 }
@@ -20,6 +21,7 @@ export class SubjectTimeTable implements ISubjectTimeTable {
     public startTime?: number,
     public endTime?: number,
     public classType?: ClassType,
+    public locationId?: string,
     public subjectId?: string,
     public dayTimeTableId?: string
   ) {}

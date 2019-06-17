@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.Validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 import static com.cse.web.rest.TestUtil.createFormattingConversionService;
@@ -43,6 +43,9 @@ public class DeviceResourceIT {
 
     private static final DeviceLocation DEFAULT_LOCATION = DeviceLocation.LAB;
     private static final DeviceLocation UPDATED_LOCATION = DeviceLocation.CLASS;
+
+    private static final String DEFAULT_LOCATION_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_LOCATION_NAME = "BBBBBBBBBB";
 
     @Autowired
     private DeviceRepository deviceRepository;
@@ -94,11 +97,12 @@ public class DeviceResourceIT {
     public static Device createEntity() {
         Device device = new Device()
             .lastUpdated(DEFAULT_LAST_UPDATED)
-            .location(DEFAULT_LOCATION);
+            .location(DEFAULT_LOCATION)
+            .locationName(DEFAULT_LOCATION_NAME);
         user = UserResourceIT.createEntity();
         user.setId("fixed-id-for-tests");
         device.setUser(user);
-        return device;
+            return device;
     }
     /**
      * Create an updated entity for this test.
@@ -109,7 +113,8 @@ public class DeviceResourceIT {
     public static Device createUpdatedEntity() {
         Device device = new Device()
             .lastUpdated(UPDATED_LAST_UPDATED)
-            .location(UPDATED_LOCATION);
+            .location(UPDATED_LOCATION)
+            .locationName(UPDATED_LOCATION_NAME);
         return device;
     }
 
@@ -137,6 +142,7 @@ public class DeviceResourceIT {
         Device testDevice = deviceList.get(deviceList.size() - 1);
         assertThat(testDevice.getLastUpdated()).isEqualTo(DEFAULT_LAST_UPDATED);
         assertThat(testDevice.getLocation()).isEqualTo(DEFAULT_LOCATION);
+        assertThat(testDevice.getLocationName()).isEqualTo(DEFAULT_LOCATION_NAME);
     }
 
     @Test
@@ -188,7 +194,8 @@ public class DeviceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(device.getId())))
             .andExpect(jsonPath("$.[*].lastUpdated").value(hasItem(DEFAULT_LAST_UPDATED.intValue())))
-            .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())));
+            .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
+            .andExpect(jsonPath("$.[*].locationName").value(hasItem(DEFAULT_LOCATION_NAME.toString())));
     }
 
     @Test
@@ -202,7 +209,8 @@ public class DeviceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(device.getId()))
             .andExpect(jsonPath("$.lastUpdated").value(DEFAULT_LAST_UPDATED.intValue()))
-            .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION.toString()));
+            .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION.toString()))
+            .andExpect(jsonPath("$.locationName").value(DEFAULT_LOCATION_NAME.toString()));
     }
 
     @Test
@@ -224,7 +232,8 @@ public class DeviceResourceIT {
         Device updatedDevice = deviceRepository.findById(device.getId()).get();
         updatedDevice
             .lastUpdated(UPDATED_LAST_UPDATED)
-            .location(UPDATED_LOCATION);
+            .location(UPDATED_LOCATION)
+            .locationName(UPDATED_LOCATION_NAME);
         DeviceDTO deviceDTO = deviceMapper.toDto(updatedDevice);
 
         restDeviceMockMvc.perform(put("/api/devices")
@@ -238,6 +247,7 @@ public class DeviceResourceIT {
         Device testDevice = deviceList.get(deviceList.size() - 1);
         assertThat(testDevice.getLastUpdated()).isEqualTo(UPDATED_LAST_UPDATED);
         assertThat(testDevice.getLocation()).isEqualTo(UPDATED_LOCATION);
+        assertThat(testDevice.getLocationName()).isEqualTo(UPDATED_LOCATION_NAME);
     }
 
     @Test

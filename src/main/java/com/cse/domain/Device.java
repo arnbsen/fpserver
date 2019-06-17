@@ -1,9 +1,10 @@
 package com.cse.domain;
 
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
@@ -28,6 +29,13 @@ public class Device implements Serializable {
     @NotNull
     @Field("location")
     private DeviceLocation location;
+
+    @Field("location_name")
+    private String locationName;
+
+    @DBRef
+    @Field("devLoc")
+    private Location devLoc;
 
     @DBRef
     @Field("user")
@@ -67,6 +75,32 @@ public class Device implements Serializable {
     public void setLocation(DeviceLocation location) {
         this.location = location;
     }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public Device locationName(String locationName) {
+        this.locationName = locationName;
+        return this;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public Location getDevLoc() {
+        return devLoc;
+    }
+
+    public Device devLoc(Location location) {
+        this.devLoc = location;
+        return this;
+    }
+
+    public void setDevLoc(Location location) {
+        this.devLoc = location;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -91,6 +125,7 @@ public class Device implements Serializable {
             "id=" + getId() +
             ", lastUpdated=" + getLastUpdated() +
             ", location='" + getLocation() + "'" +
+            ", locationName='" + getLocationName() + "'" +
             "}";
     }
 

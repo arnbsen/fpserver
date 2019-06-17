@@ -18,6 +18,7 @@
             <th><span>Start Time</span></th>
             <th><span>End Time</span></th>
             <th><span>Class Type</span></th>
+            <th><span>Location</span></th>
             <th><span>Subject</span></th>
             <th><span>Day Time Table</span></th>
             <th></th>
@@ -29,6 +30,11 @@
                 <td>{{subjectTimeTable.startTime}}</td>
                 <td>{{subjectTimeTable.endTime}}</td>
                 <td>{{subjectTimeTable.classType}}</td>
+                <td>
+                    <div *ngIf="subjectTimeTable.locationId">
+                        <a [routerLink]="['../location', subjectTimeTable.locationId , 'view' ]" >{{subjectTimeTable.locationId}}</a>
+                    </div>
+                </td>
                 <td>
                     <div *ngIf="subjectTimeTable.subjectId">
                         <a [routerLink]="['../subject', subjectTimeTable.subjectId , 'view' ]" >{{subjectTimeTable.subjectId}}</a>

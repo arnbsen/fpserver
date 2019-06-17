@@ -159,6 +159,38 @@ import { SubjectChooserDialogComponent } from './time-table-wizard/subject.choos
       {
         path: 'device',
         loadChildren: './device/device.module#DevfpserverDeviceModule'
+      },
+      {
+        path: 'device',
+        loadChildren: './device/device.module#DevfpserverDeviceModule'
+      },
+      {
+        path: 'location',
+        loadChildren: './location/location.module#DevfpserverLocationModule'
+      },
+      {
+        path: 'subject-time-table',
+        loadChildren: './subject-time-table/subject-time-table.module#DevfpserverSubjectTimeTableModule'
+      },
+      {
+        path: 'biometric-backup',
+        loadChildren: './biometric-backup/biometric-backup.module#DevfpserverBiometricBackupModule'
+      },
+      {
+        path: 'device',
+        loadChildren: './device/device.module#DevfpserverDeviceModule'
+      },
+      {
+        path: 'location',
+        loadChildren: './location/location.module#DevfpserverLocationModule'
+      },
+      {
+        path: 'device',
+        loadChildren: './device/device.module#DevfpserverDeviceModule'
+      },
+      {
+        path: 'location',
+        loadChildren: './location/location.module#DevfpserverLocationModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

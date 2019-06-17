@@ -13,6 +13,16 @@
                 <dd>
                     <span>{{device.location}}</span>
                 </dd>
+                <dt><span>Location Name</span></dt>
+                <dd>
+                    <span>{{device.locationName}}</span>
+                </dd>
+                <dt><span>Dev Loc</span></dt>
+                <dd>
+                    <div *ngIf="device.devLocId">
+                        <a [routerLink]="['/location', device.devLocId, 'view']">{{device.devLocId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

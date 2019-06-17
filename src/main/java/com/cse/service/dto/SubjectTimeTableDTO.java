@@ -18,6 +18,8 @@ public class SubjectTimeTableDTO implements Serializable {
     private ClassType classType;
 
 
+    private String locationId;
+
     private String subjectId;
 
     private String dayTimeTableId;
@@ -52,6 +54,14 @@ public class SubjectTimeTableDTO implements Serializable {
 
     public void setClassType(ClassType classType) {
         this.classType = classType;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
     }
 
     public String getSubjectId() {
@@ -98,6 +108,7 @@ public class SubjectTimeTableDTO implements Serializable {
             ", startTime=" + getStartTime() +
             ", endTime=" + getEndTime() +
             ", classType='" + getClassType() + "'" +
+            ", location=" + getLocationId() +
             ", subject=" + getSubjectId() +
             ", dayTimeTable=" + getDayTimeTableId() +
             "}";

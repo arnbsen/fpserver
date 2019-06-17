@@ -1,0 +1,29 @@
+{
+    "name": "BiometricBackup",
+    "fields": [
+        {
+            "fieldName": "forUserType",
+            "fieldType": "UserType",
+            "fieldValues": "STUDENT,FACULTY,SSTAFF,HOD,CADMIN"
+        },
+        {
+            "fieldName": "identifier",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "jsonFile",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190617043007",
+    "entityTableName": "biometric_backup",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

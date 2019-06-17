@@ -17,6 +17,12 @@
                 <dd>
                     <span>{{subjectTimeTable.classType}}</span>
                 </dd>
+                <dt><span>Location</span></dt>
+                <dd>
+                    <div *ngIf="subjectTimeTable.locationId">
+                        <a [routerLink]="['/location', subjectTimeTable.locationId, 'view']">{{subjectTimeTable.locationId}}</a>
+                    </div>
+                </dd>
                 <dt><span>Subject</span></dt>
                 <dd>
                     <div *ngIf="subjectTimeTable.subjectId">

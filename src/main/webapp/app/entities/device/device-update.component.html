@@ -29,7 +29,19 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_locationName">Location Name</label>
+                    <input type="text" class="form-control" name="locationName" id="field_locationName"
+                           formControlName="locationName"/>
+                </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" for="field_devLoc">Dev Loc</label>
+                    <select class="form-control" id="field_devLoc" name="devLoc" formControlName="devLocId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="locationOption.id" *ngFor="let locationOption of devlocs; trackBy: trackLocationById">{{locationOption.id}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

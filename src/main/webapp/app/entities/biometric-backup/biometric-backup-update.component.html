@@ -1,0 +1,57 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-biometric-backup-heading">Create or edit a Biometric Backup</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!biometricBackup.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_forUserType">For User Type</label>
+                    <select class="form-control" name="forUserType" formControlName="forUserType" id="field_forUserType">
+                        <option value="STUDENT">STUDENT</option>
+                        <option value="FACULTY">FACULTY</option>
+                        <option value="SSTAFF">SSTAFF</option>
+                        <option value="HOD">HOD</option>
+                        <option value="CADMIN">CADMIN</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_identifier">Identifier</label>
+                    <input type="text" class="form-control" name="identifier" id="field_identifier"
+                           formControlName="identifier"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_jsonFile">Json File</label>
+                    <div>
+                        <div *ngIf="editForm.get('jsonFile').value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('jsonFileContentType').value, editForm.get('jsonFile').value)">open</a><br>
+                            <span class="pull-left">{{editForm.get('jsonFileContentType').value}}, {{byteSize(editForm.get('jsonFile').value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({jsonFile: null});editForm.patchValue({jsonFileContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_jsonFile" (change)="setFileData($event, 'jsonFile', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="jsonFile" id="field_jsonFile"
+                           formControlName="jsonFile"/>
+                    <input type="hidden" class="form-control" name="jsonFileContentType" id="field_jsonFileContentType"
+                           formControlName="jsonFileContentType" />
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

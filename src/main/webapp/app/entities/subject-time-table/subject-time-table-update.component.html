@@ -30,6 +30,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_location">Location</label>
+                    <select class="form-control" id="field_location" name="location" formControlName="locationId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="locationOption.id" *ngFor="let locationOption of locations; trackBy: trackLocationById">{{locationOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_subject">Subject</label>
                     <select class="form-control" id="field_subject" name="subject" formControlName="subjectId">
                         <option *ngIf="!editForm.get('subject').value" [ngValue]="null" selected></option>

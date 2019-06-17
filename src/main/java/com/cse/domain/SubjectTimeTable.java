@@ -34,6 +34,10 @@ public class SubjectTimeTable implements Serializable {
     private ClassType classType;
 
     @DBRef
+    @Field("location")
+    private Location location;
+
+    @DBRef
     @Field("subject")
     @JsonIgnoreProperties("subjectTimeTables")
     private Subject subject;
@@ -89,6 +93,19 @@ public class SubjectTimeTable implements Serializable {
 
     public void setClassType(ClassType classType) {
         this.classType = classType;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public SubjectTimeTable location(Location location) {
+        this.location = location;
+        return this;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public Subject getSubject() {

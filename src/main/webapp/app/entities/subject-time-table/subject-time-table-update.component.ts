@@ -7,6 +7,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ISubjectTimeTable, SubjectTimeTable } from 'app/shared/model/subject-time-table.model';
 import { SubjectTimeTableService } from './subject-time-table.service';
+import { ILocation } from 'app/shared/model/location.model';
+import { LocationService } from 'app/entities/location';
 import { ISubject } from 'app/shared/model/subject.model';
 import { SubjectService } from 'app/entities/subject';
 import { IDayTimeTable } from 'app/shared/model/day-time-table.model';
@@ -20,6 +22,8 @@ export class SubjectTimeTableUpdateComponent implements OnInit {
   subjectTimeTable: ISubjectTimeTable;
   isSaving: boolean;
 
+  locations: ILocation[];
+
   subjects: ISubject[];
 
   daytimetables: IDayTimeTable[];
@@ -29,6 +33,7 @@ export class SubjectTimeTableUpdateComponent implements OnInit {
     startTime: [],
     endTime: [],
     classType: [],
+    locationId: [],
     subjectId: [null, Validators.required],
     dayTimeTableId: []
   });
@@ -36,6 +41,7 @@ export class SubjectTimeTableUpdateComponent implements OnInit {
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected subjectTimeTableService: SubjectTimeTableService,
+    protected locationService: LocationService,
     protected subjectService: SubjectService,
     protected dayTimeTableService: DayTimeTableService,
     protected activatedRoute: ActivatedRoute,
@@ -48,6 +54,31 @@ export class SubjectTimeTableUpdateComponent implements OnInit {
       this.updateForm(subjectTimeTable);
       this.subjectTimeTable = subjectTimeTable;
     });
+    this.locationService
+      .query({ filter: 'subjecttimetable-is-null' })
+      .pipe(
+        filter((mayBeOk: HttpResponse<ILocation[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ILocation[]>) => response.body)
+      )
+      .subscribe(
+        (res: ILocation[]) => {
+          if (!this.subjectTimeTable.locationId) {
+            this.locations = res;
+          } else {
+            this.locationService
+              .find(this.subjectTimeTable.locationId)
+              .pipe(
+                filter((subResMayBeOk: HttpResponse<ILocation>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<ILocation>) => subResponse.body)
+              )
+              .subscribe(
+                (subRes: ILocation) => (this.locations = [subRes].concat(res)),
+                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+              );
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.subjectService
       .query()
       .pipe(
@@ -70,6 +101,7 @@ export class SubjectTimeTableUpdateComponent implements OnInit {
       startTime: subjectTimeTable.startTime,
       endTime: subjectTimeTable.endTime,
       classType: subjectTimeTable.classType,
+      locationId: subjectTimeTable.locationId,
       subjectId: subjectTimeTable.subjectId,
       dayTimeTableId: subjectTimeTable.dayTimeTableId
     });
@@ -96,6 +128,7 @@ export class SubjectTimeTableUpdateComponent implements OnInit {
       startTime: this.editForm.get(['startTime']).value,
       endTime: this.editForm.get(['endTime']).value,
       classType: this.editForm.get(['classType']).value,
+      locationId: this.editForm.get(['locationId']).value,
       subjectId: this.editForm.get(['subjectId']).value,
       dayTimeTableId: this.editForm.get(['dayTimeTableId']).value
     };
@@ -116,6 +149,10 @@ export class SubjectTimeTableUpdateComponent implements OnInit {
   }
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  trackLocationById(index: number, item: ILocation) {
+    return item.id;
   }
 
   trackSubjectById(index: number, item: ISubject) {
