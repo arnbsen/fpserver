@@ -128,4 +128,11 @@ public class HODResource {
         hODService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @GetMapping("/hods/byuserid/{id}")
+    public ResponseEntity<HODDTO> getHODbyDeviceID(@PathVariable String id) {
+        log.debug("REST request to get Faculty : {}", id);
+        Optional<HODDTO> hodDTO = hODService.findByUserID(id);
+        return ResponseUtil.wrapOrNotFound(hodDTO);
+    }
 }

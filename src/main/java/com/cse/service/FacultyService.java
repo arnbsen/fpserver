@@ -40,4 +40,6 @@ public interface FacultyService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    Optional<FacultyDTO> findByUserID(String id);
 }

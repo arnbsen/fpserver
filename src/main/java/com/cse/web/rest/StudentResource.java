@@ -115,4 +115,11 @@ public class StudentResource {
         studentService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @GetMapping("/students/byuserid/{id}")
+    public ResponseEntity<StudentDTO> getstudentbyDeviceID(@PathVariable String id) {
+        log.debug("REST request to get Faculty : {}", id);
+        Optional<StudentDTO> studentDTO = studentService.findByUserID(id);
+        return ResponseUtil.wrapOrNotFound(studentDTO);
+    }
 }

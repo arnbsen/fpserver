@@ -30,7 +30,12 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.accountService.identity().then((account: Account) => {
       this.account = account;
-      console.log(this.account);
+      this.accountService.hasAuthority('ROLE_ADMIN').then((res: boolean) => {
+        console.log(res);
+        if (res) {
+          this.router.navigateByUrl('admin');
+        }
+      });
     });
     this.registerAuthenticationSuccess();
   }
@@ -39,11 +44,6 @@ export class HomeComponent implements OnInit {
     this.eventManager.subscribe('authenticationSuccess', message => {
       this.accountService.identity().then(account => {
         this.account = account;
-        this.accountService.hasAuthority('ROLE_ADMIN').then((res: boolean) => {
-          if (res) {
-            this.router.navigateByUrl('admin');
-          }
-        });
       });
     });
   }

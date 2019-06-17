@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <h2 id="page-heading">
         <span>Faculties</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-faculty" [routerLink]="['/faculty/new']">
@@ -62,5 +62,16 @@
             </tr>
             </tbody>
         </table>
+    </div>
+</div> -->
+<jhi-toolbar></jhi-toolbar>
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height">
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <mat-card *ngIf="currentAccount">
+            <mat-card-header>
+                <mat-card-title>{{currentAccount.firstName + ' ' + currentAccount.lastName}}</mat-card-title>
+
+            </mat-card-header>
+        </mat-card>
     </div>
 </div>

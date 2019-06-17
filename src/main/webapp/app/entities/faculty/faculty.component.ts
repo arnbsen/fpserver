@@ -5,7 +5,7 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { IFaculty } from 'app/shared/model/faculty.model';
-import { AccountService } from 'app/core';
+import { AccountService, Account } from 'app/core';
 import { FacultyService } from './faculty.service';
 
 @Component({
@@ -14,7 +14,8 @@ import { FacultyService } from './faculty.service';
 })
 export class FacultyComponent implements OnInit, OnDestroy {
   faculties: IFaculty[];
-  currentAccount: any;
+  faculty: IFaculty;
+  currentAccount: Account;
   eventSubscriber: Subscription;
 
   constructor(
@@ -40,13 +41,15 @@ export class FacultyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadAll();
+    // this.loadAll();
     this.accountService.identity().then(account => {
       this.currentAccount = account;
+      this.facultyService.findbyDeviceID(this.currentAccount.id).subscribe((res: HttpResponse<IFaculty>) => {
+        console.log(res.body);
+      });
     });
     this.registerChangeInFaculties();
   }
-
   ngOnDestroy() {
     this.eventManager.destroy(this.eventSubscriber);
   }

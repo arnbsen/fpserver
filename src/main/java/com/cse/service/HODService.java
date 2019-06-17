@@ -40,4 +40,6 @@ public interface HODService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    Optional<HODDTO> findByUserID(String id);
 }

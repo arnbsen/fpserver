@@ -101,4 +101,9 @@ public class FacultyServiceImpl implements FacultyService {
         log.debug("Request to delete Faculty : {}", id);
         facultyRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<FacultyDTO> findByUserID(String id) {
+        return facultyRepository.findByUserID(id).map(facultyMapper::toDto);
+    }
 }

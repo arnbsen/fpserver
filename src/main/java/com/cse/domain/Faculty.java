@@ -1,6 +1,7 @@
 package com.cse.domain;
 
 
+import com.cse.service.dto.FacultyDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -10,6 +11,7 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * A Faculty.
@@ -118,4 +120,8 @@ public class Faculty implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+	public Optional<FacultyDTO> map(Object object) {
+		return null;
+	}
 }

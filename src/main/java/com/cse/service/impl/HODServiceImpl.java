@@ -100,4 +100,9 @@ public class HODServiceImpl implements HODService {
         log.debug("Request to delete HOD : {}", id);
         hODRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<HODDTO> findByUserID(String id) {
+        return hODRepository.findByUserID(id).map(hODMapper::toDto);
+    }
 }

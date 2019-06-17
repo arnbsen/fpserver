@@ -38,12 +38,27 @@ export class AttendanceComponent implements OnInit, OnDestroy {
         (res: HttpErrorResponse) => this.onError(res.message)
       );
   }
+  loadByDeviceID(deviceID = 'STCS644') {
+    this.attendanceService
+      .getAllByDeviceID(deviceID)
+      .pipe(
+        filter((res: HttpResponse<IAttendance[]>) => res.ok),
+        map((res: HttpResponse<IAttendance[]>) => res.body)
+      )
+      .subscribe(
+        (res: IAttendance[]) => {
+          console.log(res);
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
 
   ngOnInit() {
     this.loadAll();
     this.accountService.identity().then(account => {
       this.currentAccount = account;
     });
+    this.loadByDeviceID();
     this.registerChangeInAttendances();
   }
 

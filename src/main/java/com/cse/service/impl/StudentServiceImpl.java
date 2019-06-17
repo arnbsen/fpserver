@@ -101,4 +101,9 @@ public class StudentServiceImpl implements StudentService {
         log.debug("Request to delete Student : {}", id);
         studentRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<StudentDTO> findByUserID(String id) {
+        return studentRepository.findByUserID(id).map(studentMapper::toDto);
+    }
 }

@@ -115,4 +115,11 @@ public class FacultyResource {
         facultyService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @GetMapping("/faculties/byuserid/{id}")
+    public ResponseEntity<FacultyDTO> getFacultybyDeviceID(@PathVariable String id) {
+        log.debug("REST request to get Faculty : {}", id);
+        Optional<FacultyDTO> facultyDTO = facultyService.findByUserID(id);
+        return ResponseUtil.wrapOrNotFound(facultyDTO);
+    }
 }

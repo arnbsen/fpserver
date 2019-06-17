@@ -1,6 +1,11 @@
 package com.cse.repository;
 
+import java.util.Optional;
+
 import com.cse.domain.Faculty;
+import com.cse.domain.User;
+
+
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -13,4 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FacultyRepository extends MongoRepository<Faculty, String> {
 
+    @Query(value = "{'user.id' : ?0}")
+    Optional<Faculty> findByUserID(String id);
 }

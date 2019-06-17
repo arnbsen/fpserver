@@ -35,4 +35,8 @@ export class FacultyService {
   delete(id: string): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  findbyDeviceID(id: string): Observable<EntityResponseType> {
+    return this.http.get<IFaculty>(`${this.resourceUrl}/byuserid/${id}`, { observe: 'response' });
+  }
 }
