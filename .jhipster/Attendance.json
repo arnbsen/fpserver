@@ -8,11 +8,6 @@
         {
             "fieldName": "deviceID",
             "fieldType": "String"
-        },
-        {
-            "fieldName": "type",
-            "fieldType": "UserType",
-            "fieldValues": "STUDENT,FACULTY,SSTAFF,HOD,CADMIN"
         }
     ],
     "relationships": [

@@ -71,9 +71,7 @@ entity TimeTable {
 }
 entity Attendance {
     timestamp Instant,
-    deviceID String,
-    type UserType
-	
+    deviceID String	
 }
 entity Day {
 	type DayType,

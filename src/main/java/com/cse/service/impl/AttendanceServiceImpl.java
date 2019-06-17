@@ -83,4 +83,17 @@ public class AttendanceServiceImpl implements AttendanceService {
         log.debug("Request to delete Attendance : {}", id);
         attendanceRepository.deleteById(id);
     }
+
+    @Override
+    public boolean saveAll(List<AttendanceDTO> attendances) {
+        attendances.forEach(action -> {
+            attendanceRepository.save(attendanceMapper.toEntity(action));
+        });
+        return true;
+    }
+
+    @Override
+    public List<AttendanceDTO> getByDeviceID(String deviceID) {
+        return attendanceMapper.toDto(attendanceRepository.findAllByDeviceID(deviceID));
+    }
 }

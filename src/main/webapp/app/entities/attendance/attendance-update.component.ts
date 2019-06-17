@@ -26,7 +26,6 @@ export class AttendanceUpdateComponent implements OnInit {
     id: [],
     timestamp: [],
     deviceID: [],
-    type: [],
     devId: []
   });
 
@@ -76,7 +75,6 @@ export class AttendanceUpdateComponent implements OnInit {
       id: attendance.id,
       timestamp: attendance.timestamp != null ? attendance.timestamp.format(DATE_TIME_FORMAT) : null,
       deviceID: attendance.deviceID,
-      type: attendance.type,
       devId: attendance.devId
     });
   }
@@ -102,7 +100,6 @@ export class AttendanceUpdateComponent implements OnInit {
       timestamp:
         this.editForm.get(['timestamp']).value != null ? moment(this.editForm.get(['timestamp']).value, DATE_TIME_FORMAT) : undefined,
       deviceID: this.editForm.get(['deviceID']).value,
-      type: this.editForm.get(['type']).value,
       devId: this.editForm.get(['devId']).value
     };
     return entity;

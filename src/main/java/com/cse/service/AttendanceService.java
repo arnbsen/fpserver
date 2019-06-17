@@ -40,4 +40,8 @@ public interface AttendanceService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    boolean saveAll(List<AttendanceDTO> attendances);
+
+    List<AttendanceDTO> getByDeviceID(String deviceID);
 }

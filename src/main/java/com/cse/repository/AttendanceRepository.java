@@ -1,6 +1,6 @@
 package com.cse.repository;
 
-import java.util.*;
+import java.util.List;
 
 import com.cse.domain.Attendance;
 import org.springframework.data.mongodb.repository.Query;
@@ -16,5 +16,4 @@ import org.springframework.stereotype.Repository;
 public interface AttendanceRepository extends MongoRepository<Attendance, String> {
 
     public List<Attendance> findAllByDeviceID(String deviceID);
-
 }

@@ -10,8 +10,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import com.cse.domain.enumeration.UserType;
-
 /**
  * A Attendance.
  */
@@ -28,9 +26,6 @@ public class Attendance implements Serializable {
 
     @Field("device_id")
     private String deviceID;
-
-    @Field("type")
-    private UserType type;
 
     @DBRef
     @Field("dev")
@@ -71,19 +66,6 @@ public class Attendance implements Serializable {
         this.deviceID = deviceID;
     }
 
-    public UserType getType() {
-        return type;
-    }
-
-    public Attendance type(UserType type) {
-        this.type = type;
-        return this;
-    }
-
-    public void setType(UserType type) {
-        this.type = type;
-    }
-
     public Device getDev() {
         return dev;
     }
@@ -120,7 +102,6 @@ public class Attendance implements Serializable {
             "id=" + getId() +
             ", timestamp='" + getTimestamp() + "'" +
             ", deviceID='" + getDeviceID() + "'" +
-            ", type='" + getType() + "'" +
             "}";
     }
 }

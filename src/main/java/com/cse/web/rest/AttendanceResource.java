@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -55,6 +56,12 @@ public class AttendanceResource {
         return ResponseEntity.created(new URI("/api/attendances/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/attendances/saveall")
+    @PreAuthorize("hasRole('DEVICE')")
+    public boolean saveAll(@RequestBody List<AttendanceDTO> attendances) {
+        return attendanceService.saveAll(attendances);
     }
 
     /**
@@ -114,4 +121,11 @@ public class AttendanceResource {
         attendanceService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @GetMapping("/attendances/bydeviceid/{id}")
+    public List<AttendanceDTO> findByDeviceID(@PathVariable String id) {
+        log.debug("REST request to get Attendance : {}", id);
+        return attendanceService.getByDeviceID(id);
+    }
+
 }
