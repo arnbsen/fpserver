@@ -7,6 +7,7 @@ import com.cse.security.AuthoritiesConstants;
 import com.cse.service.MailService;
 import com.cse.service.UserService;
 import com.cse.service.dto.UserDTO;
+import com.cse.service.mapper.UserMapper;
 import com.cse.web.rest.errors.BadRequestAlertException;
 import com.cse.web.rest.errors.EmailAlreadyUsedException;
 import com.cse.web.rest.errors.LoginAlreadyUsedException;
@@ -187,5 +188,10 @@ public class UserResource {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName,  "A user is deleted with identifier " + login, login)).build();
+    }
+
+    @PostMapping("/users/deviceid")
+    public Optional<UserDTO> updateUserWithDeviceID(@RequestBody UserDTO userDTO) {
+        return userService.updateUser(userDTO);
     }
 }

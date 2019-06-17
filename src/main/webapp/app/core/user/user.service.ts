@@ -36,4 +36,8 @@ export class UserService {
   authorities(): Observable<string[]> {
     return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
   }
+
+  addDeviceID(user: IUser): Observable<HttpResponse<IUser>> {
+    return this.http.post<IUser>(this.resourceUrl + '/deviceid', user, { observe: 'response' });
+  }
 }

@@ -66,12 +66,26 @@
 </div> -->
 <jhi-toolbar></jhi-toolbar>
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height">
-    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
-        <mat-card *ngIf="currentAccount">
-            <mat-card-header>
-                <mat-card-title>{{currentAccount.firstName + ' ' + currentAccount.lastName}}</mat-card-title>
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="full-width">
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" [fxFlex]="25" class="mat-elevation-z4" style="padding-left: 10px; padding-bottom: 10px; padding-right: 10px">
+            <h3 *ngIf="currentAccount"> {{currentAccount.firstName + ' ' + currentAccount.lastName}} </h3>
+            <p *ngIf="faculty" style="color:#515a6e">Faculty Code:  {{ faculty.facultyCode }}</p>
+            <p *ngIf="department" style="color: gray">{{ department.deptCode + ' - ' + department.deptName}}</p>
+            <span *ngIf="!currentAccount.deviceID" style="color: #2b68ff" fxLayoutAlign="start center">
 
-            </mat-card-header>
-        </mat-card>
+                <p>Device ID not registered.</p> &nbsp;<mat-icon matTooltip="Without Device ID Attendance will Not Sync">error</mat-icon>
+            </span>
+            <button [disabled]="currentAccount.deviceID" mat-flat-button color="primary" style="width: 100%"  (click)="openDialog()">
+            <mat-icon>add</mat-icon> Add Device ID
+            </button>
+        </div>
     </div>
+    <mat-list *ngIf="attendances">
+        <h3 mat-subheader>Dates Present</h3>
+        <mat-list-item *ngFor="let attendance of attendances">
+            <mat-icon mat-list-icon>calendar</mat-icon>
+            <p mat-line> {{attendance.timestamp | date}} </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
 </div>

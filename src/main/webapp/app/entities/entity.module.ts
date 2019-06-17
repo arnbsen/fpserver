@@ -7,6 +7,7 @@ import { UserRouteAccessService } from 'app/core';
 import { DepartmentResolve } from './department';
 import { TimeTableMetaDataDialogComponent } from './time-table-wizard/time-table-wizard.metadata';
 import { SubjectChooserDialogComponent } from './time-table-wizard/subject.chooser.dialog.component';
+import { DeviceIdDialogComponent } from './device-id-dialog/device-id-dialog.component';
 
 @NgModule({
   imports: [
@@ -203,8 +204,14 @@ import { SubjectChooserDialogComponent } from './time-table-wizard/subject.choos
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
   ],
-  declarations: [StudentDashboardComponent, TimeTableWizardComponent, TimeTableMetaDataDialogComponent, SubjectChooserDialogComponent],
-  entryComponents: [TimeTableMetaDataDialogComponent, SubjectChooserDialogComponent],
+  declarations: [
+    StudentDashboardComponent,
+    TimeTableWizardComponent,
+    TimeTableMetaDataDialogComponent,
+    SubjectChooserDialogComponent,
+    DeviceIdDialogComponent
+  ],
+  entryComponents: [TimeTableMetaDataDialogComponent, SubjectChooserDialogComponent, DeviceIdDialogComponent],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [StudentDashboardComponent, TimeTableWizardComponent]
