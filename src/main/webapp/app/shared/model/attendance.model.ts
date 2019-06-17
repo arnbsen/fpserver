@@ -13,8 +13,9 @@ export interface IAttendance {
   timestamp?: Moment;
   deviceID?: string;
   type?: UserType;
+  devId?: string;
 }
 
 export class Attendance implements IAttendance {
-  constructor(public id?: string, public timestamp?: Moment, public deviceID?: string, public type?: UserType) {}
+  constructor(public id?: string, public timestamp?: Moment, public deviceID?: string, public type?: UserType, public devId?: string) {}
 }

@@ -18,6 +18,8 @@ public class AttendanceDTO implements Serializable {
     private UserType type;
 
 
+    private String devId;
+
     public String getId() {
         return id;
     }
@@ -50,6 +52,14 @@ public class AttendanceDTO implements Serializable {
         this.type = type;
     }
 
+    public String getDevId() {
+        return devId;
+    }
+
+    public void setDevId(String deviceId) {
+        this.devId = deviceId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -78,6 +88,7 @@ public class AttendanceDTO implements Serializable {
             ", timestamp='" + getTimestamp() + "'" +
             ", deviceID='" + getDeviceID() + "'" +
             ", type='" + getType() + "'" +
+            ", dev=" + getDevId() +
             "}";
     }
 }

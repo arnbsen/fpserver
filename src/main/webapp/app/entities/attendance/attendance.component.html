@@ -18,6 +18,7 @@
             <th><span>Timestamp</span></th>
             <th><span>Device ID</span></th>
             <th><span>Type</span></th>
+            <th><span>Dev</span></th>
             <th></th>
             </tr>
             </thead>
@@ -27,6 +28,11 @@
                 <td>{{attendance.timestamp | date:'medium'}}</td>
                 <td>{{attendance.deviceID}}</td>
                 <td>{{attendance.type}}</td>
+                <td>
+                    <div *ngIf="attendance.devId">
+                        <a [routerLink]="['../device', attendance.devId , 'view' ]" >{{attendance.devId}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

@@ -17,6 +17,12 @@
                 <dd>
                     <span>{{attendance.type}}</span>
                 </dd>
+                <dt><span>Dev</span></dt>
+                <dd>
+                    <div *ngIf="attendance.devId">
+                        <a [routerLink]="['/device', attendance.devId, 'view']">{{attendance.devId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

@@ -10,15 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.lang.Assert;
-import io.undertow.servlet.spec.HttpServletResponseImpl;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Service Implementation for managing {@link Attendance}.
@@ -87,14 +82,5 @@ public class AttendanceServiceImpl implements AttendanceService {
     public void delete(String id) {
         log.debug("Request to delete Attendance : {}", id);
         attendanceRepository.deleteById(id);
-    }
-
-    @Override
-    public List<AttendanceDTO> saveAll(List<AttendanceDTO> attendances) {
-        attendances.forEach(action -> {
-            Attendance ad = attendanceMapper.toEntity(action);
-            attendanceRepository.save(ad);
-        });
-        return attendances;
     }
 }

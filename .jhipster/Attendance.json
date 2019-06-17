@@ -15,7 +15,16 @@
             "fieldValues": "STUDENT,FACULTY,SSTAFF,HOD,CADMIN"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "device",
+            "otherEntityRelationshipName": "attendance",
+            "relationshipName": "dev",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
     "changelogDate": "20190609193705",
     "entityTableName": "attendance",
     "dto": "mapstruct",

@@ -104,6 +104,7 @@ relationship OneToOne {
   Subject{ofDept} to Department
   SubjectTimeTable{location} to Location
   Device{devLoc} to Location
+  Attendance{dev} to Device
 }
 relationship OneToMany {
     Subject{faculty required} to Faculty{subject}
