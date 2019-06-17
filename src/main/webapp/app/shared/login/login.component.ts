@@ -32,9 +32,7 @@ export class JhiLoginModalComponent implements OnInit, AfterViewInit {
     // public activeModal: NgbActiveModal,
     private fb: FormBuilder
   ) {}
-  ngOnInit(): void {
-    console.log('Hello');
-  }
+  ngOnInit(): void {}
   ngAfterViewInit() {
     // setTimeout(() => this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []), 0);
   }
@@ -71,12 +69,12 @@ export class JhiLoginModalComponent implements OnInit, AfterViewInit {
         // previousState was set in the authExpiredInterceptor before being redirected to login modal.
         // since login is successful, go to stored previousState and clear previousState
         const redirect = this.stateStorageService.getUrl();
-        if (redirect) {
-          this.stateStorageService.storeUrl(null);
-          this.router.navigateByUrl(redirect);
-        } else {
-          this.router.navigateByUrl('home');
-        }
+        // if (redirect) {
+        //   this.stateStorageService.storeUrl(null);
+        //   this.router.navigateByUrl(redirect);
+        // } else {
+        this.router.navigateByUrl('home');
+        // }
       })
       .catch(() => {
         this.authenticationError = true;

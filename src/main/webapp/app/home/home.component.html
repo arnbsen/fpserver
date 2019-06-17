@@ -4,7 +4,9 @@
         hello
     </mat-sidenav>
     <mat-sidenav-content>
-        <!-- <jhi-student-dashboard></jhi-student-dashboard> -->
+        <jhi-faculty *ngIf="enableFaculty"></jhi-faculty>
+        <jhi-student-dashboard *ngIf="enableStudent"></jhi-student-dashboard>
+
     </mat-sidenav-content>
 </mat-sidenav-container>
 <!-- <div class="row">

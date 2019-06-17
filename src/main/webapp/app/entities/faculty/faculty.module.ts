@@ -24,6 +24,7 @@ const ENTITY_STATES = [...facultyRoute, ...facultyPopupRoute];
     FacultyDeletePopupComponent
   ],
   entryComponents: [FacultyComponent, FacultyUpdateComponent, FacultyDeleteDialogComponent, FacultyDeletePopupComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [FacultyComponent]
 })
 export class DevfpserverFacultyModule {}

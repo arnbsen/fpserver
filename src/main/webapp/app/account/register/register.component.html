@@ -371,7 +371,7 @@
                 <mat-form-field  style="width: 60%" appearance="standard" *ngIf="studentForm.get('currentYear').valid">
                     <mat-label>Semester</mat-label>
                     <mat-select formControlName="currentSem">
-                        <mat-option *ngFor="let sem of getSemester(studentForm.get('currentYear').value)" value="sem">{{sem}}</mat-option>
+                        <mat-option *ngFor="let sem of getSemester(studentForm.get('currentYear').value)" [value]="sem">{{sem}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="studentForm.get('currentSem').hasError('required')">
                         Current semester is required

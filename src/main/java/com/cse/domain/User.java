@@ -50,6 +50,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Size(max = 50)
     @Field("deviceID")
+    @Indexed
     private String deviceID;
 
     @Email

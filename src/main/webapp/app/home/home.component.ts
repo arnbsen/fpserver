@@ -20,6 +20,8 @@ export class HomeComponent implements OnInit {
   account: Account;
   modalRef: NgbModalRef;
   showFilter = false;
+  enableStudent = false;
+  enableFaculty = false;
   constructor(
     private accountService: AccountService,
     private loginModalService: LoginModalService,
@@ -31,9 +33,18 @@ export class HomeComponent implements OnInit {
     this.accountService.identity().then((account: Account) => {
       this.account = account;
       this.accountService.hasAuthority('ROLE_ADMIN').then((res: boolean) => {
-        console.log(res);
         if (res) {
           this.router.navigateByUrl('admin');
+        }
+      });
+      this.accountService.hasAuthority('ROLE_FACULTY').then((res: boolean) => {
+        if (res) {
+          this.enableFaculty = true;
+        }
+      });
+      this.accountService.hasAuthority('ROLE_STUDENT').then((res: boolean) => {
+        if (res) {
+          this.enableStudent = true;
         }
       });
     });

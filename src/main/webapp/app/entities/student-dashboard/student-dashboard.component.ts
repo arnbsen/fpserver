@@ -6,7 +6,11 @@ import { HttpResponse } from '@angular/common/http';
 import { DepartmentService } from '../department';
 import { IDepartment } from 'app/shared/model/department.model';
 import { getNumberOfCurrencyDigits } from '@angular/common';
-import { IUser } from 'app/core';
+import { IUser, UserService } from 'app/core';
+import { MatDialog } from '@angular/material';
+import { AttendanceService } from '../attendance';
+import { IAttendance } from 'app/shared/model/attendance.model';
+import { DeviceIdDialogComponent } from '../device-id-dialog/device-id-dialog.component';
 
 @Component({
   selector: 'jhi-student-dashboard',
@@ -19,6 +23,7 @@ export class StudentDashboardComponent implements OnInit {
   account: IUser;
   student: IStudent;
   department: IDepartment;
+  attendances: IAttendance[];
   subject = [
     { subjectName: 'Subject 1', percentage: 70 },
     { subjectName: 'Subject 2', percentage: 80 },
@@ -43,19 +48,23 @@ export class StudentDashboardComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private studentService: StudentService,
-    private departmentService: DepartmentService
+    private departmentService: DepartmentService,
+    protected userService: UserService,
+    protected dialog: MatDialog,
+    protected attendanceService: AttendanceService
   ) {}
 
   ngOnInit() {
     this.accountService.identity().then((account: IUser) => {
       this.account = account;
-      console.log(this.account);
-    });
-    this.studentService.find('5cfc17782a70bd0004f848c0').subscribe((res: HttpResponse<IStudent>) => {
-      this.student = res.body;
-    });
-    this.departmentService.find('	5cf522559c6dc500048c8d28').subscribe((res: HttpResponse<IDepartment>) => {
-      this.department = res.body;
+      this.studentService.findbyUserID(this.account.id).subscribe((res: HttpResponse<IStudent>) => {
+        this.student = res.body;
+        console.log(this.student);
+        this.departmentService.find(res.body.departmentId).subscribe((resp: HttpResponse<IDepartment>) => {
+          this.department = resp.body;
+          console.log(resp.body);
+        });
+      });
     });
   }
   getNumber(num: string): number {
@@ -72,5 +81,29 @@ export class StudentDashboardComponent implements OnInit {
 
   goToPrev() {
     this.prev.nativeElement.click();
+  }
+  loadAttendances() {
+    this.attendanceService.getAllByDeviceID(this.account.deviceID).subscribe((res: HttpResponse<IAttendance[]>) => {
+      console.log(res.body);
+      this.attendances = res.body;
+    });
+  }
+
+  addDeviceID() {
+    this.userService.addDeviceID(this.account).subscribe((res: HttpResponse<IUser>) => {
+      this.account.deviceID = res.body.deviceID;
+      this.loadAttendances();
+    });
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DeviceIdDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addDeviceID();
+      }
+    });
   }
 }
