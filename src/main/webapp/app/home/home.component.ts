@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 import { LoginModalService, AccountService, Account } from 'app/core';
+import { Router } from '@angular/router';
 interface User {
   fullName: string;
   rollNo: number;
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private loginModalService: LoginModalService,
-    private eventManager: JhiEventManager
+    private eventManager: JhiEventManager,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -37,6 +39,11 @@ export class HomeComponent implements OnInit {
     this.eventManager.subscribe('authenticationSuccess', message => {
       this.accountService.identity().then(account => {
         this.account = account;
+        this.accountService.hasAuthority('ROLE_ADMIN').then((res: boolean) => {
+          if (res) {
+            this.router.navigateByUrl('admin');
+          }
+        });
       });
     });
   }
