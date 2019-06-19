@@ -83,4 +83,12 @@ public class SubjectTimeTableServiceImpl implements SubjectTimeTableService {
         log.debug("Request to delete SubjectTimeTable : {}", id);
         subjectTimeTableRepository.deleteById(id);
     }
+
+    @Override
+    public List<SubjectTimeTableDTO> saveAll(List<SubjectTimeTableDTO> subjectList) {
+        subjectList.forEach(action -> {
+            subjectTimeTableRepository.save(subjectTimeTableMapper.toEntity(action));
+        });
+        return subjectList;
+    }
 }

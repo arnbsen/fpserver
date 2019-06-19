@@ -10,6 +10,9 @@ import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NguCarouselModule } from '@ngu/carousel';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 @NgModule({
   imports: [
     NgbModule,
@@ -20,7 +23,11 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     MaterialModule,
     FlexLayoutModule,
     NguCarouselModule,
-    MomentDateModule
+    MomentDateModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   exports: [
     FormsModule,
@@ -33,7 +40,8 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     MaterialModule,
     FlexLayoutModule,
     NguCarouselModule,
-    MomentDateModule
+    MomentDateModule,
+    CalendarModule
   ]
 })
 export class DevfpserverSharedLibsModule {

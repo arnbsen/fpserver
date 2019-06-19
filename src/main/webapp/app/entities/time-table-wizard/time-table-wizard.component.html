@@ -1,6 +1,6 @@
 <jhi-toolbar></jhi-toolbar>
-<mat-progress-bar mode="indeterminate" *ngIf="!subjects"></mat-progress-bar>
-<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height" *ngIf="subjects">
+<mat-progress-bar mode="indeterminate" *ngIf="!subjects &&!locations"></mat-progress-bar>
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height" *ngIf="subjects && locations">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="full-width">
         <span><h3>Time Table Wizard</h3></span>
         <h4 style="color: gray">{{department.deptName}}</h4>
@@ -12,6 +12,8 @@
             <mat-icon>edit</mat-icon>
             Edit
         </button>
+        <mat-spinner [diameter]="30"  *ngIf="saveMessage"></mat-spinner>
+        <p *ngIf="saveMessage">{{saveMessage}}</p>
         <button mat-raised-button style="width: 150px" *ngIf="hasChoosenOptions" color="primary" (click)="saveData()">
             <mat-icon>save</mat-icon>
             Save
@@ -38,7 +40,8 @@
                         fxLayout="column" fxLayoutAlign="center center"fxLayoutGap="0px" style="padding: 0px !important; margin: 0px !important" class="timetable-span">
                         <span *ngFor="let sub of class.subjects" fxLayoutAlign="center center">
                             <h4 *ngIf="checkForString(sub)">{{sub}}</h4>
-                            <p *ngIf="!checkForString(sub)" style="font-size: 15px" class="timetable-span-p">{{createParagraph(sub)}}</p>
+                            <button *ngIf="checkForString(sub)" matTooltip="Reset Day" mat-icon-button color="primary" (click)="removeHoliday()" ><mat-icon>replay</mat-icon></button>
+                            <p *ngIf="!checkForString(sub)" style="font-size: 15px" class="timetable-span-p">{{createParagraph(sub.subject) + ' - ' + sub.location.locationName}}</p>
                         </span>
 
                         <span>
@@ -69,11 +72,11 @@
     <mat-icon>class</mat-icon>
     <span>Add A Regular Class</span>
 </button>
-<button mat-menu-item (click)="openSubjectChooser('LAB')">
+<button mat-menu-item (click)="openSubjectChooser('LAB')" [disabled]="disableLab" >
     <mat-icon>device_hub</mat-icon>
     <span>Add a Lab</span>
 </button>
-<button mat-menu-item (click)="declareHoliday()">
+<button mat-menu-item (click)="declareHoliday()" *ngIf="!disableHoliday">
     <mat-icon>beach_access</mat-icon>
     <span>Declare Holiday</span>
 </button>

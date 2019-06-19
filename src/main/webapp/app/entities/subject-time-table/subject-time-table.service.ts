@@ -35,4 +35,8 @@ export class SubjectTimeTableService {
   delete(id: string): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  saveAll(req?: ISubjectTimeTable[]): Observable<EntityArrayResponseType> {
+    return this.http.post<ISubjectTimeTable[]>(this.resourceUrl + '/savebatch', req, { observe: 'response' });
+  }
 }

@@ -115,4 +115,11 @@ public class SubjectTimeTableResource {
         subjectTimeTableService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @PostMapping("/subject-time-tables/savebatch")
+    List<SubjectTimeTableDTO> saveAllSubjects(@RequestBody List<SubjectTimeTableDTO> subjects) {
+        return subjectTimeTableService.saveAll(subjects);
+    }
 }
+
+

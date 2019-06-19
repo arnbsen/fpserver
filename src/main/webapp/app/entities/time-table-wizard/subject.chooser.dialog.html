@@ -1,17 +1,25 @@
-<h2 mat-dialog-title>Choose Subject</h2>
-<mat-dialog-content class="mat-typography">
-    <mat-form-field appearance="standard" style="width: 250px">
-        <mat-label>Select One</mat-label>
-        <mat-select [(ngModel)]="returnData">
-            <mat-option *ngFor="let sub of data" [value]="sub">
+<h2 mat-dialog-title>Choose Subject & Location</h2>
+<mat-dialog-content class="mat-typography" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <mat-form-field appearance="standard" style="width: 300px">
+        <mat-label>Select Subject</mat-label>
+        <mat-select [(ngModel)]="returnSub" required>
+            <mat-option *ngFor="let sub of data[0]" [value]="sub">
                 {{sub.subjectCode + ' - ' + sub.subjectName  + ' -   '}}
                 <span *ngFor="let fac of sub.faculty">{{fac.facultyCode + '  '}}</span>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="standard" style="width: 300px">
+        <mat-label>Select Location</mat-label>
+        <mat-select [(ngModel)]="returnLoc" required>
+            <mat-option *ngFor="let loc of data[1]" [value]="loc">
+               {{loc.locationName}}
             </mat-option>
         </mat-select>
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
     <button mat-flat-button [mat-dialog-close]="null" style="width: 170px" color="warn">Cancel</button>
-    <button mat-flat-button [mat-dialog-close]="returnData" style="width: 170px" color="primary"
+    <button mat-flat-button [mat-dialog-close]="[returnSub, returnLoc]" style="width: 170px" color="primary"
         cdkFocusInitial>Add</button>
 </mat-dialog-actions>

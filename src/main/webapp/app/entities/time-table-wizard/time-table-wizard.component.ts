@@ -17,6 +17,8 @@ import { filter, map } from 'rxjs/operators';
 import { SubjectChooserDialogComponent } from './subject.chooser.dialog.component';
 import { IFaculty } from 'app/shared/model/faculty.model';
 import { anyTypeAnnotation } from '@babel/types';
+import { ILocation, Location } from 'app/shared/model/location.model';
+import { LocationService } from '../location';
 
 export interface DialogData {
   year: number;
@@ -25,7 +27,15 @@ export interface DialogData {
 export interface SubjectTimeTableData {
   subjectsList?: [
     {
-      subjects: ISubject[] | string[];
+      subjects:
+        | [
+            {
+              subject?: ISubject;
+              location?: ILocation;
+              type?: string;
+            }
+          ]
+        | string[];
       span?: number;
       startTime?: number;
       endTime?: number;
@@ -63,10 +73,14 @@ export class TimeTableWizardComponent implements OnInit {
   timeTable: ITimeTable = {};
   department: IDepartment;
   hasChoosenOptions = false;
+  disableLab = false;
+  disableHoliday = false;
   wizardData: DialogData;
   choosenDay: string;
   subjects: ISubject[];
   weekTimeTable = {};
+  locations: ILocation[];
+  saveMessage: string;
 
   constructor(
     public dialog: MatDialog,
@@ -74,7 +88,8 @@ export class TimeTableWizardComponent implements OnInit {
     protected subjectTimeTableService: SubjectTimeTableService,
     protected daytimeTableService: DayTimeTableService,
     protected timeTableService: TimeTableService,
-    protected subjectService: SubjectService
+    protected subjectService: SubjectService,
+    protected locationService: LocationService
   ) {}
 
   ngOnInit() {
@@ -82,6 +97,7 @@ export class TimeTableWizardComponent implements OnInit {
       this.department = department;
       this.timeTable.departmentId = this.department.id;
       this.loadAllSubjects();
+      this.loadAllLocations();
     });
   }
 
@@ -129,9 +145,25 @@ export class TimeTableWizardComponent implements OnInit {
     });
   }
 
+  loadAllLocations() {
+    this.locationService
+      .query()
+      .pipe(
+        filter((res: HttpResponse<ILocation[]>) => res.ok),
+        map((res: HttpResponse<ILocation[]>) => res.body)
+      )
+      .subscribe(
+        (res: ILocation[]) => {
+          this.locations = res;
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
   chooseCurrentDay(day: string) {
     this.choosenDay = day;
-    console.log(this.weekTimeTable[day]);
+    this.disableLabFn();
+    // console.log(this.weekTimeTable[day]);
   }
   declareHoliday() {
     this.weekTimeTable[this.choosenDay].subjectsList = [];
@@ -139,6 +171,7 @@ export class TimeTableWizardComponent implements OnInit {
       subjects: ['HOLIDAY'],
       span: 100
     });
+    this.weekTimeTable[this.choosenDay].spanCount = 100;
     this.weekTimeTable[this.choosenDay].disableAdd = true;
     console.log(this.weekTimeTable);
   }
@@ -147,34 +180,59 @@ export class TimeTableWizardComponent implements OnInit {
     return isString(val);
   }
 
-  openSubjectChooser(type: string, subArray: ISubject[] = null) {
+  openSubjectChooser(type: string, subArray: [{ subject: ISubject; location: ILocation; type: string }] = null) {
     const dialogRef = this.dialog.open(SubjectChooserDialogComponent, {
-      data: this.subjects
+      data: [this.subjects, this.locations]
     });
     type = this.weekTimeTable[this.choosenDay].spanCount === 55 ? 'TUTORIAL' : type;
     console.log(this.weekTimeTable[this.choosenDay].spanCount);
 
     const spanWidth = this.spanMeasure[type];
     dialogRef.afterClosed().subscribe(result => {
-      if (!subArray) {
-        this.weekTimeTable[this.choosenDay].subjectsList.push({
-          subjects: [
-            new Subject(result.id, result.subjectCode, result.subjectName, result.year, result.semester, result.ofDeptId, result.faculty)
-          ],
-          span: spanWidth,
-          startTime: this.weekTimeTable[this.choosenDay].lastTime + 1,
-          endTime: this.weekTimeTable[this.choosenDay].lastTime +=
-            type === 'TUTORIAL' ? 35 * 60 * 1000 : type === 'REGULAR' ? 55 * 60 * 1000 : 3 * 60 * 60 * 1000
-        });
-        this.weekTimeTable[this.choosenDay].spanCount += spanWidth;
-        console.log(this.weekTimeTable[this.choosenDay].spanCount);
-        this.weekTimeTable[this.choosenDay].lastTime += this.weekTimeTable[this.choosenDay].spanCount === 31 ? 15 * 60 * 1000 : 0;
-        this.weekTimeTable[this.choosenDay].lastTime += type === 'TUTORIAL' ? 45 * 60 * 1000 : 0;
-        this.weekTimeTable[this.choosenDay].disableAdd = this.weekTimeTable[this.choosenDay].spanCount === 100;
-      } else {
-        subArray.push(
-          new Subject(result.id, result.subjectCode, result.subjectName, result.year, result.semester, result.ofDeptId, result.faculty)
-        );
+      if (result) {
+        if (!subArray) {
+          this.weekTimeTable[this.choosenDay].subjectsList.push({
+            subjects: [
+              {
+                subject: new Subject(
+                  result[0].id,
+                  result[0].subjectCode,
+                  result[0].subjectName,
+                  result[0].year,
+                  result[0].semester,
+                  result[0].ofDeptId,
+                  result[0].faculty
+                ),
+                location: new Location(result[1].id, result[1].locationName),
+                type
+              }
+            ],
+            span: spanWidth,
+            startTime: this.weekTimeTable[this.choosenDay].lastTime + 1,
+            endTime: this.weekTimeTable[this.choosenDay].lastTime +=
+              type === 'TUTORIAL' ? 35 * 60 * 1000 : type === 'REGULAR' ? 55 * 60 * 1000 : 3 * 60 * 60 * 1000
+          });
+          this.weekTimeTable[this.choosenDay].spanCount += spanWidth;
+          console.log(this.weekTimeTable[this.choosenDay].spanCount);
+          this.weekTimeTable[this.choosenDay].lastTime += this.weekTimeTable[this.choosenDay].spanCount === 31 ? 15 * 60 * 1000 : 0;
+          this.weekTimeTable[this.choosenDay].lastTime += type === 'TUTORIAL' ? 45 * 60 * 1000 : 0;
+          this.weekTimeTable[this.choosenDay].disableAdd = this.weekTimeTable[this.choosenDay].spanCount === 100;
+        } else {
+          subArray.push({
+            subject: new Subject(
+              result[0].id,
+              result[0].subjectCode,
+              result[0].subjectName,
+              result[0].year,
+              result[0].semester,
+              result[0].ofDeptId,
+              result[0].faculty
+            ),
+            location: new Location(result[1].id, result[1].locationName),
+            type: subArray[0].type
+          });
+        }
+        this.disableLabFn();
       }
     });
   }
@@ -182,9 +240,9 @@ export class TimeTableWizardComponent implements OnInit {
   createParagraph(sub: ISubject) {
     let fac = '';
     sub.faculty.forEach((facu: IFaculty) => {
-      fac += facu.facultyCode + ' / ';
+      fac += facu.facultyCode + ', ';
     });
-    return '  ' + sub.subjectName + ' ' + fac;
+    return '  ' + sub.subjectName + ' ' + fac.substr(0, fac.length - 2);
   }
 
   removeSubject(data: any, subjects: ISubject[]) {
@@ -207,9 +265,63 @@ export class TimeTableWizardComponent implements OnInit {
       data.spanCount -= param.span;
       data.disableAdd = false;
     }
+    this.disableLabFn();
   }
 
   saveData() {
-    console.log(this.weekTimeTable);
+    this.saveMessage = 'Validating';
+    let allOk = true;
+    this.daysOfWeek.forEach((val: string) => {
+      console.log(allOk, this.weekTimeTable[val].spanCount);
+      allOk = allOk && this.weekTimeTable[val].spanCount === 100;
+    });
+    if (allOk) {
+      this.saveMessage = 'Saving. Please Wait';
+      const subjects: ISubjectTimeTable[] = [];
+      this.daysOfWeek.forEach((val: string) => {
+        this.weekTimeTable[val].subjectsList.forEach(element => {
+          element.subjects.forEach(sub => {
+            if (!isString(sub)) {
+              subjects.push({
+                classType: sub.type,
+                startTime: element.startTime,
+                endTime: element.endTime,
+                locationId: sub.location.id,
+                subjectId: sub.subject.id
+              });
+            }
+          });
+        });
+      });
+      this.subjectTimeTableService.saveAll(subjects).subscribe(
+        (res: HttpResponse<ISubjectTimeTable[]>) => {},
+        (err: HttpErrorResponse) => {
+          console.log(err);
+        }
+      );
+    }
+  }
+
+  disableLabFn() {
+    if (!this.choosenDay) {
+      this.disableLab = false;
+      this.disableHoliday = false;
+    } else {
+      if (this.weekTimeTable[this.choosenDay].spanCount < 64) {
+        this.disableLab = this.weekTimeTable[this.choosenDay].spanCount >= 24;
+      } else {
+        this.disableLab = this.weekTimeTable[this.choosenDay].spanCount >= 76;
+      }
+      this.disableHoliday = this.weekTimeTable[this.choosenDay].spanCount > 7;
+    }
+  }
+
+  removeHoliday() {
+    this.weekTimeTable[this.choosenDay] = {
+      subjectsList: [],
+      lastTime: 9 * 60 * 60 * 1000 + 30 * 60 * 1000,
+      disableAdd: false,
+      spanCount: 7
+    };
   }
 }

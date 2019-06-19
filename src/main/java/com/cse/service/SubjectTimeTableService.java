@@ -40,4 +40,6 @@ public interface SubjectTimeTableService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    List<SubjectTimeTableDTO> saveAll(List<SubjectTimeTableDTO> subjectList);
 }

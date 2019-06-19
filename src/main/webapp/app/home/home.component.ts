@@ -34,17 +34,19 @@ export class HomeComponent implements OnInit {
       this.account = account;
       this.accountService.hasAuthority('ROLE_ADMIN').then((res: boolean) => {
         if (res) {
-          this.router.navigateByUrl('admin');
-        }
-      });
-      this.accountService.hasAuthority('ROLE_FACULTY').then((res: boolean) => {
-        if (res) {
-          this.enableFaculty = true;
-        }
-      });
-      this.accountService.hasAuthority('ROLE_STUDENT').then((res: boolean) => {
-        if (res) {
-          this.enableStudent = true;
+          this.router.navigateByUrl('/admin');
+        } else {
+          this.accountService.hasAuthority('ROLE_FACULTY').then((resf: boolean) => {
+            if (resf) {
+              this.enableFaculty = true;
+            } else {
+              this.accountService.hasAuthority('ROLE_STUDENT').then((resu: boolean) => {
+                if (resu) {
+                  this.enableStudent = true;
+                }
+              });
+            }
+          });
         }
       });
     });
