@@ -1,5 +1,6 @@
 package com.cse.service;
 
+import com.cse.domain.TimeTable;
 import com.cse.service.dto.TimeTableDTO;
 
 import java.util.List;
@@ -40,4 +41,6 @@ public interface TimeTableService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    Optional<TimeTable> findOneOrg(String id);
 }

@@ -83,4 +83,9 @@ public class TimeTableServiceImpl implements TimeTableService {
         log.debug("Request to delete TimeTable : {}", id);
         timeTableRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<TimeTable> findOneOrg(String id) {
+        return timeTableRepository.findById(id);
+    }
 }

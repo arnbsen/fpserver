@@ -1,5 +1,6 @@
 package com.cse.web.rest;
 
+import com.cse.domain.TimeTable;
 import com.cse.service.TimeTableService;
 import com.cse.web.rest.errors.BadRequestAlertException;
 import com.cse.service.dto.TimeTableDTO;
@@ -114,5 +115,12 @@ public class TimeTableResource {
         log.debug("REST request to delete TimeTable : {}", id);
         timeTableService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+    }
+
+    @GetMapping("/time-tables/org/{id}")
+    public ResponseEntity<TimeTable> getTimeTableOrg(@PathVariable String id) {
+        log.debug("REST request to get TimeTable : {}", id);
+        Optional<TimeTable> timeTableDTO = timeTableService.findOneOrg(id);
+        return ResponseUtil.wrapOrNotFound(timeTableDTO);
     }
 }

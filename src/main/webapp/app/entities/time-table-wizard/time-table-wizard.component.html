@@ -5,13 +5,14 @@
         <span><h3>Time Table Wizard</h3></span>
         <h4 style="color: gray">{{department.deptName}}</h4>
         <span class="column-spacer"></span>
+        <mat-slide-toggle *ngIf="hasChoosenOptions" [(ngModel)]="enableEdit">Editing</mat-slide-toggle>
         <button mat-raised-button color="primary" style="width: 150px" (click)="openDialog()" [disabled]="hasChoosenOptions">
             <mat-icon>add</mat-icon>
             Create New</button>
-        <button mat-raised-button color="accent" style="width: 150px" *ngIf="hasChoosenOptions">
+        <!-- <button mat-raised-button color="accent" style="width: 150px" *ngIf="hasChoosenOptions" (click)="enableEdit = !enableEdit">
             <mat-icon>edit</mat-icon>
-            Edit
-        </button>
+            {{enableEdit ? 'Done Editing' : 'Edit'}}
+        </button> -->
         <mat-spinner [diameter]="30"  *ngIf="saveMessage"></mat-spinner>
         <p *ngIf="saveMessage">{{saveMessage}}</p>
         <button mat-raised-button style="width: 150px" *ngIf="hasChoosenOptions" color="primary" (click)="saveData()">
@@ -41,7 +42,11 @@
                         <span *ngFor="let sub of class.subjects" fxLayoutAlign="center center">
                             <h4 *ngIf="checkForString(sub)">{{sub}}</h4>
                             <button *ngIf="checkForString(sub)" matTooltip="Reset Day" mat-icon-button color="primary" (click)="removeHoliday()" ><mat-icon>replay</mat-icon></button>
-                            <p *ngIf="!checkForString(sub)" style="font-size: 15px" class="timetable-span-p">{{createParagraph(sub.subject) + ' - ' + sub.location.locationName}}</p>
+                            <p *ngIf="!checkForString(sub)" style="font-size: 15px" class="timetable-span-p">{{createParagraph(sub.subject) + ' - ' + sub.location.locationName}}
+                                <button mat-icon-button *ngIf="enableEdit">
+                                 <mat-icon>edit</mat-icon>
+                                </button>
+                            </p>
                         </span>
 
                         <span>

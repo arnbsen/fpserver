@@ -1,3 +1,5 @@
+import { Subject } from './subject.model';
+
 export const enum ClassType {
   LAB = 'LAB',
   REGULAR = 'REGULAR',
@@ -12,6 +14,16 @@ export interface ISubjectTimeTable {
   classType?: ClassType;
   locationId?: string;
   subjectId?: string;
+  dayTimeTableId?: string;
+}
+
+export interface OSubjectTimeTable {
+  id?: string;
+  startTime?: number;
+  endTime?: number;
+  classType?: ClassType;
+  location?: Location;
+  subject?: Subject;
   dayTimeTableId?: string;
 }
 

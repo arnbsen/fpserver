@@ -1,4 +1,4 @@
-import { ISubjectTimeTable } from 'app/shared/model/subject-time-table.model';
+import { ISubjectTimeTable, OSubjectTimeTable } from 'app/shared/model/subject-time-table.model';
 
 export const enum DayType {
   WORKINGALL = 'WORKINGALL',
@@ -19,12 +19,18 @@ export const enum DayOfWeek {
 
 export interface IDayTimeTable {
   id?: string;
-  dayType?: string;
-  dayOfWeek?: string;
+  dayType?: DayType;
+  dayOfWeek?: DayOfWeek;
   subjects?: ISubjectTimeTable[];
   timeTableId?: string;
 }
-
+export interface ODayTimeTable {
+  id?: string;
+  dayType?: DayType;
+  dayOfWeek?: DayOfWeek;
+  subjects?: OSubjectTimeTable[];
+  timeTableId?: string;
+}
 export class DayTimeTable implements IDayTimeTable {
   constructor(
     public id?: string,

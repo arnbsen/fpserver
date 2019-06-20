@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
-import { ITimeTable } from 'app/shared/model/time-table.model';
+import { ITimeTable, OTimeTable } from 'app/shared/model/time-table.model';
 
 type EntityResponseType = HttpResponse<ITimeTable>;
 type EntityArrayResponseType = HttpResponse<ITimeTable[]>;
@@ -25,6 +25,10 @@ export class TimeTableService {
 
   find(id: string): Observable<EntityResponseType> {
     return this.http.get<ITimeTable>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  findOrg(id: string): Observable<EntityResponseType> {
+    return this.http.get<OTimeTable>(`${this.resourceUrl}/org/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
