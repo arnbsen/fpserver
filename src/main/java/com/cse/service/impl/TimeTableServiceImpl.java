@@ -101,4 +101,22 @@ public class TimeTableServiceImpl implements TimeTableService {
         }
         return tt;
     }
+
+    @Override
+    public Optional<TimeTable> findBySemYearDept(TimeTableDTO dto) {
+        Optional<TimeTable> tOptional = timeTableRepository.customQuery(dto.getYear(), dto.getSemester() ,dto.getDepartmentId());
+        if (tOptional.isPresent()) {
+            tOptional.get().getDayTimeTables().forEach(action -> {
+                action.getSubjects().forEach(ac1 -> {
+
+                    ac1.getSubject().getFaculties().forEach(fac -> {
+                        fac.setDepartment(null);
+                        fac.setUser(null);
+                    });
+                    ac1.getSubject().setOfDept(null);
+                });
+            });
+        }
+        return tOptional;
+    }
 }

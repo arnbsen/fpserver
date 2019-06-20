@@ -36,7 +36,7 @@
             <div fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="0px" *ngFor="let day of daysOfWeek" class="full-width">
                 <div [fxFlex]="100" fxLayout="row" fxLayoutAlign="start center" class="full-width">
                      <div [fxFlex]="7"><h4>{{day}}</h4></div>
-                    <span *ngFor="let class of weekTimeRet[day].subjectsList"
+                    <span *ngFor="let class of weekTimeTable[day].subjectsList"
                         [fxFlex]="class.span"
                         fxLayout="column" fxLayoutAlign="center center"fxLayoutGap="0px" style="padding: 0px !important; margin: 0px !important" class="timetable-span">
                         <span *ngFor="let sub of class.subjects" fxLayoutAlign="center center">
@@ -60,7 +60,7 @@
                         </span>
 
                     </span>
-                     &nbsp; <button mat-mini-fab color="accent" matTooltip="Add a class" (click)="chooseCurrentDay(day)" [matMenuTriggerFor]="menu" *ngIf="!weekTimeRet[day].disableAdd"><mat-icon>add</mat-icon></button>
+                     &nbsp; <button mat-mini-fab color="accent" matTooltip="Add a class" (click)="chooseCurrentDay(day)" [matMenuTriggerFor]="menu" *ngIf="!weekTimeTable[day].disableAdd"><mat-icon>add</mat-icon></button>
                 </div>
                 <mat-divider class="full-width"></mat-divider>
             </div>

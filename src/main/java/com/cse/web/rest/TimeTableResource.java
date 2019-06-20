@@ -123,4 +123,11 @@ public class TimeTableResource {
         Optional<TimeTable> timeTableDTO = timeTableService.findOneOrg(id);
         return ResponseUtil.wrapOrNotFound(timeTableDTO);
     }
+
+    @PostMapping("/time-tables/deptyearsem")
+    public ResponseEntity<TimeTable> filterByYearSemDept(@RequestBody TimeTableDTO dto) {
+        Optional<TimeTable> timeTableDTO = timeTableService.findBySemYearDept(dto);
+        return ResponseUtil.wrapOrNotFound(timeTableDTO);
+    }
+
 }

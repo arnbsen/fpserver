@@ -90,7 +90,6 @@ export class TimeTableWizardComponent implements OnInit {
   choosenDay: string;
   subjects: ISubject[];
   weekTimeTable = {};
-  weekTimeRet = {};
   locations: ILocation[];
   saveMessage: string;
   enableEdit = false;
@@ -111,7 +110,7 @@ export class TimeTableWizardComponent implements OnInit {
       this.timeTable.departmentId = this.department.id;
       this.loadAllSubjects();
       this.loadAllLocations();
-      this.getTimeTable();
+      this.openDialog();
     });
   }
 
@@ -134,19 +133,42 @@ export class TimeTableWizardComponent implements OnInit {
   }
 
   getTimeTable() {
-    this.timeTableService.findOrg('5d0b4ae9502a750004962c49').subscribe((res: HttpResponse<OTimeTable>) => {
-      this.displayTable = res.body;
-      console.log(this.displayTable);
-      this.displayTable.dayTimeTables.forEach((val: ODayTimeTable) => {
-        val.subjects.sort(this.compareSubjectsByTime);
-        this.weekTimeRet[val.dayOfWeek] = {};
-        this.weekTimeRet[val.dayOfWeek].subjectsList = this.createSubjectList(val);
-        this.weekTimeRet[val.dayOfWeek].spanCount = 100;
-        this.weekTimeRet[val.dayOfWeek].lastTime = 63900000;
-        this.weekTimeRet[val.dayOfWeek].disableAdd = true;
-      });
-      console.log(this.weekTimeRet);
-    });
+    const query: ITimeTable = {
+      departmentId: this.department.id,
+      year: this.wizardData.year,
+      semester: this.wizardData.semester
+    };
+    this.timeTableService.findByYearSemDept(query).subscribe(
+      (res: HttpResponse<OTimeTable>) => {
+        this.displayTable = res.body;
+        console.log(this.displayTable);
+        this.displayTable.dayTimeTables.forEach((val: ODayTimeTable) => {
+          val.subjects.sort(this.compareSubjectsByTime);
+          this.weekTimeTable[val.dayOfWeek] = {};
+          this.weekTimeTable[val.dayOfWeek].subjectsList = this.createSubjectList(val);
+          this.weekTimeTable[val.dayOfWeek].spanCount = 100;
+          this.weekTimeTable[val.dayOfWeek].lastTime = 63900000;
+          this.weekTimeTable[val.dayOfWeek].disableAdd = true;
+        });
+        console.log(this.weekTimeTable);
+      },
+      (err: HttpErrorResponse) => {
+        if (err.status === 404) {
+          this.daysOfWeek.forEach(day => {
+            this.weekTimeTable[day] = {
+              subjectsList: [],
+              lastTime: 9 * 60 * 60 * 1000 + 30 * 60 * 1000,
+              disableAdd: false,
+              spanCount: 7
+            };
+          });
+          this.subjects = this.subjects.filter(
+            (val: ISubject) =>
+              val.semester === this.wizardData.semester && val.year === this.wizardData.year && val.ofDeptId === this.department.id
+          );
+        }
+      }
+    );
   }
 
   createSubjectList(from: ODayTimeTable) {
@@ -202,24 +224,16 @@ export class TimeTableWizardComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(TimeTableMetaDataDialogComponent);
+    const dialogRef = this.dialog.open(TimeTableMetaDataDialogComponent, {
+      disableClose: true,
+      closeOnNavigation: true
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== null) {
         this.hasChoosenOptions = true;
         this.wizardData = result;
-        this.daysOfWeek.forEach(day => {
-          this.weekTimeTable[day] = {
-            subjectsList: [],
-            lastTime: 9 * 60 * 60 * 1000 + 30 * 60 * 1000,
-            disableAdd: false,
-            spanCount: 7
-          };
-        });
-        this.subjects = this.subjects.filter(
-          (val: ISubject) =>
-            val.semester === this.wizardData.semester && val.year === this.wizardData.year && val.ofDeptId === this.department.id
-        );
+        this.getTimeTable();
       }
     });
   }

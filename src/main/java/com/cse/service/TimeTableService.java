@@ -43,4 +43,6 @@ public interface TimeTableService {
     void delete(String id);
 
     Optional<TimeTable> findOneOrg(String id);
+
+    Optional<TimeTable> findBySemYearDept(TimeTableDTO dto);
 }
