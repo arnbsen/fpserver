@@ -1,12 +1,11 @@
 <jhi-toolbar></jhi-toolbar>
-<mat-progress-bar mode="indeterminate" *ngIf="!subjects &&!locations"></mat-progress-bar>
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height" *ngIf="subjects && locations">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="full-width">
         <span><h3>Time Table Wizard</h3></span>
         <h4 style="color: gray">{{department.deptName}}</h4>
         <span class="column-spacer"></span>
         <mat-slide-toggle *ngIf="hasChoosenOptions" [(ngModel)]="enableEdit">Editing</mat-slide-toggle>
-        <button mat-raised-button color="primary" style="width: 150px" (click)="openDialog()" [disabled]="hasChoosenOptions">
+        <button mat-raised-button color="primary" style="width: 150px" (click)="enableTable = true" [disabled]="!enableCreate">
             <mat-icon>add</mat-icon>
             Create New</button>
         <!-- <button mat-raised-button color="accent" style="width: 150px" *ngIf="hasChoosenOptions" (click)="enableEdit = !enableEdit">
@@ -21,11 +20,12 @@
         </button>
     </div>
     <mat-divider class="full-width"></mat-divider>
+
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="full-width" *ngIf="hasChoosenOptions">
         <h3>Year: {{this.wizardData.year}} - </h3> <h3>Semester: {{this.wizardData.semester}}</h3>
     </div>
-    <mat-divider class="full-width" *ngIf="hasChoosenOptions"></mat-divider>
-    <div class="full-width" *ngIf="hasChoosenOptions && displayTable" style="height: 65vh; overflow-y: scroll">
+    <mat-divider class="full-width"></mat-divider>
+    <div class="full-width" *ngIf="enableTable" style="height: 65vh; overflow-y: scroll">
         <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px" class="full-width">
             <div [fxFlex]="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px" class="full-width">
                 <span *ngFor="let col of topRow" [fxFlex]="col.span" fxLayoutAlign="center center" class="timetable-span">
@@ -35,26 +35,27 @@
             <mat-divider class="full-width"></mat-divider>
             <div fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="0px" *ngFor="let day of daysOfWeek" class="full-width">
                 <div [fxFlex]="100" fxLayout="row" fxLayoutAlign="start center" class="full-width">
-                     <div [fxFlex]="7"><h4>{{day}}</h4></div>
+                     <div [fxFlex]="7" fxLayout="column" fxLayoutAlign="center center"><h4>{{day}}</h4><button  matTooltip="Reset Day" mat-icon-button color="primary" (click)="removeHoliday(day)">
+                        <mat-icon>replay</mat-icon>
+                    </button></div>
                     <span *ngFor="let class of weekTimeTable[day].subjectsList"
                         [fxFlex]="class.span"
                         fxLayout="column" fxLayoutAlign="center center"fxLayoutGap="0px" style="padding: 0px !important; margin: 0px !important" class="timetable-span">
                         <span *ngFor="let sub of class.subjects" fxLayoutAlign="center center">
                             <h4 *ngIf="checkForString(sub)">{{sub}}</h4>
-                            <button *ngIf="checkForString(sub)" matTooltip="Reset Day" mat-icon-button color="primary" (click)="removeHoliday()" ><mat-icon>replay</mat-icon></button>
                             <p *ngIf="!checkForString(sub)" style="font-size: 15px" class="timetable-span-p">{{createParagraph(sub.subject) + ' - ' + sub.location.locationName}}
-                                <button mat-icon-button *ngIf="enableEdit">
+                                <button mat-icon-button *ngIf="enableEdit" (click)="openSubjectChanger(sub)">
                                  <mat-icon>edit</mat-icon>
                                 </button>
                             </p>
                         </span>
 
                         <span>
-                            <button *ngIf="!checkForString(class.subjects[0])" matTooltip="Add Elective" mat-icon-button
+                            <button *ngIf="!checkForString(class.subjects[0]) && !enableEdit" matTooltip="Add Elective" mat-icon-button
                                 (click)="openSubjectChooser(null, class.subjects)" style="font-size: 10px;" color="primary">
                                 <mat-icon>add</mat-icon>
                             </button>
-                            <button *ngIf="!checkForString(class.subjects[0])" matTooltip="Remove Last Added Subject" mat-icon-button color="warn" (click)="removeSubject(weekTimeTable[day], class.subjects)">
+                            <button *ngIf="!checkForString(class.subjects[0]) && class.subjects.length > 1 && !enableEdit" matTooltip="Remove Last Added Subject" mat-icon-button color="warn" (click)="removeSubject(weekTimeTable[day], class.subjects)">
                                 <mat-icon>remove</mat-icon>
                             </button>
                         </span>
@@ -68,8 +69,11 @@
         </div>
 
     </div>
-    <div  fxLayout="row" fxLayoutAlign="center center"  class="full-width"  *ngIf="!hasChoosenOptions">
+    <div  fxLayout="row" fxLayoutAlign="center center"  class="full-width"  *ngIf="enableCreate">
             <h3>Click on create new to begin</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="full-width" *ngIf="loaderStart">
+        <mat-spinner [diameter]="30"></mat-spinner> &nbsp;&nbsp; <p>Checking for Avialable Time Tables....</p>
     </div>
 </div>
 <mat-menu #menu="matMenu">

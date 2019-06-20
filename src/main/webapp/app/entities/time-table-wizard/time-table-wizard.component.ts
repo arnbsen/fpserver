@@ -93,6 +93,11 @@ export class TimeTableWizardComponent implements OnInit {
   locations: ILocation[];
   saveMessage: string;
   enableEdit = false;
+  allOptionsLoaded = false;
+  enableCreate = false;
+  enableTable = false;
+  loaderStart = false;
+  firstEdit = true;
 
   constructor(
     public dialog: MatDialog,
@@ -133,6 +138,7 @@ export class TimeTableWizardComponent implements OnInit {
   }
 
   getTimeTable() {
+    this.loaderStart = true;
     const query: ITimeTable = {
       departmentId: this.department.id,
       year: this.wizardData.year,
@@ -141,16 +147,19 @@ export class TimeTableWizardComponent implements OnInit {
     this.timeTableService.findByYearSemDept(query).subscribe(
       (res: HttpResponse<OTimeTable>) => {
         this.displayTable = res.body;
-        console.log(this.displayTable);
         this.displayTable.dayTimeTables.forEach((val: ODayTimeTable) => {
           val.subjects.sort(this.compareSubjectsByTime);
           this.weekTimeTable[val.dayOfWeek] = {};
+          this.weekTimeTable[val.dayOfWeek].id = val.id;
           this.weekTimeTable[val.dayOfWeek].subjectsList = this.createSubjectList(val);
           this.weekTimeTable[val.dayOfWeek].spanCount = 100;
           this.weekTimeTable[val.dayOfWeek].lastTime = 63900000;
           this.weekTimeTable[val.dayOfWeek].disableAdd = true;
         });
-        console.log(this.weekTimeTable);
+        this.allOptionsLoaded = true;
+        this.enableTable = true;
+        this.loaderStart = false;
+        this.firstEdit = false;
       },
       (err: HttpErrorResponse) => {
         if (err.status === 404) {
@@ -162,11 +171,12 @@ export class TimeTableWizardComponent implements OnInit {
               spanCount: 7
             };
           });
-          this.subjects = this.subjects.filter(
-            (val: ISubject) =>
-              val.semester === this.wizardData.semester && val.year === this.wizardData.year && val.ofDeptId === this.department.id
-          );
         }
+        this.allOptionsLoaded = true;
+        this.hasChoosenOptions = true;
+        this.enableCreate = true;
+        this.loaderStart = false;
+        this.firstEdit = true;
       }
     );
   }
@@ -179,7 +189,7 @@ export class TimeTableWizardComponent implements OnInit {
         if (lastIndex === -1) {
           list = [
             {
-              subjects: [{ subject: val.subject, location: val.location, type: val.classType }],
+              subjects: [{ id: val.id, subject: val.subject, location: val.location, type: val.classType }],
               span: this.spanMeasure[val.classType],
               startTime: val.startTime,
               endTime: val.endTime
@@ -189,6 +199,7 @@ export class TimeTableWizardComponent implements OnInit {
         } else {
           if (list[lastIndex].startTime === val.startTime) {
             list[lastIndex].subjects.push({
+              id: val.id,
               subject: val.subject,
               location: val.location,
               type: val.classType
@@ -197,6 +208,7 @@ export class TimeTableWizardComponent implements OnInit {
             list.push({
               subjects: [
                 {
+                  id: val.id,
                   subject: val.subject,
                   location: val.location,
                   type: val.classType
@@ -233,6 +245,10 @@ export class TimeTableWizardComponent implements OnInit {
       if (result !== null) {
         this.hasChoosenOptions = true;
         this.wizardData = result;
+        this.subjects = this.subjects.filter(
+          (val: ISubject) =>
+            val.semester === this.wizardData.semester && val.year === this.wizardData.year && val.ofDeptId === this.department.id
+        );
         this.getTimeTable();
       }
     });
@@ -277,13 +293,13 @@ export class TimeTableWizardComponent implements OnInit {
     const dialogRef = this.dialog.open(SubjectChooserDialogComponent, {
       data: [this.subjects, this.locations]
     });
-    type = this.weekTimeTable[this.choosenDay].spanCount === 55 ? 'TUTORIAL' : type;
     // console.log(this.weekTimeTable[this.choosenDay].spanCount);
-
+    console.log(subArray);
     const spanWidth = this.spanMeasure[type];
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (!subArray) {
+          type = this.weekTimeTable[this.choosenDay].spanCount === 55 ? 'TUTORIAL' : type;
           this.weekTimeTable[this.choosenDay].subjectsList.push({
             subjects: [
               {
@@ -330,6 +346,18 @@ export class TimeTableWizardComponent implements OnInit {
     });
   }
 
+  openSubjectChanger(obj: any) {
+    const dialogRef = this.dialog.open(SubjectChooserDialogComponent, {
+      data: [this.subjects, this.locations]
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        obj.subject = result[0];
+        obj.location = result[1];
+      }
+    });
+  }
+
   createParagraph(sub: ISubject | any) {
     let fac = '';
     if (sub.faculty) {
@@ -358,8 +386,6 @@ export class TimeTableWizardComponent implements OnInit {
     }
     if (subjects.length === 0 && data.subjectsList.length > 1) {
       const param = data.subjectsList.pop();
-      const index = data.subjectsList.length - 1;
-      // console.log(param);
       data.lastTime = param.endTime - param.startTime + 1;
       data.spanCount -= param.span;
       data.disableAdd = false;
@@ -384,6 +410,7 @@ export class TimeTableWizardComponent implements OnInit {
           element.subjects.forEach(sub => {
             if (!isString(sub)) {
               subjects.push({
+                id: sub.id,
                 classType: sub.type,
                 startTime: element.startTime,
                 endTime: element.endTime,
@@ -422,6 +449,7 @@ export class TimeTableWizardComponent implements OnInit {
         });
       } else {
         this.timeTable.dayTimeTables.push({
+          id: this.weekTimeTable[day].id,
           dayOfWeek: day,
           dayType: DayType.WORKINGALL,
           subjects: subjects.splice(0, subcount[day])
@@ -442,16 +470,27 @@ export class TimeTableWizardComponent implements OnInit {
   createTimeTable() {
     this.timeTable.semester = this.wizardData.semester;
     this.timeTable.year = this.wizardData.year;
-    this.timeTableService.create(this.timeTable).subscribe(
-      (res: HttpResponse<ITimeTable>) => {
-        this.timeTable = res.body;
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    this.timeTable.id = this.displayTable.id;
+    if (this.firstEdit) {
+      this.timeTableService.create(this.timeTable).subscribe(
+        (res: HttpResponse<ITimeTable>) => {
+          this.timeTable = res.body;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.timeTableService.update(this.timeTable).subscribe(
+        (res: HttpResponse<ITimeTable>) => {
+          this.timeTable = res.body;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
   }
-
   disableLabFn() {
     if (!this.choosenDay) {
       this.disableLab = false;
@@ -466,8 +505,8 @@ export class TimeTableWizardComponent implements OnInit {
     }
   }
 
-  removeHoliday() {
-    this.weekTimeTable[this.choosenDay] = {
+  removeHoliday(day: DayOfWeek) {
+    this.weekTimeTable[day] = {
       subjectsList: [],
       lastTime: 9 * 60 * 60 * 1000 + 30 * 60 * 1000,
       disableAdd: false,
