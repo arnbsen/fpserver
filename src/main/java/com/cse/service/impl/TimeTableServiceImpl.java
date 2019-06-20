@@ -86,6 +86,19 @@ public class TimeTableServiceImpl implements TimeTableService {
 
     @Override
     public Optional<TimeTable> findOneOrg(String id) {
-        return timeTableRepository.findById(id);
+        Optional<TimeTable> tt = timeTableRepository.findById(id);
+        if (tt.isPresent()) {
+            tt.get().getDayTimeTables().forEach(action -> {
+                action.getSubjects().forEach(ac1 -> {
+
+                    ac1.getSubject().getFaculties().forEach(fac -> {
+                        fac.setDepartment(null);
+                        fac.setUser(null);
+                    });
+                    ac1.getSubject().setOfDept(null);
+                });
+            });
+        }
+        return tt;
     }
 }

@@ -7,7 +7,7 @@ import { TimeTableMetaDataDialogComponent } from './time-table-wizard.metadata';
 import { SubjectTimeTableService } from '../subject-time-table';
 import { DayTimeTableService } from '../day-time-table';
 import { TimeTableService } from '../time-table/time-table.service';
-import { ISubjectTimeTable, ClassType } from 'app/shared/model/subject-time-table.model';
+import { ISubjectTimeTable, ClassType, OSubjectTimeTable } from 'app/shared/model/subject-time-table.model';
 import { ISubject, Subject } from 'app/shared/model/subject.model';
 import { Time } from '@angular/common';
 import { isString } from 'util';
@@ -19,7 +19,7 @@ import { IFaculty } from 'app/shared/model/faculty.model';
 import { anyTypeAnnotation } from '@babel/types';
 import { ILocation, Location } from 'app/shared/model/location.model';
 import { LocationService } from '../location';
-import { DayOfWeek, DayType } from 'app/shared/model/day-time-table.model';
+import { DayOfWeek, DayType, ODayTimeTable } from 'app/shared/model/day-time-table.model';
 import { IDayTimeTable } from 'app/shared/model/day-time-table.model';
 
 export interface DialogData {
@@ -137,40 +137,69 @@ export class TimeTableWizardComponent implements OnInit {
     this.timeTableService.findOrg('5d0b4ae9502a750004962c49').subscribe((res: HttpResponse<OTimeTable>) => {
       this.displayTable = res.body;
       console.log(this.displayTable);
-      // const timeTable: ITimeTable = res.body;
-      // timeTable.dayTimeTables.forEach((val: IDayTimeTable) => {
-      //     val.subjects.sort(this.compareSubjectsByTime);
-      //     this.weekTimeRet[val.dayOfWeek] = {};
-      //     if (val.dayType === DayType.WORKINGALL) {
-      //       this.weekTimeRet[val.dayOfWeek].subjectList = [];
-
-      //     }
-      // });
+      this.displayTable.dayTimeTables.forEach((val: ODayTimeTable) => {
+        val.subjects.sort(this.compareSubjectsByTime);
+        this.weekTimeRet[val.dayOfWeek] = {};
+        this.weekTimeRet[val.dayOfWeek].subjectsList = this.createSubjectList(val);
+        this.weekTimeRet[val.dayOfWeek].spanCount = 100;
+        this.weekTimeRet[val.dayOfWeek].lastTime = 63900000;
+        this.weekTimeRet[val.dayOfWeek].disableAdd = true;
+      });
+      console.log(this.weekTimeRet);
     });
   }
 
-  // createSubjectList(from: IDayTimeTable, list: any[]) {
-  //   let lastIndex = -1;
-  //     if (from.dayType === DayType.WORKINGALL) {
-  //         from.subjects.forEach((val: ISubjectTimeTable) => {
-  //           if (lastIndex === -1) {
-  //               list = [
-  //                 {
-  //                   subjects: [{}],
-  //                   span: val.classType === ClassType.LAB ? 36 : ClassType.REGULAR ? 12 : 9,
-  //                   location: new Location(val.locationId, null)
-  //                 }
-  //               ];
-  //           }
-
-  //         });
-  //     } else {
-  //       list = [{
-  //           subjects: ['HOLIDAY'],
-  //           spanCount: 100
-  //       }];
-  //     }
-  // }
+  createSubjectList(from: ODayTimeTable) {
+    let list = [];
+    let lastIndex = -1;
+    if (from.dayType === DayType.WORKINGALL) {
+      from.subjects.forEach((val: OSubjectTimeTable) => {
+        if (lastIndex === -1) {
+          list = [
+            {
+              subjects: [{ subject: val.subject, location: val.location, type: val.classType }],
+              span: this.spanMeasure[val.classType],
+              startTime: val.startTime,
+              endTime: val.endTime
+            }
+          ];
+          lastIndex = 0;
+        } else {
+          if (list[lastIndex].startTime === val.startTime) {
+            list[lastIndex].subjects.push({
+              subject: val.subject,
+              location: val.location,
+              type: val.classType
+            });
+          } else {
+            list.push({
+              subjects: [
+                {
+                  subject: val.subject,
+                  location: val.location,
+                  type: val.classType
+                }
+              ],
+              span: this.spanMeasure[val.classType],
+              startTime: val.startTime,
+              endTime: val.endTime
+            });
+            lastIndex += 1;
+          }
+        }
+      });
+    } else {
+      list = [
+        {
+          subjects: ['HOLIDAY'],
+          span: 100,
+          startTime: 34200000,
+          endTime: 63000000
+        }
+      ];
+    }
+    return list;
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(TimeTableMetaDataDialogComponent);
@@ -287,11 +316,17 @@ export class TimeTableWizardComponent implements OnInit {
     });
   }
 
-  createParagraph(sub: ISubject) {
+  createParagraph(sub: ISubject | any) {
     let fac = '';
-    sub.faculty.forEach((facu: IFaculty) => {
-      fac += facu.facultyCode + ', ';
-    });
+    if (sub.faculty) {
+      sub.faculty.forEach((facu: IFaculty) => {
+        fac += facu.facultyCode + ', ';
+      });
+    } else {
+      sub.faculties.forEach((facu: IFaculty) => {
+        fac += facu.facultyCode + ', ';
+      });
+    }
     return '  ' + sub.subjectName + ' ' + fac.substr(0, fac.length - 2);
   }
 
