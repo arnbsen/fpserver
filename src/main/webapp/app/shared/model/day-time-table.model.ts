@@ -19,8 +19,8 @@ export const enum DayOfWeek {
 
 export interface IDayTimeTable {
   id?: string;
-  dayType?: DayType;
-  dayOfWeek?: DayOfWeek;
+  dayType?: string;
+  dayOfWeek?: string;
   subjects?: ISubjectTimeTable[];
   timeTableId?: string;
 }

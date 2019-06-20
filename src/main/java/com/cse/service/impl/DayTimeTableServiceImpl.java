@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -82,5 +83,14 @@ public class DayTimeTableServiceImpl implements DayTimeTableService {
     public void delete(String id) {
         log.debug("Request to delete DayTimeTable : {}", id);
         dayTimeTableRepository.deleteById(id);
+    }
+
+    @Override
+    public List<DayTimeTableDTO> saveBatch(List<DayTimeTableDTO> daytimetable) {
+        List<DayTimeTable> dtt = new ArrayList<>();
+        daytimetable.forEach(action -> {
+            dtt.add(dayTimeTableRepository.save(dayTimeTableMapper.toEntity(action)));
+        });
+        return dayTimeTableMapper.toDto(dtt);
     }
 }

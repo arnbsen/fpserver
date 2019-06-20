@@ -40,4 +40,6 @@ public interface DayTimeTableService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    List<DayTimeTableDTO> saveBatch(List<DayTimeTableDTO> daytimetable);
 }

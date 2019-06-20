@@ -19,6 +19,8 @@ import { IFaculty } from 'app/shared/model/faculty.model';
 import { anyTypeAnnotation } from '@babel/types';
 import { ILocation, Location } from 'app/shared/model/location.model';
 import { LocationService } from '../location';
+import { DayOfWeek } from 'app/shared/model/day.model';
+import { DayType } from 'app/shared/model/special-occasions.model';
 
 export interface DialogData {
   year: number;
@@ -277,9 +279,13 @@ export class TimeTableWizardComponent implements OnInit {
     });
     if (allOk) {
       this.saveMessage = 'Saving. Please Wait';
-      const subjects: ISubjectTimeTable[] = [];
+      let subjects: ISubjectTimeTable[] = [];
+      const subCount = {};
       this.daysOfWeek.forEach((val: string) => {
         this.weekTimeTable[val].subjectsList.forEach(element => {
+          console.log(element.subject.length);
+          subCount[val] = element.subject.length;
+          console.log(subCount[val]);
           element.subjects.forEach(sub => {
             if (!isString(sub)) {
               subjects.push({
@@ -294,11 +300,56 @@ export class TimeTableWizardComponent implements OnInit {
         });
       });
       this.subjectTimeTableService.saveAll(subjects).subscribe(
-        (res: HttpResponse<ISubjectTimeTable[]>) => {},
+        (res: HttpResponse<ISubjectTimeTable[]>) => {
+          subjects = res.body;
+          this.createDayTimeTable(subjects, subCount);
+        },
         (err: HttpErrorResponse) => {
           console.log(err);
         }
       );
+    }
+  }
+
+  createDayTimeTable(subjects: ISubjectTimeTable[], subcount: any) {
+    console.log(subcount);
+    this.timeTable.dayTimeTables = [];
+    this.daysOfWeek.forEach((day: string) => {
+      this.weekTimeTable[day].subjectsList.forEach(element => {
+        if (subcount[day] === 1) {
+          this.timeTable.dayTimeTables.push({
+            dayOfWeek: day.toUpperCase(),
+            dayType: DayType.HOLIDAY,
+            subjects: null
+          });
+        } else {
+          this.timeTable.dayTimeTables.push({
+            dayOfWeek: day.toUpperCase(),
+            dayType: DayType.WORKINGALL,
+            subjects: subjects.splice(0, subcount[day])
+          });
+        }
+      });
+    });
+    this.daytimeTableService.saveAll(this.timeTable.dayTimeTables);
+  }
+
+  findEnumConst(val: string): DayOfWeek {
+    switch (val) {
+      case 'Sunday':
+        return DayOfWeek.SUNDAY;
+      case 'Monday':
+        return DayOfWeek.MONDAY;
+      case 'Tuesday':
+        return DayOfWeek.TUESDAY;
+      case 'Wednesday':
+        return DayOfWeek.WEDNESDAY;
+      case 'Thrusday':
+        return DayOfWeek.THRUSDAY;
+      case 'Friday':
+        return DayOfWeek.FRIDAY;
+      case 'Saturday':
+        return DayOfWeek.SATURDAY;
     }
   }
 

@@ -35,4 +35,8 @@ export class DayTimeTableService {
   delete(id: string): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  saveAll(req?: IDayTimeTable[]): Observable<EntityArrayResponseType> {
+    return this.http.post<IDayTimeTable[]>(this.resourceUrl + '/savebatch', req, { observe: 'response' });
+  }
 }

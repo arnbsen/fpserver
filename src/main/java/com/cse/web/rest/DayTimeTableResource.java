@@ -115,4 +115,9 @@ public class DayTimeTableResource {
         dayTimeTableService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @PostMapping("/day-time-tables/savebatch")
+    List<DayTimeTableDTO> saveAllSubjects(@RequestBody List<DayTimeTableDTO> subjects) {
+        return dayTimeTableService.saveBatch(subjects);
+    }
 }

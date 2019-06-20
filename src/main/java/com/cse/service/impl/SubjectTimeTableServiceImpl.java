@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -86,9 +87,10 @@ public class SubjectTimeTableServiceImpl implements SubjectTimeTableService {
 
     @Override
     public List<SubjectTimeTableDTO> saveAll(List<SubjectTimeTableDTO> subjectList) {
+        List<SubjectTimeTable> returnVal = new ArrayList<>();
         subjectList.forEach(action -> {
-            subjectTimeTableRepository.save(subjectTimeTableMapper.toEntity(action));
+            returnVal.add(subjectTimeTableRepository.save(subjectTimeTableMapper.toEntity(action)));
         });
-        return subjectList;
+        return subjectTimeTableMapper.toDto(returnVal);
     }
 }
