@@ -9,7 +9,8 @@ export const enum DayType {
 
 export interface ISpecialOccasions {
   id?: string;
-  date?: Moment;
+  startDate?: Moment;
+  endDate?: Moment;
   type?: DayType;
   description?: string;
   academicSessionId?: string;
@@ -18,7 +19,8 @@ export interface ISpecialOccasions {
 export class SpecialOccasions implements ISpecialOccasions {
   constructor(
     public id?: string,
-    public date?: Moment,
+    public startDate?: Moment,
+    public endDate?: Moment,
     public type?: DayType,
     public description?: string,
     public academicSessionId?: string

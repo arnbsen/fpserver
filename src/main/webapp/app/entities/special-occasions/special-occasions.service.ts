@@ -51,14 +51,16 @@ export class SpecialOccasionsService {
 
   protected convertDateFromClient(specialOccasions: ISpecialOccasions): ISpecialOccasions {
     const copy: ISpecialOccasions = Object.assign({}, specialOccasions, {
-      date: specialOccasions.date != null && specialOccasions.date.isValid() ? specialOccasions.date.toJSON() : null
+      startDate: specialOccasions.startDate != null && specialOccasions.startDate.isValid() ? specialOccasions.startDate.toJSON() : null,
+      endDate: specialOccasions.endDate != null && specialOccasions.endDate.isValid() ? specialOccasions.endDate.toJSON() : null
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.date = res.body.date != null ? moment(res.body.date) : null;
+      res.body.startDate = res.body.startDate != null ? moment(res.body.startDate) : null;
+      res.body.endDate = res.body.endDate != null ? moment(res.body.endDate) : null;
     }
     return res;
   }
@@ -66,7 +68,8 @@ export class SpecialOccasionsService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((specialOccasions: ISpecialOccasions) => {
-        specialOccasions.date = specialOccasions.date != null ? moment(specialOccasions.date) : null;
+        specialOccasions.startDate = specialOccasions.startDate != null ? moment(specialOccasions.startDate) : null;
+        specialOccasions.endDate = specialOccasions.endDate != null ? moment(specialOccasions.endDate) : null;
       });
     }
     return res;

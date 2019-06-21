@@ -27,14 +27,15 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new SpecialOccasions('ID', currentDate, DayType.WORKINGALL, 'AAAAAAA');
+      elemDefault = new SpecialOccasions('ID', currentDate, currentDate, DayType.WORKINGALL, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
       it('should find an element', async () => {
         const returnedFromService = Object.assign(
           {
-            date: currentDate.format(DATE_TIME_FORMAT)
+            startDate: currentDate.format(DATE_TIME_FORMAT),
+            endDate: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -52,13 +53,15 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 'ID',
-            date: currentDate.format(DATE_TIME_FORMAT)
+            startDate: currentDate.format(DATE_TIME_FORMAT),
+            endDate: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            date: currentDate
+            startDate: currentDate,
+            endDate: currentDate
           },
           returnedFromService
         );
@@ -74,7 +77,8 @@ describe('Service Tests', () => {
       it('should update a SpecialOccasions', async () => {
         const returnedFromService = Object.assign(
           {
-            date: currentDate.format(DATE_TIME_FORMAT),
+            startDate: currentDate.format(DATE_TIME_FORMAT),
+            endDate: currentDate.format(DATE_TIME_FORMAT),
             type: 'BBBBBB',
             description: 'BBBBBB'
           },
@@ -83,7 +87,8 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            date: currentDate
+            startDate: currentDate,
+            endDate: currentDate
           },
           returnedFromService
         );
@@ -99,7 +104,8 @@ describe('Service Tests', () => {
       it('should return a list of SpecialOccasions', async () => {
         const returnedFromService = Object.assign(
           {
-            date: currentDate.format(DATE_TIME_FORMAT),
+            startDate: currentDate.format(DATE_TIME_FORMAT),
+            endDate: currentDate.format(DATE_TIME_FORMAT),
             type: 'BBBBBB',
             description: 'BBBBBB'
           },
@@ -107,7 +113,8 @@ describe('Service Tests', () => {
         );
         const expected = Object.assign(
           {
-            date: currentDate
+            startDate: currentDate,
+            endDate: currentDate
           },
           returnedFromService
         );

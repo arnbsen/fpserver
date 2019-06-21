@@ -84,7 +84,8 @@ entity AcademicSession {
 	endDate Instant
 }
 entity SpecialOccasions {
-	date Instant,
+	startDate Instant,
+	endDate Instant,
 	type DayType,
 	description String
 }

@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <h2 id="page-heading">
         <span>Special Occasions</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-special-occasions" [routerLink]="['/special-occasions/new']">
@@ -61,4 +61,100 @@
             </tbody>
         </table>
     </div>
+</div> -->
+<jhi-toolbar></jhi-toolbar>
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <div fxLayout="column" [fxFlex]="70" fxLayoutAlign="start start" fxLayoutGap="20px">
+        <div fxLayout="row" style="width: 100%" fxLayoutAlign="center center" fxLayoutGap="10px">
+            <button mat-icon-button color="primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"> <mat-icon>
+                navigate_before
+            </mat-icon> </button>
+            <h2> Events: {{viewDate | calendarDate:(view + 'ViewTitle'):'en'}}</h2>
+            <button mat-icon-button color="primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()">
+                <mat-icon>navigate_next</mat-icon>
+
+            </button>
+        </div>
+        <mwl-calendar-month-view style="width: 100%;" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+            (dayClicked)="dayClicked($event.day)">
+        </mwl-calendar-month-view>
+    </div>
+    <span class="column-spacer"></span>
+    <div fxLayout="column" [fxFlex]="27" fxLayoutAlign="start start" fxLayoutGap="5px">
+        <div fxLayout="row" style="width: 100%; height: 65px;" fxLayoutAlign="center center" fxLayoutGap="10px">
+        </div>
+        <h3>Holiday / Exams / Special Occasions</h3>
+        <span fxLayoutAlign="center center" style="color: #e74c3c">
+            <mat-icon>warning</mat-icon> &nbsp;
+            <p>These Events Apply Globally for all Individuals</p>
+        </span>
+        <button style="width: 98%" mat-flat-button color="primary" (click)="createForm()" *ngIf="!specialOccassionsForm">
+            <mat-icon>add</mat-icon> Add
+        </button>
+        <form style="width: 98%" *ngIf="specialOccassionsForm" (ngSubmit)="onSubmit()" [formGroup]="specialOccassionsForm" role="form" name="form" fxLayout="column">
+            <h3>Enter the details</h3>
+            <mat-form-field  appearance="outline">
+                <mat-label>Start Date</mat-label>
+                <input type="text" matInput [matDatepicker]="picker1" placeholder="Enter Start Date" formControlName="startDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                <mat-hint>Please Select from the Datepicker</mat-hint>
+                <mat-error *ngIf="specialOccassionsForm.get('startDate').hasError('required')">Must Select a date</mat-error>
+            </mat-form-field>
+            <mat-form-field  appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input type="text" matInput [matDatepicker]="picker2" placeholder="Enter End Date" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                <mat-hint>Please Select from the Datepicker</mat-hint>
+                <mat-error *ngIf="specialOccassionsForm.get('endDate').hasError('required')">Must Select a date </mat-error>
+            </mat-form-field>
+            <mat-form-field  appearance="standard">
+            <mat-label>Select Type of Event</mat-label>
+            <mat-select name="type" formControlName="type" id="field_type" required>
+
+                <mat-option value="COLLEGEONLY">
+                    <span style="color: #e67e22">
+                        College Only
+                    </span>
+                </mat-option>
+                <mat-option value="HOLIDAY">
+                    <span style="color: #3498db">
+                    Holiday for All
+                    </span>
+                </mat-option>
+                <mat-option value="EXAM">
+                    <span style="color: #9b59b6">
+                    Examination
+                    </span>
+                </mat-option>
+            </mat-select>
+                <mat-error *ngIf="specialOccassionsForm.get('type').hasError('required')">Must Select a date </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Describe the Event</mat-label>
+                <textarea formControlName="description" matInput placeholder="Description"></textarea>
+                <mat-error *ngIf="specialOccassionsForm.get('description').hasError('required')">Must Specify a Desciption </mat-error>
+            </mat-form-field>
+            <button mat-raised-button type="submit" [disabled]="specialOccassionsForm.invalid" color="primary">Submit</button>
+        </form>
+
+    </div>
 </div>
+
+
+<!-- <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+    (viewDateChange)="closeOpenMonthViewDay()">
+    Previous
+</div>
+<div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+    Today
+</div>
+<div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+    (viewDateChange)="closeOpenMonthViewDay()">
+    Next
+</div> -->
+
+

@@ -38,8 +38,11 @@ import com.cse.domain.enumeration.DayType;
 @SpringBootTest(classes = DevfpserverApp.class)
 public class SpecialOccasionsResourceIT {
 
-    private static final Instant DEFAULT_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_START_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_END_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final DayType DEFAULT_TYPE = DayType.WORKINGALL;
     private static final DayType UPDATED_TYPE = DayType.COLLEGEONLY;
@@ -92,7 +95,8 @@ public class SpecialOccasionsResourceIT {
      */
     public static SpecialOccasions createEntity() {
         SpecialOccasions specialOccasions = new SpecialOccasions()
-            .date(DEFAULT_DATE)
+            .startDate(DEFAULT_START_DATE)
+            .endDate(DEFAULT_END_DATE)
             .type(DEFAULT_TYPE)
             .description(DEFAULT_DESCRIPTION);
         return specialOccasions;
@@ -105,7 +109,8 @@ public class SpecialOccasionsResourceIT {
      */
     public static SpecialOccasions createUpdatedEntity() {
         SpecialOccasions specialOccasions = new SpecialOccasions()
-            .date(UPDATED_DATE)
+            .startDate(UPDATED_START_DATE)
+            .endDate(UPDATED_END_DATE)
             .type(UPDATED_TYPE)
             .description(UPDATED_DESCRIPTION);
         return specialOccasions;
@@ -132,7 +137,8 @@ public class SpecialOccasionsResourceIT {
         List<SpecialOccasions> specialOccasionsList = specialOccasionsRepository.findAll();
         assertThat(specialOccasionsList).hasSize(databaseSizeBeforeCreate + 1);
         SpecialOccasions testSpecialOccasions = specialOccasionsList.get(specialOccasionsList.size() - 1);
-        assertThat(testSpecialOccasions.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testSpecialOccasions.getStartDate()).isEqualTo(DEFAULT_START_DATE);
+        assertThat(testSpecialOccasions.getEndDate()).isEqualTo(DEFAULT_END_DATE);
         assertThat(testSpecialOccasions.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testSpecialOccasions.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
@@ -167,7 +173,8 @@ public class SpecialOccasionsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(specialOccasions.getId())))
-            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
+            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
@@ -182,7 +189,8 @@ public class SpecialOccasionsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(specialOccasions.getId()))
-            .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
+            .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
+            .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
@@ -204,7 +212,8 @@ public class SpecialOccasionsResourceIT {
         // Update the specialOccasions
         SpecialOccasions updatedSpecialOccasions = specialOccasionsRepository.findById(specialOccasions.getId()).get();
         updatedSpecialOccasions
-            .date(UPDATED_DATE)
+            .startDate(UPDATED_START_DATE)
+            .endDate(UPDATED_END_DATE)
             .type(UPDATED_TYPE)
             .description(UPDATED_DESCRIPTION);
         SpecialOccasionsDTO specialOccasionsDTO = specialOccasionsMapper.toDto(updatedSpecialOccasions);
@@ -218,7 +227,8 @@ public class SpecialOccasionsResourceIT {
         List<SpecialOccasions> specialOccasionsList = specialOccasionsRepository.findAll();
         assertThat(specialOccasionsList).hasSize(databaseSizeBeforeUpdate);
         SpecialOccasions testSpecialOccasions = specialOccasionsList.get(specialOccasionsList.size() - 1);
-        assertThat(testSpecialOccasions.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testSpecialOccasions.getStartDate()).isEqualTo(UPDATED_START_DATE);
+        assertThat(testSpecialOccasions.getEndDate()).isEqualTo(UPDATED_END_DATE);
         assertThat(testSpecialOccasions.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testSpecialOccasions.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }

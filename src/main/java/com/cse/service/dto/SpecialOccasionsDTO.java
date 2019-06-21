@@ -11,7 +11,9 @@ public class SpecialOccasionsDTO implements Serializable {
 
     private String id;
 
-    private Instant date;
+    private Instant startDate;
+
+    private Instant endDate;
 
     private DayType type;
 
@@ -28,12 +30,20 @@ public class SpecialOccasionsDTO implements Serializable {
         this.id = id;
     }
 
-    public Instant getDate() {
-        return date;
+    public Instant getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Instant date) {
-        this.date = date;
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Instant endDate) {
+        this.endDate = endDate;
     }
 
     public DayType getType() {
@@ -85,7 +95,8 @@ public class SpecialOccasionsDTO implements Serializable {
     public String toString() {
         return "SpecialOccasionsDTO{" +
             "id=" + getId() +
-            ", date='" + getDate() + "'" +
+            ", startDate='" + getStartDate() + "'" +
+            ", endDate='" + getEndDate() + "'" +
             ", type='" + getType() + "'" +
             ", description='" + getDescription() + "'" +
             ", academicSession=" + getAcademicSessionId() +

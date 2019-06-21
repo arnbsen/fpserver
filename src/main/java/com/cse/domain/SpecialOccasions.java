@@ -24,8 +24,11 @@ public class SpecialOccasions implements Serializable {
     @Id
     private String id;
 
-    @Field("date")
-    private Instant date;
+    @Field("start_date")
+    private Instant startDate;
+
+    @Field("end_date")
+    private Instant endDate;
 
     @Field("type")
     private DayType type;
@@ -47,17 +50,30 @@ public class SpecialOccasions implements Serializable {
         this.id = id;
     }
 
-    public Instant getDate() {
-        return date;
+    public Instant getStartDate() {
+        return startDate;
     }
 
-    public SpecialOccasions date(Instant date) {
-        this.date = date;
+    public SpecialOccasions startDate(Instant startDate) {
+        this.startDate = startDate;
         return this;
     }
 
-    public void setDate(Instant date) {
-        this.date = date;
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public SpecialOccasions endDate(Instant endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public void setEndDate(Instant endDate) {
+        this.endDate = endDate;
     }
 
     public DayType getType() {
@@ -120,7 +136,8 @@ public class SpecialOccasions implements Serializable {
     public String toString() {
         return "SpecialOccasions{" +
             "id=" + getId() +
-            ", date='" + getDate() + "'" +
+            ", startDate='" + getStartDate() + "'" +
+            ", endDate='" + getEndDate() + "'" +
             ", type='" + getType() + "'" +
             ", description='" + getDescription() + "'" +
             "}";

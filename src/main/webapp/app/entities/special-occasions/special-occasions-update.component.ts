@@ -24,7 +24,8 @@ export class SpecialOccasionsUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    date: [],
+    startDate: [],
+    endDate: [],
     type: [],
     description: [],
     academicSessionId: []
@@ -56,7 +57,8 @@ export class SpecialOccasionsUpdateComponent implements OnInit {
   updateForm(specialOccasions: ISpecialOccasions) {
     this.editForm.patchValue({
       id: specialOccasions.id,
-      date: specialOccasions.date != null ? specialOccasions.date.format(DATE_TIME_FORMAT) : null,
+      startDate: specialOccasions.startDate != null ? specialOccasions.startDate.format(DATE_TIME_FORMAT) : null,
+      endDate: specialOccasions.endDate != null ? specialOccasions.endDate.format(DATE_TIME_FORMAT) : null,
       type: specialOccasions.type,
       description: specialOccasions.description,
       academicSessionId: specialOccasions.academicSessionId
@@ -81,7 +83,9 @@ export class SpecialOccasionsUpdateComponent implements OnInit {
     const entity = {
       ...new SpecialOccasions(),
       id: this.editForm.get(['id']).value,
-      date: this.editForm.get(['date']).value != null ? moment(this.editForm.get(['date']).value, DATE_TIME_FORMAT) : undefined,
+      startDate:
+        this.editForm.get(['startDate']).value != null ? moment(this.editForm.get(['startDate']).value, DATE_TIME_FORMAT) : undefined,
+      endDate: this.editForm.get(['endDate']).value != null ? moment(this.editForm.get(['endDate']).value, DATE_TIME_FORMAT) : undefined,
       type: this.editForm.get(['type']).value,
       description: this.editForm.get(['description']).value,
       academicSessionId: this.editForm.get(['academicSessionId']).value

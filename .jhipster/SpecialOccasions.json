@@ -2,7 +2,11 @@
     "name": "SpecialOccasions",
     "fields": [
         {
-            "fieldName": "date",
+            "fieldName": "startDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "endDate",
             "fieldType": "Instant"
         },
         {

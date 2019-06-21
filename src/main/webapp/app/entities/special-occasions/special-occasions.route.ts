@@ -11,6 +11,7 @@ import { SpecialOccasionsDetailComponent } from './special-occasions-detail.comp
 import { SpecialOccasionsUpdateComponent } from './special-occasions-update.component';
 import { SpecialOccasionsDeletePopupComponent } from './special-occasions-delete-dialog.component';
 import { ISpecialOccasions } from 'app/shared/model/special-occasions.model';
+import { AcademicSessionResolve } from '../academic-session';
 
 @Injectable({ providedIn: 'root' })
 export class SpecialOccasionsResolve implements Resolve<ISpecialOccasions> {
@@ -71,6 +72,18 @@ export const specialOccasionsRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'SpecialOccasions'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'admin/:id/edit',
+    component: SpecialOccasionsComponent,
+    resolve: {
+      academicSession: AcademicSessionResolve
+    },
+    data: {
+      authorities: ['ROLE_ADMIN'],
+      pageTitle: 'Administrator - Special Occasions'
     },
     canActivate: [UserRouteAccessService]
   }

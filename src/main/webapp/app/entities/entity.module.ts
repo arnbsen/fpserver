@@ -200,6 +200,10 @@ import { DeviceIdDialogComponent } from './device-id-dialog/device-id-dialog.com
       {
         path: 'attendance',
         loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
+      },
+      {
+        path: 'special-occasions',
+        loadChildren: './special-occasions/special-occasions.module#DevfpserverSpecialOccasionsModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
