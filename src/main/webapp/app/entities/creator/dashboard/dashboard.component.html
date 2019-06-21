@@ -15,17 +15,22 @@
             <mat-icon>edit</mat-icon>
             Edit
         </button>
-        <button mat-raised-button style="width: 150px" color="primary">
-            <mat-icon>open_in_new</mat-icon>
-            Holidays
-        </button>
     </div>
     <mat-divider class="full-width"></mat-divider>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%" *ngFor="let a of academicSessions">
-       <h3 style="width: 25%">{{a.academicSession}}</h3>
-       <span fxLayout="row" fxLayoutAlign="start center" style="width: 25%; color: #1abc9c"><mat-icon *ngIf="checkDateRange(a)">check_circle_outline</mat-icon>&nbsp;&nbsp; <span *ngIf="checkDateRange(a)">Active</span></span>
-       <span style="width: 25%">{{a.startDate | date}}</span>
-       <span style="width: 25%">{{a.endDate | date}}</span>
+       <h3 [fxFlex]="20">{{a.academicSession}}</h3>
+       <span fxLayout="row" [fxFlex]="10" fxLayoutAlign="start center" style="color: #1abc9c"><mat-icon *ngIf="checkDateRange(a)">check_circle_outline</mat-icon>&nbsp;&nbsp; <span *ngIf="checkDateRange(a)">Active</span></span>
+       <span [fxFlex]="10">
+            <button mat-stroked-button style="border-radius: 50px" matTooltip="Upgrade Semester" color="primary">
+                <mat-icon>arrow_upward</mat-icon>
+            </button>
+       </span>
+       <span [fxFlex]="17">{{a.startDate | date}}</span>
+       <span [fxFlex]="17">{{a.endDate | date}}</span>
+        <button mat-raised-button style="width: 200px" color="primary" (click)="goToSpecialOccasions(a.id)">
+            <mat-icon>open_in_new</mat-icon>
+            Special Occassions
+        </button>
         <button mat-raised-button color="warn" style="width: 150px">
             <mat-icon>delete</mat-icon>
             Delete

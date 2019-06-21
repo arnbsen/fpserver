@@ -295,11 +295,11 @@ export class TimeTableWizardComponent implements OnInit {
     });
     // console.log(this.weekTimeTable[this.choosenDay].spanCount);
     console.log(subArray);
-    const spanWidth = this.spanMeasure[type];
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (!subArray) {
           type = this.weekTimeTable[this.choosenDay].spanCount === 55 ? 'TUTORIAL' : type;
+          const spanWidth = this.spanMeasure[type];
           this.weekTimeTable[this.choosenDay].subjectsList.push({
             subjects: [
               {
@@ -410,7 +410,7 @@ export class TimeTableWizardComponent implements OnInit {
           element.subjects.forEach(sub => {
             if (!isString(sub)) {
               subjects.push({
-                id: sub.id,
+                id: sub.id ? sub.id : null,
                 classType: sub.type,
                 startTime: element.startTime,
                 endTime: element.endTime,
@@ -439,10 +439,12 @@ export class TimeTableWizardComponent implements OnInit {
 
   createDayTimeTable(subjects: ISubjectTimeTable[], subcount: any) {
     // console.log(subcount);
+    this.saveMessage = 'Hang on a bit....';
     this.timeTable.dayTimeTables = [];
     this.daysOfWeek.forEach((day: DayOfWeek) => {
       if (subcount[day] === 1) {
         this.timeTable.dayTimeTables.push({
+          id: this.weekTimeTable[day].id,
           dayOfWeek: day,
           dayType: DayType['HOLIDAY'],
           subjects: null
@@ -468,13 +470,18 @@ export class TimeTableWizardComponent implements OnInit {
   }
 
   createTimeTable() {
+    this.saveMessage = 'Almost done...';
     this.timeTable.semester = this.wizardData.semester;
     this.timeTable.year = this.wizardData.year;
-    this.timeTable.id = this.displayTable.id;
+    this.timeTable.id = this.displayTable ? this.displayTable.id : null;
     if (this.firstEdit) {
       this.timeTableService.create(this.timeTable).subscribe(
         (res: HttpResponse<ITimeTable>) => {
-          this.timeTable = res.body;
+          this.saveMessage = 'Done';
+          setTimeout(() => {
+            this.displayTable = res.body;
+            this.saveMessage = undefined;
+          }, 1500);
         },
         err => {
           console.log(err);
@@ -483,7 +490,11 @@ export class TimeTableWizardComponent implements OnInit {
     } else {
       this.timeTableService.update(this.timeTable).subscribe(
         (res: HttpResponse<ITimeTable>) => {
-          this.timeTable = res.body;
+          this.saveMessage = 'Done';
+          setTimeout(() => {
+            this.displayTable = res.body;
+            this.saveMessage = undefined;
+          }, 1500);
         },
         err => {
           console.log(err);

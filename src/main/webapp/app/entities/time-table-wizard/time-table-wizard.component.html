@@ -5,7 +5,7 @@
         <h4 style="color: gray">{{department.deptName}}</h4>
         <span class="column-spacer"></span>
         <mat-slide-toggle *ngIf="hasChoosenOptions" [(ngModel)]="enableEdit">Editing</mat-slide-toggle>
-        <button mat-raised-button color="primary" style="width: 150px" (click)="enableTable = true" [disabled]="!enableCreate">
+        <button mat-raised-button color="primary" style="width: 150px" (click)="enableTable = true" [disabled]="!enableCreate || enableTable">
             <mat-icon>add</mat-icon>
             Create New</button>
         <!-- <button mat-raised-button color="accent" style="width: 150px" *ngIf="hasChoosenOptions" (click)="enableEdit = !enableEdit">
@@ -25,13 +25,13 @@
         <h3>Year: {{this.wizardData.year}} - </h3> <h3>Semester: {{this.wizardData.semester}}</h3>
     </div>
     <mat-divider class="full-width"></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px" class="full-width" *ngIf="enableTable">
+        <span *ngFor="let col of topRow" [fxFlex]="col.span" fxLayoutAlign="center center" class="timetable-span">
+            <h5>{{col.header}}</h5>
+        </span>
+    </div>
     <div class="full-width" *ngIf="enableTable" style="height: 65vh; overflow-y: scroll">
         <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px" class="full-width">
-            <div [fxFlex]="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px" class="full-width">
-                <span *ngFor="let col of topRow" [fxFlex]="col.span" fxLayoutAlign="center center" class="timetable-span">
-                    <h5>{{col.header}}</h5>
-                </span>
-            </div>
             <mat-divider class="full-width"></mat-divider>
             <div fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="0px" *ngFor="let day of daysOfWeek" class="full-width">
                 <div [fxFlex]="100" fxLayout="row" fxLayoutAlign="start center" class="full-width">
@@ -69,7 +69,7 @@
         </div>
 
     </div>
-    <div  fxLayout="row" fxLayoutAlign="center center"  class="full-width"  *ngIf="enableCreate">
+    <div  fxLayout="row" fxLayoutAlign="center center"  class="full-width"  *ngIf="enableCreate && !enableTable">
             <h3>Click on create new to begin</h3>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="full-width" *ngIf="loaderStart">

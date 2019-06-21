@@ -178,6 +178,10 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/admin', id, 'edit']);
   }
 
+  goToSpecialOccasions(id: string) {
+    this.router.navigate(['/special-occasions', 'admin', id, 'edit']);
+  }
+
   // Deleting Methods
   deleteAcademicSessions(id: string) {
     this.academicSessionService.delete(id).subscribe(

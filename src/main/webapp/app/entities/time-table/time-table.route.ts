@@ -11,6 +11,7 @@ import { TimeTableDetailComponent } from './time-table-detail.component';
 import { TimeTableUpdateComponent } from './time-table-update.component';
 import { TimeTableDeletePopupComponent } from './time-table-delete-dialog.component';
 import { ITimeTable } from 'app/shared/model/time-table.model';
+import { DepartmentResolve } from '../department';
 
 @Injectable({ providedIn: 'root' })
 export class TimeTableResolve implements Resolve<ITimeTable> {
@@ -71,6 +72,18 @@ export const timeTableRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'TimeTables'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: ':id/:year/:sem/view',
+    component: TimeTableComponent,
+    resolve: {
+      department: DepartmentResolve
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'Time Table - View'
     },
     canActivate: [UserRouteAccessService]
   }

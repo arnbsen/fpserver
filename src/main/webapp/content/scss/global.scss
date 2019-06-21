@@ -182,6 +182,8 @@
 // }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+@import '_angular-calendar.scss';
+
 @font-face {
   font-family: Roboto;
   src: url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
@@ -190,7 +192,6 @@
 * {
   font-family: 'Roboto', sans-serif;
 }
-
 .column-spacer {
   flex: 1 1 auto;
 }
