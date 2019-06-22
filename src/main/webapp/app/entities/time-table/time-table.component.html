@@ -61,11 +61,11 @@
     </div>
 </div> -->
 <jhi-toolbar></jhi-toolbar>
-<mat-progress-bar *ngIf="!enableTable" [mode]="'indeterminate'"></mat-progress-bar>
+<mat-progress-bar *ngIf="!enableTable && !noData" [mode]="'indeterminate'"></mat-progress-bar>
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="full-width">
         <span>
-            <h3>Time Table Wizard</h3>
+            <h3>Time Table</h3>
         </span>
         <h4 style="color: gray">{{department.deptName}}</h4>
     </div>
@@ -74,6 +74,9 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="full-width">
         <h3>Year: {{timeTable.year}} - </h3>
         <h3>Semester: {{timeTable.semester}}</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px" class="full-width" *ngIf="noData">
+       No Time Tables Found
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0px" class="full-width" *ngIf="enableTable">
         <span *ngFor="let col of topRow" [fxFlex]="col.span" fxLayoutAlign="center center" class="timetable-span">

@@ -78,7 +78,7 @@
             </button>
         </div>
         <mwl-calendar-month-view style="width: 100%;" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
-            (dayClicked)="dayClicked($event.day)">
+            (dayClicked)="dayClicked($event.day)" (eventClicked)="eventClicked($event)">
         </mwl-calendar-month-view>
     </div>
     <span class="column-spacer"></span>
@@ -93,7 +93,7 @@
         <button style="width: 98%" mat-flat-button color="primary" (click)="createForm()" *ngIf="!specialOccassionsForm">
             <mat-icon>add</mat-icon> Add
         </button>
-        <form style="width: 98%" *ngIf="specialOccassionsForm" (ngSubmit)="onSubmit()" [formGroup]="specialOccassionsForm" role="form" name="form" fxLayout="column">
+        <form style="width: 98%" *ngIf="specialOccassionsForm" (ngSubmit)="onSubmit()" [formGroup]="specialOccassionsForm" role="form" name="form" fxLayout="column" fxLayoutGap="7px">
             <h3>Enter the details</h3>
             <mat-form-field  appearance="outline">
                 <mat-label>Start Date</mat-label>
@@ -138,7 +138,11 @@
                 <textarea formControlName="description" matInput placeholder="Description"></textarea>
                 <mat-error *ngIf="specialOccassionsForm.get('description').hasError('required')">Must Specify a Desciption </mat-error>
             </mat-form-field>
-            <button mat-raised-button type="submit" [disabled]="specialOccassionsForm.invalid" color="primary">Submit</button>
+            <button mat-raised-button type="submit" [disabled]="specialOccassionsForm.invalid" color="primary">
+                {{editMode ? 'Update': 'Create'}}
+            </button>
+            <button mat-raised-button *ngIf="editMode" [disabled]="specialOccassionsForm.invalid" color="warn">Delete
+            </button>
         </form>
 
     </div>

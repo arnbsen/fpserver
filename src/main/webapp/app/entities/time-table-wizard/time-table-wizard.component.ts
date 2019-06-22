@@ -166,7 +166,7 @@ export class TimeTableWizardComponent implements OnInit {
           this.daysOfWeek.forEach(day => {
             this.weekTimeTable[day] = {
               subjectsList: [],
-              lastTime: 9 * 60 * 60 * 1000 + 30 * 60 * 1000,
+              lastTime: 9 * 60 * 60 + 30 * 60,
               disableAdd: false,
               spanCount: 7
             };
@@ -319,12 +319,12 @@ export class TimeTableWizardComponent implements OnInit {
             span: spanWidth,
             startTime: this.weekTimeTable[this.choosenDay].lastTime + 1,
             endTime: this.weekTimeTable[this.choosenDay].lastTime +=
-              type === 'TUTORIAL' ? 35 * 60 * 1000 : type === 'REGULAR' ? 55 * 60 * 1000 : 3 * 60 * 60 * 1000
+              type === 'TUTORIAL' ? 35 * 60 : type === 'REGULAR' ? 55 * 60 : 3 * 60 * 60
           });
           this.weekTimeTable[this.choosenDay].spanCount += spanWidth;
           // console.log(this.weekTimeTable[this.choosenDay].spanCount);
-          this.weekTimeTable[this.choosenDay].lastTime += this.weekTimeTable[this.choosenDay].spanCount === 31 ? 15 * 60 * 1000 : 0;
-          this.weekTimeTable[this.choosenDay].lastTime += type === 'TUTORIAL' ? 45 * 60 * 1000 : 0;
+          this.weekTimeTable[this.choosenDay].lastTime += this.weekTimeTable[this.choosenDay].spanCount === 31 ? 15 * 60 : 0;
+          this.weekTimeTable[this.choosenDay].lastTime += type === 'TUTORIAL' ? 45 * 60 : 0;
           this.weekTimeTable[this.choosenDay].disableAdd = this.weekTimeTable[this.choosenDay].spanCount === 100;
         } else {
           subArray.push({
@@ -380,7 +380,7 @@ export class TimeTableWizardComponent implements OnInit {
     // console.log(data);
     if (subjects.length === 0 && data.subjectsList.length === 1) {
       data.subjectsList = [];
-      data.lastTime = 9 * 60 * 60 * 1000 + 30 * 60 * 1000;
+      data.lastTime = 9 * 60 * 60 + 30 * 60;
       data.disableAdd = false;
       data.spanCount = 7;
     }
@@ -519,7 +519,7 @@ export class TimeTableWizardComponent implements OnInit {
   removeHoliday(day: DayOfWeek) {
     this.weekTimeTable[day] = {
       subjectsList: [],
-      lastTime: 9 * 60 * 60 * 1000 + 30 * 60 * 1000,
+      lastTime: 9 * 60 * 60 + 30 * 60,
       disableAdd: false,
       spanCount: 7
     };

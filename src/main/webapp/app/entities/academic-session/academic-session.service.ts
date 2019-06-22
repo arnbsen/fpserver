@@ -38,6 +38,12 @@ export class AcademicSessionService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  findNow(): Observable<EntityResponseType> {
+    return this.http
+      .get<IAcademicSession>(`${this.resourceUrl}/now`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http

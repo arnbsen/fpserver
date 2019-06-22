@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,5 +114,12 @@ public class AcademicSessionResource {
         log.debug("REST request to delete AcademicSession : {}", id);
         academicSessionService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+    }
+
+    @GetMapping("/academic-sessions/now")
+    public ResponseEntity<AcademicSessionDTO> forNow() {
+        Instant now = Instant.now().atZone(ZoneId.systemDefault()).toInstant();
+        Optional<AcademicSessionDTO> academicSessionDTO = academicSessionService.forNow(now);
+        return ResponseUtil.wrapOrNotFound(academicSessionDTO);
     }
 }

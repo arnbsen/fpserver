@@ -58,6 +58,8 @@ export class SpecialOccasionsComponent implements OnInit, OnDestroy {
 
   colourLookup = {};
 
+  editMode = true;
+
   constructor(
     protected academicSessionService: AcademicSessionService,
     protected activatedRoute: ActivatedRoute,
@@ -96,6 +98,7 @@ export class SpecialOccasionsComponent implements OnInit, OnDestroy {
     this.activatedRoute.data.subscribe(({ academicSession }) => {
       this.academicSession = academicSession;
     });
+    this.academicSessionService.findNow().subscribe((data: HttpResponse<any>) => {});
     this.registerChangeInSpecialOccasions();
   }
 
@@ -116,20 +119,42 @@ export class SpecialOccasionsComponent implements OnInit, OnDestroy {
       this.openSnackBar('Error: Start Date must be before or Equal to End Date', 'Done');
       return;
     } else {
-      const saveObject: ISpecialOccasions = {
-        academicSessionId: this.academicSession.id,
-        description: this.specialOccassionsForm.get('description').value,
-        startDate: this.specialOccassionsForm.get('startDate').value,
-        endDate: this.specialOccassionsForm.get('endDate').value,
-        type: this.specialOccassionsForm.get('type').value
-      };
-      this.specialOccasionsService.create(saveObject).subscribe(
-        (res: HttpResponse<ISpecialOccasions>) => {
-          this.specialOccassionsForm = null;
-          this.openSnackBar('Event Added', 'Done');
-        },
-        err => console.log(err)
-      );
+      let saveObject: ISpecialOccasions;
+      if (!this.editMode) {
+        saveObject = {
+          academicSessionId: this.academicSession.id,
+          description: this.specialOccassionsForm.get('description').value,
+          startDate: this.specialOccassionsForm.get('startDate').value,
+          endDate: this.specialOccassionsForm.get('endDate').value,
+          type: this.specialOccassionsForm.get('type').value
+        };
+        this.specialOccasionsService.create(saveObject).subscribe(
+          (res: HttpResponse<ISpecialOccasions>) => {
+            this.specialOccassionsForm = null;
+            this.openSnackBar('Event Created', 'Done');
+            this.loadAll();
+          },
+          err => this.openSnackBar('Error Occured. Try Again', 'Done')
+        );
+      } else {
+        saveObject = {
+          id: this.specialOccassionsForm.get('id').value,
+          academicSessionId: this.academicSession.id,
+          description: this.specialOccassionsForm.get('description').value,
+          startDate: this.specialOccassionsForm.get('startDate').value,
+          endDate: this.specialOccassionsForm.get('endDate').value,
+          type: this.specialOccassionsForm.get('type').value
+        };
+        this.specialOccasionsService.update(saveObject).subscribe(
+          (res: HttpResponse<ISpecialOccasions>) => {
+            this.specialOccassionsForm = null;
+            this.openSnackBar('Event Updated', 'Done');
+            this.loadAll();
+          },
+          err => this.openSnackBar('Error Occured. Try Again', 'Done')
+        );
+      }
+      this.editMode = false;
     }
   }
 
@@ -155,6 +180,18 @@ export class SpecialOccasionsComponent implements OnInit, OnDestroy {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
+  deleteEvent() {
+    const id = this.specialOccassionsForm.get('id').value;
+    this.specialOccasionsService.delete(id).subscribe(
+      (res: HttpResponse<any>) => {
+        this.openSnackBar('Event Deleted', 'Done');
+        this.editMode = false;
+        this.loadAll();
+        this.specialOccassionsForm = null;
+      },
+      err => this.openSnackBar('Error Occured. Try Again', 'Done')
+    );
+  }
   // Calender Configs
   loadView() {
     this.events = [];
@@ -165,7 +202,7 @@ export class SpecialOccasionsComponent implements OnInit, OnDestroy {
           start: startOfDay(val.startDate.toDate()),
           end: endOfDay(val.endDate.toDate()),
           allDay: true,
-          id: val.id,
+          meta: val,
           color: this.colourLookup[val.type]
         });
       } else {
@@ -173,7 +210,7 @@ export class SpecialOccasionsComponent implements OnInit, OnDestroy {
           title: val.description,
           start: startOfDay(val.startDate.toDate()),
           end: endOfDay(val.endDate.toDate()),
-          id: val.id,
+          meta: val,
           allDay: false,
           color: this.colourLookup[val.type]
         });
@@ -182,7 +219,16 @@ export class SpecialOccasionsComponent implements OnInit, OnDestroy {
   }
 
   eventClicked({ event }: { event: CalendarEvent }): void {
-    console.log('Event clicked', event);
+    const specialOccasions: ISpecialOccasions = event.meta as ISpecialOccasions;
+    this.specialOccassionsForm = this.fb.group({
+      id: specialOccasions.id,
+      startDate: [specialOccasions.startDate, Validators.required],
+      endDate: [specialOccasions.endDate, Validators.required],
+      type: [specialOccasions.type, Validators.required],
+      description: [specialOccasions.description, Validators.required],
+      academicSessionId: [specialOccasions.academicSessionId]
+    });
+    this.editMode = true;
   }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -193,26 +239,6 @@ export class SpecialOccasionsComponent implements OnInit, OnDestroy {
         this.activeDayIsOpen = true;
       }
     }
-  }
-
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        }
-      }
-    ];
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter(event => event !== eventToDelete);
   }
 
   closeOpenMonthViewDay() {

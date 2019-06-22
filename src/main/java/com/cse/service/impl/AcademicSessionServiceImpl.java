@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,8 @@ public class AcademicSessionServiceImpl implements AcademicSessionService {
 
     private final AcademicSessionMapper academicSessionMapper;
 
-    public AcademicSessionServiceImpl(AcademicSessionRepository academicSessionRepository, AcademicSessionMapper academicSessionMapper) {
+    public AcademicSessionServiceImpl(AcademicSessionRepository academicSessionRepository,
+            AcademicSessionMapper academicSessionMapper) {
         this.academicSessionRepository = academicSessionRepository;
         this.academicSessionMapper = academicSessionMapper;
     }
@@ -54,11 +56,9 @@ public class AcademicSessionServiceImpl implements AcademicSessionService {
     @Override
     public List<AcademicSessionDTO> findAll() {
         log.debug("Request to get all AcademicSessions");
-        return academicSessionRepository.findAll().stream()
-            .map(academicSessionMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return academicSessionRepository.findAll().stream().map(academicSessionMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
-
 
     /**
      * Get one academicSession by id.
@@ -69,8 +69,7 @@ public class AcademicSessionServiceImpl implements AcademicSessionService {
     @Override
     public Optional<AcademicSessionDTO> findOne(String id) {
         log.debug("Request to get AcademicSession : {}", id);
-        return academicSessionRepository.findById(id)
-            .map(academicSessionMapper::toDto);
+        return academicSessionRepository.findById(id).map(academicSessionMapper::toDto);
     }
 
     /**
@@ -82,5 +81,11 @@ public class AcademicSessionServiceImpl implements AcademicSessionService {
     public void delete(String id) {
         log.debug("Request to delete AcademicSession : {}", id);
         academicSessionRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<AcademicSessionDTO> forNow(Instant instant) {
+
+        return academicSessionRepository.forNow(instant).map(academicSessionMapper::toDto);
     }
 }

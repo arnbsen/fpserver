@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h2  *ngIf="settingsForm.get('login').value">User settings for [<b>{{settingsForm.get('login').value}}</b>]</h2>
@@ -76,5 +76,275 @@
             </form>
         </div>
     </div>
+</div> -->
+<jhi-toolbar></jhi-toolbar>
+<div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" class="full-height">
+    <span *ngIf="settingsForm.get('login').value">
+        <h3>Account Settings For: {{settingsForm.get('login').value}}</h3>
+    </span>
+    <mat-accordion [multi]="true" style="width: 60%">
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Basic Personal Information
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="settingsForm.get('login').value"
+                novalidate>
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px">
+            <mat-form-field style="width: 60%" appearance="standard">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" id="email" name="email" placeholder="Your email" formControlName="email">
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-hint>Enter Your Email Address</mat-hint>
+                <mat-error *ngIf="settingsForm.get('email').hasError('required')">
+                    Your email is required.
+                </mat-error>
+                <mat-error *ngIf="settingsForm.get('email').hasError('email')">
+                    Your email is invalid.
+                </mat-error>
+                <mat-error *ngIf="settingsForm.get('email').hasError('minlength')">
+                    Your email is required to be at least 5 characters.
+                </mat-error>
+                <mat-error *ngIf="settingsForm.get('email').hasError('maxlength')">
+                    Your email cannot be longer than 100 characters.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field style="width: 60%" appearance="standard">
+                <mat-label>Device ID</mat-label>
+                <input matInput type="password" class="form-control" id="deviceID" name="deviceID"
+                    placeholder="Confirm the new password" formControlName="deviceID">
+                <mat-icon matSuffix>more_horiz</mat-icon>
+                <mat-hint>Enter Device ID</mat-hint>
+                <mat-error *ngIf="settingsForm.get('deviceID').hasError('required')">
+                    YourDevice ID is required.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field style="width: 60%" appearance="standard">
+                <mat-label>First Name</mat-label>
+                <input matInput type="text" class="form-control" id="firstName" name="firstName" placeholder="Type in First Name"
+                    formControlName="firstName">
+                <mat-icon matSuffix>person</mat-icon>
+                <mat-hint>Just before last name</mat-hint>
+                <mat-error *ngIf="settingsForm.get('firstName').hasError('required')">
+                    Your First Name is required.
+                </mat-error>
+                <mat-error *ngIf="settingsForm.get('firstName').hasError('minlength')">
+                    Your First Name is required to be at least 4 characters.
+                </mat-error>
+                <mat-error *ngIf="settingsForm.get('firstName').hasError('maxlength')">
+                    Your First Name cannot be longer than 50 characters.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field style="width: 60%" appearance="standard">
+                <mat-label>Last Name</mat-label>
+                <input matInput type="text" class="form-control" id="lastName" name="lastName" placeholder="Type in last Name"
+                    formControlName="lastName">
+                <mat-icon matSuffix>person</mat-icon>
+                <mat-hint>Your Surname</mat-hint>
+                <mat-error *ngIf="settingsForm.get('lastName').hasError('required')">
+                    Your Last Name is required.
+                </mat-error>
+                <mat-error *ngIf="settingsForm.get('lastName').hasError('minlength')">
+                    Your Last Name is required to be at least 4 characters.
+                </mat-error>
+                <mat-error *ngIf="settingsForm.get('lastName').hasError('maxlength')">
+                    Your last Name cannot be longer than 50 characters.
+                </mat-error>
+            </mat-form-field>
+            </div>
+            <mat-action-row fxLayout="row" fxLayoutAlign="end center">
+                <mat-spinner [diameter]="40" *ngIf="isSaving"></mat-spinner> &nbsp; &nbsp; <span *ngIf="isSaving">{{savingMsg}}
+                    &nbsp; &nbsp;</span>
+                <button mat-flat-button type="submit" color="primary" [disabled]="settingsForm.invalid">Update</button>
+            </mat-action-row>
+            </form>
+            </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Password
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <form name="form" role="form" (ngSubmit)="changePassword()" [formGroup]="passwordForm" *ngIf="settingsForm.get('login').value"
+                novalidate>
+                <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px">
+                    <p *ngIf="doNotMatch">
+                        The password and its confirmation do not match!
+                    </p>
+                    <mat-form-field style="width: 60%" appearance="standard">
+                    <mat-label>Enter Current Password</mat-label>
+                    <input matInput type="password" class="form-control" id="password" name="password" placeholder="Current Password"
+                        formControlName="currentPassword">
+                    <mat-icon matSuffix>more_horiz</mat-icon>
+                    <mat-hint>Your Current Password</mat-hint>
+                    <mat-error *ngIf="passwordForm.get('currentPassword').hasError('required')">
+                        Your Current Password is required.
+                    </mat-error>
+                    </mat-form-field>
+                    <mat-form-field style="width: 60%" appearance="standard">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" class="form-control" id="password" name="password" placeholder="New password"
+                            formControlName="newPassword">
+                        <mat-icon matSuffix>more_horiz</mat-icon>
+                        <mat-hint>Enter Desired Password</mat-hint>
+                        <mat-error *ngIf="passwordForm.get('newPassword').hasError('required')">
+                            Your password is required.
+                        </mat-error>
+                        <mat-error *ngIf="passwordForm.get('newPassword').hasError('minlength')">
+                            Your password is required to be at least 4 characters.
+                        </mat-error>
+                        <mat-error *ngIf="passwordForm.get('newPassword').hasError('maxlength')">
+                            Your password cannot be longer than 50 characters.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field style="width: 60%" appearance="standard">
+                        <mat-label>Confirm Password</mat-label>
+                        <input matInput type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                            placeholder="Confirm the new password" formControlName="confirmPassword">
+                        <mat-icon matSuffix>more_horiz</mat-icon>
+                        <mat-hint>Retype Desired Password</mat-hint>
+                        <mat-error *ngIf="passwordForm.get('confirmPassword').hasError('required')">
+                            Your confirmation password is required.
+                        </mat-error>
+                        <mat-error *ngIf="passwordForm.get('confirmPassword').hasError('minlength')">
+                            Your confirmation password is required to be at least 4 characters.
+                        </mat-error>
+                        <mat-error *ngIf="passwordForm.get('confirmPassword').hasError('maxlength')">
+                            Your confirmation password cannot be longer than 50 characters.
+                        </mat-error>
+                    </mat-form-field>
+            </div>
+            <mat-action-row fxLayout="row" fxLayoutAlign="end center">
+                <mat-spinner [diameter]="40" *ngIf="isSaving"></mat-spinner> &nbsp; &nbsp; <span *ngIf="isSaving">{{savingMsg}}
+                    &nbsp; &nbsp;</span>
+                <button mat-flat-button type="submit" color="primary" [disabled]="passwordForm.invalid">Update</button>
+            </mat-action-row>
+            </form>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Account Specfic Information - {{this.mode | uppercase}}
+            </mat-panel-title>
+            <mat-panel-description>
+                <span class="column-spacer"></span>
+                <span fxLayout="row" fxLayoutAlign="start center" style="color: #1abc9c">
+                    <mat-icon *ngIf="savedEnitity">check_circle_outline</mat-icon>&nbsp;&nbsp; <span
+                        *ngIf="savedEnitity">Done</span>
+                    &nbsp;&nbsp; <button mat-button color="primary" *ngIf="savedEnitity">
+                        <mat-icon>open_in_new</mat-icon>Login
+                    </button>
+                </span>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form name="form" role="form" (ngSubmit)="registerHOD()" [formGroup]="hodForm" *ngIf="mode === 'hod'">
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px">
+                <mat-form-field style="width: 60%" appearance="standard">
+                    <mat-label>Authorization Code</mat-label>
+                    <input matInput type="text" placeholder="Enter a Authorization Code" formControlName="authCode">
+                    <mat-icon matSuffix>person_add</mat-icon>
+                    <mat-hint>This is authorize Department Actions</mat-hint>
+                    <mat-error *ngIf="hodForm.get('authCode').hasError('required')">
+                        Your Authorization Code is required.
+                    </mat-error>
+                </mat-form-field>
+            </div>
 
+            <mat-action-row fxLayout="row" fxLayoutAlign="end center">
+                <mat-spinner [diameter]="40" *ngIf="isSavingEntity"></mat-spinner> &nbsp; &nbsp; <span
+                    *ngIf="isSavingEntity">{{savingMsg}} &nbsp;
+                    &nbsp;</span>
+                <button type="submit" mat-flat-button color="primary" [disabled]="hodForm.invalid">Update</button>
+            </mat-action-row>
+        </form>
+        <form name="form" role="form" (ngSubmit)="registerFaculty()" [formGroup]="facultyForm"
+            *ngIf="mode === 'faculty'">
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px">
+                <mat-form-field style="width: 60%" appearance="standard">
+                    <mat-label>Faculty Code</mat-label>
+                    <input matInput type="text" placeholder="Enter Your Faculty Code" formControlName="facultyCode">
+                    <mat-icon matSuffix>person_add</mat-icon>
+                    <mat-hint>The name which appears in the time tables</mat-hint>
+                    <mat-error *ngIf="facultyForm.get('facultyCode').hasError('required')">
+                        Your Faculty Code is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <mat-action-row fxLayout="row" fxLayoutAlign="end center">
+                <mat-spinner [diameter]="40" *ngIf="isSavingEntity"></mat-spinner> &nbsp; &nbsp; <span
+                    *ngIf="isSavingEntity">{{savingMsg}} &nbsp;
+                    &nbsp;</span>
+                <button type="submit" mat-flat-button color="primary" [disabled]="facultyForm.invalid">Update</button>
+            </mat-action-row>
+        </form>
+
+        <form name="form" role="form" (ngSubmit)="registerStudent()" [formGroup]="studentForm"
+            *ngIf="mode === 'student'">
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px">
+                <mat-form-field style="width: 60%" appearance="standard">
+                    <mat-label>Year Joined</mat-label>
+                    <input matInput type="number" placeholder="Your Joining Year" formControlName="yearJoined">
+                    <mat-icon matSuffix>person_add</mat-icon>
+                    <mat-hint>The Year you joined here</mat-hint>
+                    <mat-error *ngIf="studentForm.get('yearJoined').hasError('required')">
+                        Year Joined is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field style="width: 60%" appearance="standard">
+                    <mat-label>Current Session</mat-label>
+                    <input matInput type="text" placeholder="Your Current Session" formControlName="currentSession">
+                    <mat-icon matSuffix>person_add</mat-icon>
+                    <mat-hint>Example 2018-19</mat-hint>
+                    <mat-error *ngIf="studentForm.get('currentSession').hasError('required')">
+                        Current Session is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field style="width: 60%" appearance="standard">
+                    <mat-label>Year </mat-label>
+                    <mat-select formControlName="currentYear">
+                        <mat-option [value]="1">1</mat-option>
+                        <mat-option [value]="2">2</mat-option>
+                        <mat-option [value]="3">3</mat-option>
+                        <mat-option [value]="4">4</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="studentForm.get('currentYear').hasError('required')">
+                        Current year is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field style="width: 60%" appearance="standard" *ngIf="studentForm.get('currentYear').valid">
+                    <mat-label>Semester</mat-label>
+                    <mat-select formControlName="currentSem">
+                        <mat-option *ngFor="let sem of getSemester(studentForm.get('currentYear').value)" [value]="sem">{{sem}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="studentForm.get('currentSem').hasError('required')">
+                        Current semester is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field style="width: 60%" appearance="standard">
+                    <mat-label>Class Roll Number</mat-label>
+                    <input matInput type="number" placeholder="Your Class Roll Number" formControlName="classRollNumber">
+                    <mat-icon matSuffix>person_add</mat-icon>
+                    <mat-hint>The key to your attendance</mat-hint>
+                    <mat-error *ngIf="studentForm.get('classRollNumber').hasError('required')">
+                        Class Roll Number is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <mat-action-row fxLayout="row" fxLayoutAlign="end center">
+                <mat-spinner [diameter]="40" *ngIf="isSavingEntity"></mat-spinner> &nbsp; &nbsp; <span
+                    *ngIf="isSavingEntity">{{savingMsg}} &nbsp;
+                    &nbsp;</span>
+                <button type="submit" mat-flat-button color="primary" [disabled]="studentForm.invalid">Update</button>
+            </mat-action-row>
+        </form>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>

@@ -40,11 +40,8 @@ export const specialOccasionsRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
-    path: ':id/view',
+    path: 'view',
     component: SpecialOccasionsDetailComponent,
-    resolve: {
-      specialOccasions: SpecialOccasionsResolve
-    },
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'SpecialOccasions'

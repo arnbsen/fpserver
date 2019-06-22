@@ -6,8 +6,8 @@ import com.github.cloudyrock.mongock.Mongock;
 import com.github.cloudyrock.mongock.SpringBootMongock;
 import com.github.cloudyrock.mongock.SpringBootMongockBuilder;
 import com.mongodb.MongoClient;
-import io.github.jhipster.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
-import io.github.jhipster.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
+// import io.github.jhipster.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
+// import io.github.jhipster.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.convert.ReadingConverter;
+import org.springframework.data.convert.WritingConverter;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
@@ -25,7 +27,12 @@ import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventL
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Configuration
@@ -68,4 +75,28 @@ public class DatabaseConfiguration {
         // return mongobee;
         return new SpringBootMongockBuilder(mongoClient, mongoProperties.getMongoClientDatabase(), "com.cse.config.dbmigrations")
                 .setApplicationContext(springContext).setLockQuickConfig().build();
-    }}
+    }
+
+    @ReadingConverter
+    enum DateToZonedDateTimeConverter implements Converter<Instant, ZonedDateTime> {
+
+        INSTANCE;
+
+        @Override
+        public ZonedDateTime convert(Instant source) {
+            return source == null ? null : ZonedDateTime.ofInstant(source, ZoneId.systemDefault());
+        }
+
+    }
+
+    @WritingConverter
+    enum ZonedDateTimeToDateConverter implements Converter<ZonedDateTime, Instant> {
+
+        INSTANCE;
+
+        @Override
+        public Instant convert(ZonedDateTime source) {
+            return source == null ? null : source.toInstant();
+        }
+    }
+}

@@ -27,6 +27,7 @@ export class TimeTableComponent implements OnInit, OnDestroy {
   department: IDepartment;
   weekTimeTable = {};
   enableTable = false;
+  noData = false;
   topRow = [
     { span: 7, header: 'Day' },
     { span: 12, header: '9:30 AM - 10:25 AM' },
@@ -55,8 +56,6 @@ export class TimeTableComponent implements OnInit, OnDestroy {
   ];
   constructor(
     protected timeTableService: TimeTableService,
-    protected jhiAlertService: JhiAlertService,
-    protected eventManager: JhiEventManager,
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute
   ) {}
@@ -95,6 +94,7 @@ export class TimeTableComponent implements OnInit, OnDestroy {
       },
       (err: HttpErrorResponse) => {
         if (err.status === 404) {
+          this.noData = true;
         }
       }
     );
@@ -180,15 +180,9 @@ export class TimeTableComponent implements OnInit, OnDestroy {
   checkForString(val: any) {
     return isString(val);
   }
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
-  }
 
   trackId(index: number, item: ITimeTable) {
     return item.id;
   }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
+  ngOnDestroy() {}
 }

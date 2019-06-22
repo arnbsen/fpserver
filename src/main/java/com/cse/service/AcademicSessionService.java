@@ -1,7 +1,9 @@
 package com.cse.service;
 
+import com.cse.domain.AcademicSession;
 import com.cse.service.dto.AcademicSessionDTO;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,4 +42,6 @@ public interface AcademicSessionService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    Optional<AcademicSessionDTO> forNow(Instant instant);
 }

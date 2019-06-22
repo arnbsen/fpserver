@@ -1,7 +1,9 @@
 package com.cse.service;
 
+import com.cse.service.dto.AcademicSessionDTO;
 import com.cse.service.dto.SpecialOccasionsDTO;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,4 +42,10 @@ public interface SpecialOccasionsService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    List<SpecialOccasionsDTO> findByAcademicSession(String dto);
+
+    List<SpecialOccasionsDTO> findForNow(Instant st, Instant en);
+
+    Long noOfEventForDay(Instant ins);
 }

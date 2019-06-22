@@ -114,4 +114,9 @@ public class SpecialOccasionsResource {
         specialOccasionsService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @GetMapping("/special-occasions/byacademicsession/{id}")
+    public List<SpecialOccasionsDTO> byAcademicSession(@PathVariable String id) {
+       return specialOccasionsService.findByAcademicSession(id);
+    }
 }

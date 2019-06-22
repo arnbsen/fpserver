@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material';
 import { AttendanceService } from '../attendance';
 import { IAttendance } from 'app/shared/model/attendance.model';
 import { DeviceIdDialogComponent } from '../device-id-dialog/device-id-dialog.component';
+import { ToolbarService } from 'app/shared/toolbar/toolbar.service';
 
 @Component({
   selector: 'jhi-student-dashboard',
@@ -24,6 +25,8 @@ export class StudentDashboardComponent implements OnInit {
   student: IStudent;
   department: IDepartment;
   attendances: IAttendance[];
+  userParams: { id?: string; role?: string };
+  studentParams: { year?: number; semester?: number; department?: string };
   subject = [
     { subjectName: 'Subject 1', percentage: 70 },
     { subjectName: 'Subject 2', percentage: 80 },
@@ -51,18 +54,26 @@ export class StudentDashboardComponent implements OnInit {
     private departmentService: DepartmentService,
     protected userService: UserService,
     protected dialog: MatDialog,
-    protected attendanceService: AttendanceService
+    protected attendanceService: AttendanceService,
+    private toolbarService: ToolbarService
   ) {}
 
   ngOnInit() {
+    this.userParams = {};
+    this.studentParams = {};
+    this.userParams.role = 'student';
     this.accountService.identity().then((account: IUser) => {
       this.account = account;
       this.studentService.findbyUserID(this.account.id).subscribe((res: HttpResponse<IStudent>) => {
         this.student = res.body;
-        console.log(this.student);
+        this.studentParams.semester = this.student.currentSem;
+        this.studentParams.year = this.student.currentYear;
+        this.studentParams.department = this.student.departmentId;
+        this.userParams.id = this.student.id;
+        this.toolbarService.setUserParams(this.userParams);
+        this.toolbarService.setstudentDetails(this.studentParams);
         this.departmentService.find(res.body.departmentId).subscribe((resp: HttpResponse<IDepartment>) => {
           this.department = resp.body;
-          console.log(resp.body);
         });
       });
     });

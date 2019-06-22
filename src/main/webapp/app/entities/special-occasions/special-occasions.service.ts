@@ -45,6 +45,12 @@ export class SpecialOccasionsService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
+  findbyAcademicSession(id?: string): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<ISpecialOccasions[]>(`${this.resourceUrl}/byacademicsession/${id}`, { observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
   delete(id: string): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

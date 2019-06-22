@@ -1,14 +1,5 @@
-<jhi-toolbar (openSidebar)="setShowFilter($event)" ></jhi-toolbar>
-<mat-sidenav-container class="example-container">
-    <mat-sidenav mode="side" [opened]="showFilter">
-        hello
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <jhi-faculty *ngIf="enableFaculty"></jhi-faculty>
-        <jhi-student-dashboard *ngIf="enableStudent"></jhi-student-dashboard>
-
-    </mat-sidenav-content>
-</mat-sidenav-container>
+<jhi-faculty *ngIf="enableFaculty"></jhi-faculty>
+<jhi-student-dashboard *ngIf="enableStudent"></jhi-student-dashboard>
 <!-- <div class="row">
     <div class="col-md-3">
         <span class="hipster img-fluid rounded"></span>

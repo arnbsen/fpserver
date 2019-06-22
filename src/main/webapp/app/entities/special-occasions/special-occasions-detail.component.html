@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<!-- <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="specialOccasions">
             <h2><span>Special Occasions</span> {{specialOccasions.id}}</h2>
@@ -42,4 +42,28 @@
             </button>
         </div>
     </div>
+</div> -->
+<jhi-toolbar></jhi-toolbar>
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <div fxLayout="column" [fxFlex]="15"></div>
+    <div fxLayout="column" [fxFlex]="70" fxLayoutAlign="start start" fxLayoutGap="20px">
+        <div fxLayout="row" style="width: 100%" fxLayoutAlign="center center" fxLayoutGap="10px">
+            <button mat-icon-button color="primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()">
+                <mat-icon>
+                    navigate_before
+                </mat-icon>
+            </button>
+            <h2> Events: {{viewDate | calendarDate:(view + 'ViewTitle'):'en'}}</h2>
+            <button mat-icon-button color="primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()">
+                <mat-icon>navigate_next</mat-icon>
+
+            </button>
+        </div>
+        <mwl-calendar-month-view style="width: 100%;" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+            [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)">
+        </mwl-calendar-month-view>
+    </div>
+    <div fxLayout="column" [fxFlex]="15"></div>
 </div>
