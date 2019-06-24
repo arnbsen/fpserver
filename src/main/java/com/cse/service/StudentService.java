@@ -1,5 +1,6 @@
 package com.cse.service;
 
+import com.cse.domain.Student;
 import com.cse.service.dto.StudentDTO;
 
 import java.util.List;
@@ -42,4 +43,10 @@ public interface StudentService {
     void delete(String id);
 
     Optional<StudentDTO> findByUserID(String id);
+
+    Optional<Student> findRaw(String id);
+
+    List<StudentDTO> findByDepartment(String id);
+
+    List<StudentDTO> findBySemesterAndYearAndDepartment(Integer year, Integer sem, String dept);
 }

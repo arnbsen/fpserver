@@ -106,4 +106,19 @@ public class StudentServiceImpl implements StudentService {
     public Optional<StudentDTO> findByUserID(String id) {
         return studentRepository.findByUserID(id).map(studentMapper::toDto);
     }
+
+    @Override
+    public Optional<Student> findRaw(String id) {
+        return studentRepository.findById(id);
+    }
+
+    @Override
+    public List<StudentDTO> findByDepartment(String id) {
+        return studentMapper.toDto(studentRepository.findByDepartmentID(id));
+    }
+
+    @Override
+    public List<StudentDTO> findBySemesterAndYearAndDepartment(Integer year, Integer sem, String dept) {
+        return studentMapper.toDto(studentRepository.findBySemesterAndYearAndDepartment(year, sem));
+    }
 }

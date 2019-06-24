@@ -1,5 +1,6 @@
 package com.cse.service;
 
+import com.cse.domain.HOD;
 import com.cse.service.dto.HODDTO;
 
 import java.util.List;
@@ -42,4 +43,8 @@ public interface HODService {
     void delete(String id);
 
     Optional<HODDTO> findByUserID(String id);
+
+    Optional<HOD> findRaw(String id);
+
+    Optional<HODDTO> findByDepartment(String id);
 }

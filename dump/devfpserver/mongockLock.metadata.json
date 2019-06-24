@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"devfpserver.mongockLock"},{"v":2,"unique":true,"key":{"key":1},"name":"key_1","ns":"devfpserver.mongockLock"}],"uuid":"78b8de349ecf48fa9b665ab54e26c578"}

@@ -12,6 +12,8 @@ import { AttendanceService } from '../attendance';
 import { IAttendance } from 'app/shared/model/attendance.model';
 import { DeviceIdDialogComponent } from '../device-id-dialog/device-id-dialog.component';
 import { ToolbarService } from 'app/shared/toolbar/toolbar.service';
+import { CalcService } from 'app/shared/calculator.service';
+import { IStudentCalc } from 'app/shared/model/studentcalc.model';
 
 @Component({
   selector: 'jhi-student-dashboard',
@@ -19,34 +21,14 @@ import { ToolbarService } from 'app/shared/toolbar/toolbar.service';
   styleUrls: ['./student.dashboard.scss']
 })
 export class StudentDashboardComponent implements OnInit {
-  @ViewChild('next', { static: true }) next: ElementRef;
-  @ViewChild('prev', { static: true }) prev: ElementRef;
   account: IUser;
   student: IStudent;
   department: IDepartment;
   attendances: IAttendance[];
   userParams: { id?: string; role?: string };
   studentParams: { year?: number; semester?: number; department?: string };
-  subject = [
-    { subjectName: 'Subject 1', percentage: 70 },
-    { subjectName: 'Subject 2', percentage: 80 },
-    { subjectName: 'Subject 3', percentage: 50 },
-    { subjectName: 'Subject 4', percentage: 20 }
-  ];
-
-  carouselTile = {
-    grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
-    slide: 1,
-    speed: 250,
-    point: {
-      visible: true
-    },
-    load: 1,
-    loop: true,
-    velocity: 0,
-    touch: true,
-    easing: 'cubic-bezier(0, 0, 0.2, 1)'
-  };
+  subject = [];
+  loadOver = false;
 
   constructor(
     private accountService: AccountService,
@@ -54,8 +36,8 @@ export class StudentDashboardComponent implements OnInit {
     private departmentService: DepartmentService,
     protected userService: UserService,
     protected dialog: MatDialog,
-    protected attendanceService: AttendanceService,
-    private toolbarService: ToolbarService
+    private toolbarService: ToolbarService,
+    private calcService: CalcService
   ) {}
 
   ngOnInit() {
@@ -66,6 +48,7 @@ export class StudentDashboardComponent implements OnInit {
       this.account = account;
       this.studentService.findbyUserID(this.account.id).subscribe((res: HttpResponse<IStudent>) => {
         this.student = res.body;
+        this.findAttendance();
         this.studentParams.semester = this.student.currentSem;
         this.studentParams.year = this.student.currentYear;
         this.studentParams.department = this.student.departmentId;
@@ -86,24 +69,10 @@ export class StudentDashboardComponent implements OnInit {
     return check <= 30 ? 'warn' : check <= 50 ? 'accent' : 'primary';
   }
 
-  goToNext() {
-    this.next.nativeElement.click();
-  }
-
-  goToPrev() {
-    this.prev.nativeElement.click();
-  }
-  loadAttendances() {
-    this.attendanceService.getAllByDeviceID(this.account.deviceID).subscribe((res: HttpResponse<IAttendance[]>) => {
-      console.log(res.body);
-      this.attendances = res.body;
-    });
-  }
-
   addDeviceID() {
     this.userService.addDeviceID(this.account).subscribe((res: HttpResponse<IUser>) => {
       this.account.deviceID = res.body.deviceID;
-      this.loadAttendances();
+      this.findAttendance();
     });
   }
   openDialog(): void {
@@ -113,8 +82,27 @@ export class StudentDashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.account.deviceID = result;
         this.addDeviceID();
       }
     });
+  }
+
+  findAttendance() {
+    this.loadOver = false;
+    this.calcService.findByStudent(this.student.id).subscribe(
+      (res: HttpResponse<IStudentCalc[]>) => {
+        res.body.forEach((val: IStudentCalc) => {
+          this.subject.push({
+            subjectName: val.subjectName,
+            percentage: Math.floor((val.attendance / val.totalAttendance) * 100),
+            attendance: Number(val.attendance),
+            totalAttendance: Number(val.totalAttendance)
+          });
+        });
+        this.loadOver = true;
+      },
+      err => (this.loadOver = true)
+    );
   }
 }

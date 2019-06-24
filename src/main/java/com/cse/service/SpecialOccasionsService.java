@@ -47,5 +47,7 @@ public interface SpecialOccasionsService {
 
     List<SpecialOccasionsDTO> findForNow(Instant st, Instant en);
 
+    List<SpecialOccasionsDTO> findForNowFac(Instant st, Instant en);
+
     Long noOfEventForDay(Instant ins);
 }

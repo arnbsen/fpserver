@@ -96,4 +96,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     public List<AttendanceDTO> getByDeviceID(String deviceID) {
         return attendanceMapper.toDto(attendanceRepository.findAllByDeviceID(deviceID));
     }
+
+    @Override
+    public List<Attendance> findAllRawByDeviceID(String deviceID) {
+        return attendanceRepository.findAllByDeviceID(deviceID);
+    }
 }

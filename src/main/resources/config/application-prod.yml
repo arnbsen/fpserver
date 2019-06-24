@@ -42,6 +42,11 @@ spring:
     password:
   thymeleaf:
     cache: true
+  jackson:
+    deserialization:
+      adjust-dates-to-context-time-zone: false
+    locale: en_IN
+    time-zone: Asia/Kolkata
 
 # ===================================================================
 # To enable TLS in production, generate a certificate using:

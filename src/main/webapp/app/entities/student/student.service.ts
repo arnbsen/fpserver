@@ -39,4 +39,8 @@ export class StudentService {
   findbyUserID(id: string): Observable<EntityResponseType> {
     return this.http.get<IStudent>(`${this.resourceUrl}/byuserid/${id}`, { observe: 'response' });
   }
+
+  customfilter1(student: IStudent): Observable<EntityArrayResponseType> {
+    return this.http.post<IStudent[]>(`${this.resourceUrl}/byyearsemdept`, student, { observe: 'response' });
+  }
 }

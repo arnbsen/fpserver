@@ -10,6 +10,7 @@ export const settingsRoute: Routes = [
   {
     path: 'settings/student/:id',
     component: SettingsComponent,
+    pathMatch: 'full',
     resolve: {
       data: StudentResolve
     },
@@ -21,6 +22,7 @@ export const settingsRoute: Routes = [
   },
   {
     path: 'settings/faculty/:id',
+    pathMatch: 'full',
     component: SettingsComponent,
     resolve: {
       data: FacultyResolve
@@ -33,12 +35,22 @@ export const settingsRoute: Routes = [
   },
   {
     path: 'settings/hod/:id',
+    pathMatch: 'full',
     component: SettingsComponent,
     resolve: {
       data: HODResolve
     },
     data: {
       authorities: ['ROLE_HOD'],
+      pageTitle: 'Account - Settings'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'settings/admin',
+    component: SettingsComponent,
+    data: {
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Account - Settings'
     },
     canActivate: [UserRouteAccessService]

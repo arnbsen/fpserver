@@ -18,6 +18,7 @@ const ENTITY_STATES = [...hODRoute, ...hODPopupRoute];
   imports: [DevfpserverSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [HODComponent, HODDetailComponent, HODUpdateComponent, HODDeleteDialogComponent, HODDeletePopupComponent],
   entryComponents: [HODComponent, HODUpdateComponent, HODDeleteDialogComponent, HODDeletePopupComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [HODComponent]
 })
 export class DevfpserverHODModule {}

@@ -39,4 +39,8 @@ export class FacultyService {
   findbyUserID(id: string): Observable<EntityResponseType> {
     return this.http.get<IFaculty>(`${this.resourceUrl}/byuserid/${id}`, { observe: 'response' });
   }
+
+  filterByDept(id?: string): Observable<EntityArrayResponseType> {
+    return this.http.get<IFaculty[]>(`${this.resourceUrl}/bydeptid/${id}`, { observe: 'response' });
+  }
 }

@@ -35,4 +35,8 @@ export class SubjectService {
   delete(id: string): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  bydeptyearsemfac(id: string): Observable<EntityArrayResponseType> {
+    return this.http.get<ISubject[]>(`${this.resourceUrl}/bydeptyearsemfac/${id}`, { observe: 'response' });
+  }
 }

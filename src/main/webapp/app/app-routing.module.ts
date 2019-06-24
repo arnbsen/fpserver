@@ -18,7 +18,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         },
         ...LAYOUT_ROUTES
       ],
-      { enableTracing: DEBUG_INFO_ENABLED, useHash: true }
+      { useHash: true }
     )
   ],
   exports: [RouterModule]

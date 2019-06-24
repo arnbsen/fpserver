@@ -89,4 +89,22 @@ public class SubjectServiceImpl implements SubjectService {
         log.debug("Request to save Subject : {}", subject);
         return subjectRepository.save(subject);
     }
+
+    @Override
+    public List<SubjectDTO> findBySemesterAndYearAndDepartment(Integer year, Integer sem, String dept) {
+        return subjectMapper.toDto(subjectRepository.findBySemesterAndYearAndDepartment(year, sem, dept));
+    }
+
+    @Override
+    public List<SubjectDTO> findBySemesterAndYearAndDepartmentAndFacID(String fac) {
+        List<SubjectDTO> ubs = new LinkedList<>();
+        findAll().forEach(sub -> {
+            sub.getFaculty().forEach(facm -> {
+                if (facm.getFacultyCode().equals(fac)) {
+                    ubs.add(sub);
+                }
+            });
+        });
+        return ubs;
+    }
 }

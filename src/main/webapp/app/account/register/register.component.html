@@ -166,6 +166,21 @@
         </mat-expansion-panel-header>
         <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm">
             <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px">
+                <span class="alert-danger" *ngIf="error">
+                    <strong>Registration failed!</strong> Please try again later.
+                </span>
+
+                <span class="alert-danger" *ngIf="errorUserExists">
+                    <strong>Login name already registered!</strong> Please choose another one.
+                </span>
+
+                <span class="alert-danger" *ngIf="errorEmailExists">
+                    <strong>Email is already in use!</strong> Please choose another one.
+                </span>
+
+                <span class="alert-danger" *ngIf="doNotMatch">
+                    The password and its confirmation do not match!
+                </span>
                 <mat-form-field style="width: 60%" appearance="standard">
                     <mat-label>Username</mat-label>
                     <input matInput type="text" id="login" name="login" placeholder="Your username"
@@ -290,7 +305,7 @@
                 </span>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="mode !== 'faculty'">
            <span *ngIf="!activated">Click on Activate to Activate Account and Continue</span> <span class="column-spacer"></span><mat-spinner [diameter]="40" *ngIf="isActivating"></mat-spinner> &nbsp; &nbsp; <span *ngIf="isActivating">{{savingMsg}} &nbsp;
                 &nbsp;</span>  <button *ngIf="!activated" mat-flat-button (click)="activateAccount(user.id)" color="primary">Activate</button>
                 <mat-icon style="color: #1abc9c" *ngIf="activated">check_circle_outline</mat-icon>&nbsp;&nbsp; <span *ngIf="activated" style="color: #1abc9c">Activated</span>

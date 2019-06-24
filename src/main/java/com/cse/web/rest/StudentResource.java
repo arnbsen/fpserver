@@ -122,4 +122,14 @@ public class StudentResource {
         Optional<StudentDTO> studentDTO = studentService.findByUserID(id);
         return ResponseUtil.wrapOrNotFound(studentDTO);
     }
+
+    @GetMapping("/students/bydeptid/{id}")
+    public List<StudentDTO> getAllStudentsSByDept(@PathVariable String id) {
+        return studentService.findByDepartment(id);
+    }
+
+    @PostMapping("/students/byyearsemdept")
+    public List<StudentDTO> findByYearSemDept(@RequestBody StudentDTO student) {
+        return studentService.findBySemesterAndYearAndDepartment(student.getCurrentYear(), student.getCurrentSem(), student.getDepartmentId());
+    }
 }

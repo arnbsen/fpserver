@@ -64,28 +64,213 @@
         </table>
     </div>
 </div> -->
+<jhi-toolbar></jhi-toolbar>
+<!-- <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="full-height ull-width">
 
-<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" class="full-height">
+
+<div fxLayout="column" [fxFlex]="30" fxLayoutAlign="start start" fxLayoutGap="0px">
     <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="full-width">
-        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" [fxFlex]="25" class="mat-elevation-z4" style="padding-left: 10px; padding-bottom: 10px; padding-right: 10px">
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" [fxFlex]="100" class="mat-elevation-z4" style="padding-left: 10px; padding-bottom: 10px; padding-right: 10px">
             <h3 *ngIf="currentAccount"> {{currentAccount.firstName + ' ' + currentAccount.lastName}} </h3>
             <p *ngIf="faculty" style="color:#515a6e">Faculty Code:  {{ faculty.facultyCode }}</p>
             <p *ngIf="department" style="color: gray">{{ department.deptCode + ' - ' + department.deptName}}</p>
-            <span *ngIf="!currentAccount.deviceID" style="color: #2b68ff" fxLayoutAlign="start center">
+            <div fxLayout="column" style="width: 100%" fxLayoutAlign="center start" fxLayoutGap="0px">
+                <span *ngIf="currentAccount" style="color: #2b68ff" fxLayoutAlign="start center">
 
-                <p>Device ID not registered.</p> &nbsp;<mat-icon matTooltip="Without Device ID Attendance will Not Sync">error</mat-icon>
+                    <p *ngIf="!currentAccount.deviceID">Device ID not registered.</p> &nbsp;<mat-icon matTooltip="Without Device ID Attendance will Not Sync" *ngIf="!currentAccount.deviceID">error
+                    </mat-icon>
+                </span>
+                <button [disabled]="currentAccount !== undefined && currentAccount.deviceID" mat-flat-button color="primary" style="width: 100%" (click)="openDialog()">
+                    <mat-icon>add</mat-icon> Add Device ID
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <h3 style="width: 100%">Subjects Taught By Me</h3>
+    <div  style="width: 100%" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <h4 [fxFlex]="30">Subject Code</h4>
+        <span [fxFlex]="36">Subject Name</span>
+        <span [fxFlex]="7">Year</span>
+        <span [fxFlex]="7">Semester</span>
+    </div>
+    <div style="width: 100%" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngFor="let subject of subjects">
+        <h4 [fxFlex]="30">{{subject.subjectCode}}</h4>
+        <span [fxFlex]="36">{{subject.subjectName}}</span>
+        <span [fxFlex]="7">{{subject.year}}</span>
+        <span [fxFlex]="7">{{subject.semester}}</span>
+    </div>
+</div>
+<div [fxFlex]="5"></div>
+<div [fxFlex]="40">
+    <mat-list style="width: 100%" *ngIf="sub">
+        <mat-list-item>
+            <span mat-line style="font: 20px bold"> {{subd.subjectName}} </span>
+            <span mat-line>{{subd.attendance + '/' + subd.totalAttendance}}</span>
+            <span mat-line style="margin-top: 5px">
+                <mat-progress-bar mode="determinate" *ngIf="getNumber(subd.percentage) < 75"
+                    [color]="getColor(subd.percentage)" value="{{getNumber(subd.percentage)}}"></mat-progress-bar>
+                <mat-progress-bar mode="determinate" *ngIf="getNumber(subd.percentage) > 75" class="green-progress"
+                    value="{{getNumber(subd.percentage)}}"></mat-progress-bar>
             </span>
-            <button [disabled]="currentAccount.deviceID" mat-flat-button color="primary" style="width: 100%"  (click)="openDialog()">
-            <mat-icon>add</mat-icon> Add Device ID
+        </mat-list-item>
+    </mat-list>
+    <div>
+        <h3>Check For Students Attendance</h3>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <mat-form-field style="width: 50%">
+                <mat-label>Choose Subject</mat-label>
+                <mat-select [(value)]="choosenSubject">
+                    <mat-option *ngFor="let sub of subjects" [value]="sub">
+                        {{sub.subjectCode + '-' + sub.subjectName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button [disabled]="!choosenSubject" style="width: 20%" mat-flat-button color="primary" (click)="onSubjectChoose()">Check</button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="choosenSubBool">
+            <mat-form-field style="width: 50%" >
+                <mat-label>Choose Roll No. of Student</mat-label>
+                <mat-select [(value)]="choosenStudent">
+                    <mat-option *ngFor="let stud of students" [value]="stud">
+                        {{stud.classRollNumber}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button [disabled]="!choosenStudent" style="width: 20%" mat-flat-button color="primary"
+                (click)="onChooseStudent()">Check</button>
+        </div>
+        <div *ngIf="!studd && choosenStudBool && !loadOver" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 2%">
+            <mat-spinner [diameter]="40"></mat-spinner> &nbsp; Hang on a bit...
+        </div>
+        <span mat-line style="margin-top: 5px; width: 100%" *ngIf="studd">
+
+            <span mat-line style="font: 20px bold"> Roll No: &nbsp; {{studd.subjectName}} </span>
+            <span mat-line>{{studd.attendance + '/' + studd.totalAttendance}}</span>
+            <mat-progress-bar mode="determinate" *ngIf="getNumber(studd.percentage) < 75" [color]="getColor(studd.percentage)"
+                value="{{getNumber(studd.percentage)}}"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" *ngIf="getNumber(studd.percentage) > 75" class="green-progress"
+                value="{{getNumber(studd.percentage)}}"></mat-progress-bar>
+        </span>
+        <div *ngIf="loadOver && !choosenSubBool && !choosenStudBool && !studd">
+            <p>No Attendance Found</p>
+        </div>
+    </div>
+</div>
+</div> -->
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" class="full-height full-width">
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" style="width: 60%">
+    <div fxLayout="column" [fxFlex]="50" fxLayoutAlign="start start" fxLayoutGap="0px">
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="full-width">
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" [fxFlex]="100" class="mat-elevation-z4"
+                style="padding-left: 10px; padding-bottom: 10px; padding-right: 10px">
+                <h3 *ngIf="currentAccount"> {{currentAccount.firstName + ' ' + currentAccount.lastName}} </h3>
+                <p *ngIf="faculty" style="color:#515a6e">Faculty Code: {{ faculty.facultyCode }}</p>
+                <p *ngIf="department" style="color: gray">{{ department.deptCode + ' - ' + department.deptName}}</p>
+                <div fxLayout="column" style="width: 100%" fxLayoutAlign="center start" fxLayoutGap="0px">
+                    <span *ngIf="currentAccount" style="color: #2b68ff" fxLayoutAlign="start center">
+
+                        <p *ngIf="!currentAccount.deviceID">Device ID not registered.</p> &nbsp;<mat-icon
+                            matTooltip="Without Device ID Attendance will Not Sync" *ngIf="!currentAccount.deviceID">
+                            error
+                        </mat-icon>
+                    </span>
+                    <button [disabled]="currentAccount !== undefined && currentAccount.deviceID" mat-flat-button
+                        color="primary" style="width: 100%" (click)="openDialog()">
+                        <mat-icon>add</mat-icon> Add Device ID
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div [fxFlex]="50" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" style="height: 180px;">
+        <mat-list style="width: 100%" *ngIf="subd">
+            <mat-list-item>
+                <span mat-line style="font: 20px bold"> {{subd.subjectName}} </span>
+                <span mat-line>{{subd.attendance + '/' + subd.totalAttendance}}</span>
+                <span mat-line style="margin-top: 5px">
+                    <mat-progress-bar mode="determinate" *ngIf="getNumber(subd.percentage) < 75"
+                        [color]="getColor(subd.percentage)" value="{{getNumber(subd.percentage)}}"></mat-progress-bar>
+                    <mat-progress-bar mode="determinate" *ngIf="getNumber(subd.percentage) > 75" class="green-progress"
+                        value="{{getNumber(subd.percentage)}}"></mat-progress-bar>
+                </span>
+            </mat-list-item>
+        </mat-list>
+        <div style="width: 100%" *ngIf="!subd && !loadOverSelf" fxLayout="row" fxLayoutAlign="center center"
+            style="padding-top: 2%">
+            <mat-spinner [diameter]="40"></mat-spinner> &nbsp; Hang on a bit...
+        </div>
+        <div style="width: 100%" *ngIf="!subd && loadOverSelf" fxLayout="row" fxLayoutAlign="center center">
+            <p> No Attendances Found. </p> <button mat-icon-button matTooltip="Reload" (click)="findAttendance()">
+                <mat-icon>refresh</mat-icon>
             </button>
         </div>
     </div>
-    <mat-list *ngIf="attendances">
-        <h3 mat-subheader>Dates Present</h3>
-        <mat-list-item *ngFor="let attendance of attendances">
-            <mat-icon mat-list-icon>calendar</mat-icon>
-            <p mat-line> {{attendance.timestamp | date}} </p>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-    </mat-list>
+    </div>
+    <mat-divider style="width: 100%"></mat-divider>
+    <div style="width: 100%" fxLayout="row" fxLayoutAlign="start start">
+        <div fxLayout="column" [fxFlex]="50" fxLayoutAlign="center start" fxLayoutGap="10px">
+            <h3 style="width: 100%">Subjects Taught By Me</h3>
+            <mat-divider style="width: 100%"></mat-divider>
+            <div style="width: 100%" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <h4 [fxFlex]="30">Subject Code</h4>
+                <span [fxFlex]="36">Subject Name</span>
+                <span [fxFlex]="7">Year</span>
+                <span [fxFlex]="7">Semester</span>
+            </div>
+            <div style="width: 100%" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
+                *ngFor="let subject of subjects">
+                <h4 [fxFlex]="30">{{subject.subjectCode}}</h4>
+                <span [fxFlex]="36">{{subject.subjectName}}</span>
+                <span [fxFlex]="7">{{subject.year}}</span>
+                <span [fxFlex]="7">{{subject.semester}}</span>
+            </div>
+        </div>
+        <div fxLayout="column" [fxFlex]="50" fxLayoutAlign="center start" fxLayoutGap="10px">
+            <h3>Check For Students Attendance</h3>
+            <mat-divider style="width: 100%"></mat-divider>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 80%">
+                <mat-form-field style="width: 70%">
+                    <mat-label>Choose Subject</mat-label>
+                    <mat-select [(value)]="choosenSubject">
+                        <mat-option *ngFor="let sub of subjects" [value]="sub">
+                            {{sub.subjectCode + '-' + sub.subjectName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button [disabled]="!choosenSubject" style="width: 20%" mat-flat-button color="primary"
+                    (click)="onSubjectChoose()">Check</button>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="choosenSubBool" style="width: 80%">
+                <mat-form-field style="width: 70%">
+                    <mat-label>Choose Roll No. of Student</mat-label>
+                    <mat-select [(value)]="choosenStudent">
+                        <mat-option *ngFor="let stud of students" [value]="stud">
+                            {{stud.classRollNumber}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button [disabled]="!choosenStudent" style="width: 20%" mat-flat-button color="primary"
+                    (click)="onChooseStudent()">Check</button>
+            </div>
+            <div *ngIf="!studd && choosenStudBool && !loadOver" fxLayout="row" fxLayoutAlign="center center"
+                style="padding-top: 2%">
+                <mat-spinner [diameter]="40"></mat-spinner> &nbsp; Hang on a bit...
+            </div>
+            <span mat-line style="margin-top: 5px; width: 80%" *ngIf="studd" fxLayout="column" fxLayoutGap="5px">>
+
+                <span mat-line style="font: 20px bold"> Roll No: &nbsp; {{studd.subjectName}} </span>
+                <span mat-line>{{studd.attendance + '/' + studd.totalAttendance}}</span>
+                <mat-progress-bar mode="determinate" *ngIf="getNumber(studd.percentage) < 75" [color]="getColor(studd.percentage)"
+                    value="{{getNumber(studd.percentage)}}"></mat-progress-bar>
+                <mat-progress-bar mode="determinate" *ngIf="getNumber(studd.percentage) > 75" class="green-progress"
+                    value="{{getNumber(studd.percentage)}}"></mat-progress-bar>
+            </span>
+            <div *ngIf="loadOver && !choosenSubBool && !choosenStudBool && !studd">
+                <p>No Attendance Found</p>
+            </div>
+        </div>
+    </div>
+
 </div>

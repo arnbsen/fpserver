@@ -23,4 +23,8 @@ public interface SpecialOccasionsRepository extends MongoRepository<SpecialOccas
 
     @Query(value = "{start_date: {$lte: ?0}, end_date: {$gte: ?0}}", count = true)
     Long noOfEventsForDay(Instant in);
+
+    @Query(value="{start_date: {$gte: ?0}, end_date: {$lte: ?1}, type: 'HOLIDAY'}")
+    List<SpecialOccasions> forNowFac(Instant st, Instant en);
+
 }

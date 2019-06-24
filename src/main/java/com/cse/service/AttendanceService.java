@@ -1,5 +1,6 @@
 package com.cse.service;
 
+import com.cse.domain.Attendance;
 import com.cse.service.dto.AttendanceDTO;
 
 import java.util.List;
@@ -44,4 +45,6 @@ public interface AttendanceService {
     boolean saveAll(List<AttendanceDTO> attendances);
 
     List<AttendanceDTO> getByDeviceID(String deviceID);
+
+    List<Attendance> findAllRawByDeviceID(String deviceID);
 }

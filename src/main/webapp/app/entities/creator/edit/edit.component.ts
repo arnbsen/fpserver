@@ -10,6 +10,9 @@ import { FacultyService } from 'app/entities/faculty';
 import { IFaculty } from 'app/shared/model/faculty.model';
 import { DepartmentService } from 'app/entities/department';
 import { Observable } from 'rxjs';
+import { HODService } from 'app/entities/hod';
+import { IHOD } from 'app/shared/model/hod.model';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'jhi-edit',
@@ -22,6 +25,7 @@ export class EditComponent implements OnInit {
   faculties: IFaculty[];
   departments: IDepartment[];
   subject: ISubject;
+  hod: IHOD;
   isSubjectCreationSaving = false;
 
   subjectForm: FormGroup;
@@ -31,16 +35,19 @@ export class EditComponent implements OnInit {
     protected fb: FormBuilder,
     protected subjectService: SubjectService,
     protected facultyService: FacultyService,
-    protected departmentService: DepartmentService
+    protected departmentService: DepartmentService,
+    protected hodService: HODService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe(({ department }) => {
       this.department = department;
+      this.loadHodbyDepartment();
+      this.loadAllDepartment();
+      this.loadAllFaculty();
+      this.loadAllSubjects();
     });
-    this.loadAllDepartment();
-    this.loadAllFaculty();
-    this.loadAllSubjects();
   }
 
   loadAllSubjects() {
@@ -55,6 +62,7 @@ export class EditComponent implements OnInit {
       .subscribe(
         (res: ISubject[]) => {
           this.subjects = res;
+          this.subjects = this.subjects.filter(val => val.ofDeptId === this.department.id);
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
@@ -92,6 +100,13 @@ export class EditComponent implements OnInit {
       );
   }
 
+  loadHodbyDepartment() {
+    this.hodService.filterByDept(this.department.id).subscribe((res: HttpResponse<IHOD>) => {
+      this.hod = res.body;
+      console.log(this.hod);
+    });
+  }
+
   onError(msg: any) {}
   previousState() {
     window.history.back();
@@ -111,6 +126,18 @@ export class EditComponent implements OnInit {
     });
   }
 
+  patchSubjectForm(subject: ISubject) {
+    this.subjectForm = this.fb.group({
+      subjectCode: [subject.subjectCode, [Validators.required]],
+      subjectName: [subject.subjectName, [Validators.required]],
+      year: [subject.year, [Validators.required]],
+      semester: [subject.semester, [Validators.required]],
+      ofDeptId: [subject.ofDeptId, Validators.required],
+      facultyId: [subject.faculty, Validators.required],
+      id: [subject.id]
+    });
+  }
+
   getSemester(val: number): number[] {
     return [val * 2 - 1, val * 2];
   }
@@ -124,7 +151,8 @@ export class EditComponent implements OnInit {
       semester: this.subjectForm.get('semester').value,
       year: this.subjectForm.get('year').value,
       subjectCode: this.subjectForm.get('subjectCode').value,
-      subjectName: this.subjectForm.get('subjectName').value
+      subjectName: this.subjectForm.get('subjectName').value,
+      id: this.subjectForm.value.id
     };
     if (this.subject.id !== undefined) {
       this.subscribeToSubjectSaveResponse(this.subjectService.update(this.subject));
@@ -142,10 +170,20 @@ export class EditComponent implements OnInit {
     );
   }
 
+  deteteSubject(subject: ISubject) {
+    this.subjectService.delete(subject.id).subscribe(
+      (res: any) => {
+        this.onSaveSuccess();
+      },
+      err => this.onSaveError()
+    );
+  }
+
   protected onSaveSuccess() {
     this.isSubjectCreationSaving = false;
     this.subjectForm = null;
     this.loadAllSubjects();
+    this.openSnackBar('Action Successful', 'Done');
   }
 
   getDepartmentName(id: string): IDepartment {
@@ -166,5 +204,11 @@ export class EditComponent implements OnInit {
 
   openTimeTableWizard() {
     this.router.navigate(['/admin', this.department.id, 'timetable', 'edit']);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000
+    });
   }
 }

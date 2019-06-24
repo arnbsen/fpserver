@@ -294,7 +294,7 @@ export class TimeTableWizardComponent implements OnInit {
       data: [this.subjects, this.locations]
     });
     // console.log(this.weekTimeTable[this.choosenDay].spanCount);
-    console.log(subArray);
+    // console.log(subArray);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (!subArray) {
@@ -394,7 +394,7 @@ export class TimeTableWizardComponent implements OnInit {
   }
 
   saveData() {
-    console.log(this.weekTimeTable);
+    // console.log(this.weekTimeTable);
     this.saveMessage = 'Validating';
     let allOk = true;
     this.daysOfWeek.forEach((val: string) => {
@@ -430,7 +430,7 @@ export class TimeTableWizardComponent implements OnInit {
           this.createDayTimeTable(subjects, subCount);
         },
         (err: HttpErrorResponse) => {
-          console.log(err);
+          // console.log(err);
         }
       );
     } else {
@@ -497,7 +497,7 @@ export class TimeTableWizardComponent implements OnInit {
           }, 1500);
         },
         err => {
-          console.log(err);
+          // console.log(err);
         }
       );
     }

@@ -98,4 +98,9 @@ public class SpecialOccasionsServiceImpl implements SpecialOccasionsService {
     public Long noOfEventForDay(Instant ins) {
         return specialOccasionsRepository.noOfEventsForDay(ins);
     }
+
+    @Override
+    public List<SpecialOccasionsDTO> findForNowFac(Instant st, Instant en) {
+        return specialOccasionsMapper.toDto(specialOccasionsRepository.forNowFac(st, en));
+    }
 }

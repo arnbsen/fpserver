@@ -135,4 +135,10 @@ public class HODResource {
         Optional<HODDTO> hodDTO = hODService.findByUserID(id);
         return ResponseUtil.wrapOrNotFound(hodDTO);
     }
+
+    @GetMapping("/hods/bydeptid/{id}")
+    public ResponseEntity<HODDTO> getAllHODSByDept(@PathVariable String id) {
+       Optional<HODDTO> hodDTO = hODService.findByDepartment(id);
+       return ResponseUtil.wrapOrNotFound(hodDTO);
+    }
 }

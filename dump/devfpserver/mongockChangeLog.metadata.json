@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"devfpserver.mongockChangeLog"},{"v":2,"unique":true,"key":{"author":1,"changeId":1},"name":"author_1_changeId_1","ns":"devfpserver.mongockChangeLog"}],"uuid":"122331a4ebea482c8b3fadea93f299f9"}

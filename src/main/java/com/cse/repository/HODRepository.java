@@ -17,4 +17,7 @@ public interface HODRepository extends MongoRepository<HOD, String> {
 
     @Query(value = "{'user.id' : ?0}")
     Optional<HOD> findByUserID(String id);
+
+    @Query(value="{'department.id': ?0}")
+    Optional<HOD> findByDepartmentID(String id);
 }

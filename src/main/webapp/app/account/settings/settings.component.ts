@@ -86,15 +86,15 @@ export class SettingsComponent implements OnInit {
       this.updateForm(account);
     });
     this.activatedRoute.data.subscribe(({ data }) => {
-      if (data as IStudent) {
+      if (data.classRollNumber) {
         this.student = data;
         this.mode = 'student';
         this.patchStudentForm();
-      } else if (data as IFaculty) {
+      } else if (data.facultyCode) {
         this.faculty = data;
         this.mode = 'faculty';
         this.patchFacultyForm();
-      } else if (data as IHOD) {
+      } else if (data.authCode) {
         this.hod = data;
         this.mode = 'hod';
         this.patchHODForm();

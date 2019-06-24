@@ -11,27 +11,22 @@
             <mat-icon>add</mat-icon>
             Create New
         </button>
-        <button mat-raised-button color="accent" style="width: 150px">
-            <mat-icon>edit</mat-icon>
-            Edit
-        </button>
     </div>
     <mat-divider class="full-width"></mat-divider>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%" *ngFor="let a of academicSessions">
-       <h3 [fxFlex]="20">{{a.academicSession}}</h3>
+       <h3 [fxFlex]="15">{{a.academicSession}}</h3>
        <span fxLayout="row" [fxFlex]="10" fxLayoutAlign="start center" style="color: #1abc9c"><mat-icon *ngIf="checkDateRange(a)">check_circle_outline</mat-icon>&nbsp;&nbsp; <span *ngIf="checkDateRange(a)">Active</span></span>
-       <span [fxFlex]="10">
-            <button mat-stroked-button style="border-radius: 50px" matTooltip="Upgrade Semester" color="primary">
-                <mat-icon>arrow_upward</mat-icon>
-            </button>
-       </span>
-       <span [fxFlex]="17">{{a.startDate | date}}</span>
-       <span [fxFlex]="17">{{a.endDate | date}}</span>
+       <span [fxFlex]="15">{{a.startDate | date}}</span>
+       <span [fxFlex]="15">{{a.endDate | date}}</span>
+        <button mat-raised-button color="accent" style="width: 150px" (click)="patchAcademicSessionForm(a)">
+            <mat-icon>edit</mat-icon>
+            Edit
+        </button>
         <button mat-raised-button style="width: 200px" color="primary" (click)="goToSpecialOccasions(a.id)">
             <mat-icon>open_in_new</mat-icon>
             Special Occassions
         </button>
-        <button mat-raised-button color="warn" style="width: 150px">
+        <button mat-raised-button color="warn" style="width: 150px" (click)="deleteAcademicSession(a)">
             <mat-icon>delete</mat-icon>
             Delete
         </button>
@@ -62,9 +57,9 @@
             <mat-error *ngIf="editacademicSessionForm.get('endDate').hasError('required')">Must Select a date </mat-error>
         </mat-form-field>
         <mat-spinner [diameter]="30" *ngIf="isAcademicCreationSaving"></mat-spinner>
-        <button mat-raised-button type="submit" color="primary" style="width: 150px" [disabled]="editacademicSessionForm.invalid || isAcademicCreationSaving">
+        <button mat-raised-button type="submit" color="primary" style="width: 250px" [disabled]="editacademicSessionForm.invalid || isAcademicCreationSaving">
             <mat-icon>add</mat-icon>
-            Create
+            Create / Update
         </button>
     </form>
     <mat-divider class="full-width"></mat-divider>
@@ -89,11 +84,11 @@
             <mat-icon>open_in_new</mat-icon>
             Department Actions
         </button>
-        <button mat-raised-button color="accent" style="width: 150px">
+        <button mat-raised-button color="accent" style="width: 150px" (click)="patchDepartmentForm(dept)">
             <mat-icon>edit</mat-icon>
             Edit
         </button>
-        <button mat-raised-button color="warn" style="width: 150px">
+        <button mat-raised-button color="warn" style="width: 150px" (click)="deleteDepartment(dept)">
             <mat-icon>delete</mat-icon>
             Delete
         </button>
@@ -118,10 +113,10 @@
             <mat-error *ngIf="editDepartmentForm.get('deptName').hasError('required')">Required field</mat-error>
         </mat-form-field>
         <mat-spinner [diameter]="30" *ngIf="isDepartmentCreationSaving"></mat-spinner>
-        <button mat-raised-button type="submit" color="primary" style="width: 150px"
+        <button mat-raised-button type="submit" color="primary" style="width: 250px"
             [disabled]="editDepartmentForm.invalid || isDepartmentCreationSaving">
             <mat-icon>add</mat-icon>
-            Create
+            Create / Update
         </button>
     </form>
     </div>

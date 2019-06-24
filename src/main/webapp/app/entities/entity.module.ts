@@ -13,42 +13,42 @@ import { DeviceIdDialogComponent } from './device-id-dialog/device-id-dialog.com
   imports: [
     DevfpserverSharedModule,
     RouterModule.forChild([
-      {
-        path: 'intermdiate-user',
-        loadChildren: './intermdiate-user/intermdiate-user.module#DevfpserverIntermdiateUserModule'
-      },
-      {
-        path: 'department',
-        loadChildren: './department/department.module#DevfpserverDepartmentModule'
-      },
-      {
-        path: 'device',
-        loadChildren: './device/device.module#DevfpserverDeviceModule'
-      },
-      {
-        path: 'hod',
-        loadChildren: './hod/hod.module#DevfpserverHODModule'
-      },
-      {
-        path: 'subject',
-        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
-      },
-      {
-        path: 'faculty',
-        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
-      },
-      {
-        path: 'student',
-        loadChildren: './student/student.module#DevfpserverStudentModule'
-      },
-      {
-        path: 'subject-time-table',
-        loadChildren: './subject-time-table/subject-time-table.module#DevfpserverSubjectTimeTableModule'
-      },
-      {
-        path: 'day-time-table',
-        loadChildren: './day-time-table/day-time-table.module#DevfpserverDayTimeTableModule'
-      },
+      // {
+      //   path: 'intermdiate-user',
+      //   loadChildren: './intermdiate-user/intermdiate-user.module#DevfpserverIntermdiateUserModule'
+      // },
+      // {
+      //   path: 'department',
+      //   loadChildren: './department/department.module#DevfpserverDepartmentModule'
+      // },
+      // {
+      //   path: 'device',
+      //   loadChildren: './device/device.module#DevfpserverDeviceModule'
+      // },
+      // {
+      //   path: 'hod',
+      //   loadChildren: './hod/hod.module#DevfpserverHODModule'
+      // },
+      // {
+      //   path: 'subject',
+      //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      // },
+      // {
+      //   path: 'faculty',
+      //   loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      // },
+      // {
+      //   path: 'student',
+      //   loadChildren: './student/student.module#DevfpserverStudentModule'
+      // },
+      // {
+      //   path: 'subject-time-table',
+      //   loadChildren: './subject-time-table/subject-time-table.module#DevfpserverSubjectTimeTableModule'
+      // },
+      // {
+      //   path: 'day-time-table',
+      //   loadChildren: './day-time-table/day-time-table.module#DevfpserverDayTimeTableModule'
+      // },
       {
         path: 'time-table',
         loadChildren: './time-table/time-table.module#DevfpserverTimeTableModule'
@@ -65,142 +65,142 @@ import { DeviceIdDialogComponent } from './device-id-dialog/device-id-dialog.com
         },
         canActivate: [UserRouteAccessService]
       },
-      {
-        path: 'faculty',
-        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
-      },
-      {
-        path: 'day-time-table',
-        loadChildren: './day-time-table/day-time-table.module#DevfpserverDayTimeTableModule'
-      },
-      {
-        path: 'attendance',
-        loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
-      },
-      {
-        path: 'day',
-        loadChildren: './day/day.module#DevfpserverDayModule'
-      },
-      {
-        path: 'admin',
-        loadChildren: './creator/creator.module#CreatorModule'
-      },
-      {
-        path: 'academic-session',
-        loadChildren: './academic-session/academic-session.module#DevfpserverAcademicSessionModule'
-      },
-      {
-        path: 'special-occasions',
-        loadChildren: './special-occasions/special-occasions.module#DevfpserverSpecialOccasionsModule'
-      },
-      {
-        path: 'subject',
-        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
-      },
-      {
-        path: 'hod',
-        loadChildren: './hod/hod.module#DevfpserverHODModule'
-      },
-      {
-        path: 'subject',
-        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
-      },
-      {
-        path: 'attendance',
-        loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
-      },
-      {
-        path: 'subject',
-        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
-      },
-      {
-        path: 'hod',
-        loadChildren: './hod/hod.module#DevfpserverHODModule'
-      },
-      {
-        path: 'subject',
-        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
-      },
-      {
-        path: 'faculty',
-        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
-      },
-      {
-        path: 'subject',
-        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
-      },
-      {
-        path: 'faculty',
-        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
-      },
-      {
-        path: 'subject',
-        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
-      },
-      {
-        path: 'faculty',
-        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
-      },
-      {
-        path: 'faculty',
-        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
-      },
-      {
-        path: 'subject-time-table',
-        loadChildren: './subject-time-table/subject-time-table.module#DevfpserverSubjectTimeTableModule'
-      },
-      {
-        path: 'day-time-table',
-        loadChildren: './day-time-table/day-time-table.module#DevfpserverDayTimeTableModule'
-      },
-      {
-        path: 'subject',
-        loadChildren: './subject/subject.module#DevfpserverSubjectModule'
-      },
-      {
-        path: 'device',
-        loadChildren: './device/device.module#DevfpserverDeviceModule'
-      },
-      {
-        path: 'device',
-        loadChildren: './device/device.module#DevfpserverDeviceModule'
-      },
-      {
-        path: 'location',
-        loadChildren: './location/location.module#DevfpserverLocationModule'
-      },
-      {
-        path: 'subject-time-table',
-        loadChildren: './subject-time-table/subject-time-table.module#DevfpserverSubjectTimeTableModule'
-      },
-      {
-        path: 'biometric-backup',
-        loadChildren: './biometric-backup/biometric-backup.module#DevfpserverBiometricBackupModule'
-      },
-      {
-        path: 'device',
-        loadChildren: './device/device.module#DevfpserverDeviceModule'
-      },
-      {
-        path: 'location',
-        loadChildren: './location/location.module#DevfpserverLocationModule'
-      },
-      {
-        path: 'device',
-        loadChildren: './device/device.module#DevfpserverDeviceModule'
-      },
-      {
-        path: 'location',
-        loadChildren: './location/location.module#DevfpserverLocationModule'
-      },
-      {
-        path: 'attendance',
-        loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
-      },
-      {
-        path: 'attendance',
-        loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
-      },
+      // {
+      //   path: 'faculty',
+      //   loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      // },
+      // {
+      //   path: 'day-time-table',
+      //   loadChildren: './day-time-table/day-time-table.module#DevfpserverDayTimeTableModule'
+      // },
+      // {
+      //   path: 'attendance',
+      //   loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
+      // },
+      // {
+      //   path: 'day',
+      //   loadChildren: './day/day.module#DevfpserverDayModule'
+      // },
+      // {
+      //   path: 'admin',
+      //   loadChildren: './creator/creator.module#CreatorModule'
+      // },
+      // {
+      //   path: 'academic-session',
+      //   loadChildren: './academic-session/academic-session.module#DevfpserverAcademicSessionModule'
+      // },
+      // {
+      //   path: 'special-occasions',
+      //   loadChildren: './special-occasions/special-occasions.module#DevfpserverSpecialOccasionsModule'
+      // },
+      // {
+      //   path: 'subject',
+      //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      // },
+      // {
+      //   path: 'hod',
+      //   loadChildren: './hod/hod.module#DevfpserverHODModule'
+      // },
+      // {
+      //   path: 'subject',
+      //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      // },
+      // {
+      //   path: 'attendance',
+      //   loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
+      // },
+      // {
+      //   path: 'subject',
+      //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      // },
+      // {
+      //   path: 'hod',
+      //   loadChildren: './hod/hod.module#DevfpserverHODModule'
+      // },
+      // {
+      //   path: 'subject',
+      //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      // },
+      // {
+      //   path: 'faculty',
+      //   loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      // },
+      // {
+      //   path: 'subject',
+      //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      // },
+      // {
+      //   path: 'faculty',
+      //   loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      // },
+      // {
+      //   path: 'subject',
+      //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      // },
+      // {
+      //   path: 'faculty',
+      //   loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      // },
+      // {
+      //   path: 'faculty',
+      //   loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      // },
+      // {
+      //   path: 'subject-time-table',
+      //   loadChildren: './subject-time-table/subject-time-table.module#DevfpserverSubjectTimeTableModule'
+      // },
+      // {
+      //   path: 'day-time-table',
+      //   loadChildren: './day-time-table/day-time-table.module#DevfpserverDayTimeTableModule'
+      // },
+      // {
+      //   path: 'subject',
+      //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
+      // },
+      // {
+      //   path: 'device',
+      //   loadChildren: './device/device.module#DevfpserverDeviceModule'
+      // },
+      // {
+      //   path: 'device',
+      //   loadChildren: './device/device.module#DevfpserverDeviceModule'
+      // },
+      // {
+      //   path: 'location',
+      //   loadChildren: './location/location.module#DevfpserverLocationModule'
+      // },
+      // {
+      //   path: 'subject-time-table',
+      //   loadChildren: './subject-time-table/subject-time-table.module#DevfpserverSubjectTimeTableModule'
+      // },
+      // {
+      //   path: 'biometric-backup',
+      //   loadChildren: './biometric-backup/biometric-backup.module#DevfpserverBiometricBackupModule'
+      // },
+      // {
+      //   path: 'device',
+      //   loadChildren: './device/device.module#DevfpserverDeviceModule'
+      // },
+      // {
+      //   path: 'location',
+      //   loadChildren: './location/location.module#DevfpserverLocationModule'
+      // },
+      // {
+      //   path: 'device',
+      //   loadChildren: './device/device.module#DevfpserverDeviceModule'
+      // },
+      // {
+      //   path: 'location',
+      //   loadChildren: './location/location.module#DevfpserverLocationModule'
+      // },
+      // {
+      //   path: 'attendance',
+      //   loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
+      // },
+      // {
+      //   path: 'attendance',
+      //   loadChildren: './attendance/attendance.module#DevfpserverAttendanceModule'
+      // },
       {
         path: 'special-occasions',
         loadChildren: './special-occasions/special-occasions.module#DevfpserverSpecialOccasionsModule'

@@ -43,4 +43,8 @@ public interface SubjectService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    List<SubjectDTO> findBySemesterAndYearAndDepartment(Integer year, Integer sem, String dept);
+
+    List<SubjectDTO> findBySemesterAndYearAndDepartmentAndFacID(String fac);
 }

@@ -13,6 +13,13 @@ import { MatDialog } from '@angular/material';
 import { DeviceIdDialogComponent } from '../device-id-dialog/device-id-dialog.component';
 import { IAttendance } from 'app/shared/model/attendance.model';
 import { AttendanceService } from '../attendance';
+import { ToolbarService } from 'app/shared/toolbar/toolbar.service';
+import { CalcService } from 'app/shared/calculator.service';
+import { SubjectService } from '../subject';
+import { ISubject } from 'app/shared/model/subject.model';
+import { IStudentCalc } from 'app/shared/model/studentcalc.model';
+import { IStudent } from 'app/shared/model/student.model';
+import { StudentService } from '../student';
 
 @Component({
   selector: 'jhi-faculty',
@@ -22,10 +29,21 @@ export class FacultyComponent implements OnInit, OnDestroy {
   faculties: IFaculty[];
   attendances: IAttendance[];
   faculty: IFaculty;
+  subd: any;
+  sub: IStudentCalc;
+  subjects: ISubject[];
   department: IDepartment;
   currentAccount: Account;
   eventSubscriber: Subscription;
-
+  userParams: { id?: string; role?: string } = {};
+  choosenSubject: ISubject;
+  students: IStudent[];
+  choosenStudent: IStudent;
+  studd: any;
+  choosenSubBool = false;
+  choosenStudBool = false;
+  loadOver = false;
+  loadOverSelf = false;
   constructor(
     protected facultyService: FacultyService,
     protected jhiAlertService: JhiAlertService,
@@ -34,7 +52,10 @@ export class FacultyComponent implements OnInit, OnDestroy {
     protected departmentService: DepartmentService,
     protected userService: UserService,
     protected dialog: MatDialog,
-    protected attendanceService: AttendanceService
+    protected subjectService: SubjectService,
+    private toolbarService: ToolbarService,
+    private calcService: CalcService,
+    private studentService: StudentService
   ) {}
 
   loadAll() {
@@ -57,10 +78,14 @@ export class FacultyComponent implements OnInit, OnDestroy {
     this.accountService.identity().then(account => {
       this.currentAccount = account;
       if (this.currentAccount.deviceID) {
-        this.loadAttendances();
       }
       this.facultyService.findbyUserID(this.currentAccount.id).subscribe((res: HttpResponse<IFaculty>) => {
         this.faculty = res.body;
+        this.userParams.role = 'faculty';
+        this.userParams.id = this.faculty.id;
+        this.filterSubjects();
+        this.findAttendance();
+        this.toolbarService.setUserParams(this.userParams);
         this.departmentService.find(res.body.departmentId).subscribe((resp: HttpResponse<IDepartment>) => {
           this.department = resp.body;
         });
@@ -69,16 +94,7 @@ export class FacultyComponent implements OnInit, OnDestroy {
     this.registerChangeInFaculties();
   }
 
-  loadAttendances() {
-    this.attendanceService.getAllByDeviceID(this.currentAccount.deviceID).subscribe((res: HttpResponse<IAttendance[]>) => {
-      console.log(res.body);
-      this.attendances = res.body;
-    });
-  }
-
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
-  }
+  ngOnDestroy() {}
 
   trackId(index: number, item: IFaculty) {
     return item.id;
@@ -95,7 +111,6 @@ export class FacultyComponent implements OnInit, OnDestroy {
   addDeviceID() {
     this.userService.addDeviceID(this.currentAccount).subscribe((res: HttpResponse<IUser>) => {
       this.currentAccount.deviceID = res.body.deviceID;
-      this.loadAttendances();
     });
   }
   openDialog(): void {
@@ -105,8 +120,80 @@ export class FacultyComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.currentAccount.deviceID = result;
         this.addDeviceID();
       }
     });
+  }
+  filterSubjects() {
+    this.subjectService.bydeptyearsemfac(this.faculty.facultyCode).subscribe((res: any) => {
+      this.subjects = res.body;
+    });
+  }
+  getNumber(num: string): number {
+    return Number(num);
+  }
+  getColor(num: string): string {
+    const check = Number(num);
+    return check <= 30 ? 'warn' : check <= 50 ? 'accent' : 'primary';
+  }
+  findAttendance() {
+    this.loadOverSelf = false;
+    this.subd = null;
+    this.calcService.findByFaculty(this.faculty.id).subscribe(
+      (res: HttpResponse<IStudentCalc>) => {
+        this.sub = res.body;
+        this.subd = {
+          subjectName: 'Your Attendance',
+          percentage: Math.floor((this.sub.attendance / this.sub.totalAttendance) * 100),
+          attendance: Number(this.sub.attendance),
+          totalAttendance: Number(this.sub.totalAttendance)
+        };
+        this.loadOverSelf = true;
+      },
+      err => (this.loadOverSelf = false)
+    );
+  }
+
+  onSubjectChoose() {
+    this.loadOver = false;
+    const req: IStudent = {
+      currentSem: this.choosenSubject.semester,
+      currentYear: this.choosenSubject.year,
+      departmentId: this.choosenSubject.ofDeptId
+    };
+    this.studentService.customfilter1(req).subscribe((res: HttpResponse<IStudent[]>) => {
+      this.students = res.body.filter(val => val.departmentId === this.choosenSubject.ofDeptId);
+      this.choosenSubBool = true;
+    });
+  }
+
+  onChooseStudent() {
+    this.choosenStudBool = true;
+    this.calcService.findByStudent(this.choosenStudent.id).subscribe(
+      (res: HttpResponse<IStudentCalc[]>) => {
+        if (res.body) {
+          const val = res.body.filter(val2 => val2.subjectName === this.choosenSubject.subjectCode + '-' + this.choosenSubject.subjectName);
+          this.studd = {
+            subjectName: this.choosenStudent.classRollNumber,
+            percentage: Math.floor((val[0].attendance / val[0].totalAttendance) * 100),
+            attendance: Number(val[0].attendance),
+            totalAttendance: Number(val[0].totalAttendance)
+          };
+        }
+        this.choosenStudent = undefined;
+        this.choosenSubject = undefined;
+        this.loadOver = true;
+        this.choosenSubBool = false;
+        this.choosenStudBool = false;
+      },
+      err => {
+        this.choosenStudent = undefined;
+        this.choosenSubject = undefined;
+        this.choosenSubBool = false;
+        this.choosenStudBool = false;
+        this.loadOver = true;
+      }
+    );
   }
 }

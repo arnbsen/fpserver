@@ -1,5 +1,6 @@
 package com.cse.web.rest;
 
+import com.cse.domain.Faculty;
 import com.cse.service.FacultyService;
 import com.cse.web.rest.errors.BadRequestAlertException;
 import com.cse.service.dto.FacultyDTO;
@@ -121,5 +122,10 @@ public class FacultyResource {
         log.debug("REST request to get Faculty : {}", id);
         Optional<FacultyDTO> facultyDTO = facultyService.findByUserID(id);
         return ResponseUtil.wrapOrNotFound(facultyDTO);
+    }
+
+    @GetMapping("/faculties/bydeptid/{id}")
+    public List<Faculty> getAllFacultyByDept(@PathVariable String id) {
+        return facultyService.findByDepartment(id);
     }
 }

@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   showFilter = false;
   enableStudent = false;
   enableFaculty = false;
+  enableHod = false;
   constructor(
     private accountService: AccountService,
     private loginModalService: LoginModalService,
@@ -43,6 +44,12 @@ export class HomeComponent implements OnInit {
               this.accountService.hasAuthority('ROLE_STUDENT').then((resu: boolean) => {
                 if (resu) {
                   this.enableStudent = true;
+                } else {
+                  this.accountService.hasAuthority('ROLE_HOD').then((resh: boolean) => {
+                    if (resh) {
+                      this.enableHod = true;
+                    }
+                  });
                 }
               });
             }

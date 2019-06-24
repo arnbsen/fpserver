@@ -68,6 +68,25 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  patchAcademicSessionForm(session: IAcademicSession) {
+    this.editacademicSessionForm = new FormGroup({
+      academicSession: new FormControl(session.academicSession, Validators.required),
+      startDate: new FormControl(session.startDate, Validators.required),
+      endDate: new FormControl(session.endDate, Validators.required),
+      id: new FormControl(session.id)
+    });
+  }
+
+  deleteAcademicSession(session: IAcademicSession) {
+    this.academicSessionService.delete(session.id).subscribe(
+      (res: any) => {
+        this.openSnackBar('Sucessfully Deleted', 'Done');
+        this.getAllAcademicSession();
+      },
+      err => this.openSnackBar('Failed To Delete', 'Done')
+    );
+  }
+
   createDepartmentForm() {
     this.editDepartmentForm = new FormGroup({
       deptCode: new FormControl('', Validators.required),
@@ -112,7 +131,8 @@ export class DashboardComponent implements OnInit {
       this.editacademicSession = {
         academicSession: this.editacademicSessionForm.value.academicSession,
         startDate: this.editacademicSessionForm.value.startDate,
-        endDate: this.editacademicSessionForm.value.endDate
+        endDate: this.editacademicSessionForm.value.endDate,
+        id: this.editacademicSessionForm.value.id
       };
       if (this.editacademicSession.id !== undefined) {
         this.subscribeToSaveResponseAcademicForm(this.academicSessionService.update(this.editacademicSession));
@@ -124,12 +144,21 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  patchDepartmentForm(department: IDepartment) {
+    this.editDepartmentForm = new FormGroup({
+      deptCode: new FormControl(department.deptCode, Validators.required),
+      deptName: new FormControl(department.deptName, Validators.required),
+      id: new FormControl(department.id)
+    });
+  }
+
   saveDepartmentForm() {
     if (this.editDepartmentForm.valid) {
       this.isDepartmentCreationSaving = true;
       this.editDepartment = {
         deptCode: this.editDepartmentForm.value.deptCode,
-        deptName: this.editDepartmentForm.value.deptName
+        deptName: this.editDepartmentForm.value.deptName,
+        id: this.editDepartmentForm.value.id
       };
       if (this.editDepartment.id !== undefined) {
         this.subscribeToSaveResponseDepartmentForm(this.departmentService.update(this.editDepartment));
@@ -141,6 +170,16 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  deleteDepartment(department: IDepartment) {
+    this.departmentService.delete(department.id).subscribe(
+      (res: any) => {
+        this.openSnackBar('Sucessfully Deleted', 'Done');
+        this.getAllDepartments();
+      },
+      err => this.openSnackBar('Failed To Delete', 'Done')
+    );
+  }
+
   protected subscribeToSaveResponseAcademicForm(result: Observable<HttpResponse<IAcademicSession>>) {
     result.subscribe((res: HttpResponse<IAcademicSession>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
   }
@@ -150,19 +189,19 @@ export class DashboardComponent implements OnInit {
   }
 
   protected onSaveSuccess() {
-    console.log('Success');
     this.editacademicSessionForm = undefined;
     this.editDepartmentForm = undefined;
     this.getAllAcademicSession();
     this.getAllDepartments();
     this.isAcademicCreationSaving = false;
     this.isDepartmentCreationSaving = false;
+    this.openSnackBar('Action Sucessfull', 'Done');
   }
 
   protected onSaveError() {
-    console.log('Fail');
     this.isAcademicCreationSaving = false;
     this.isDepartmentCreationSaving = false;
+    this.openSnackBar('Action Failed', 'Done');
   }
 
   checkDateRange(session: IAcademicSession): boolean {

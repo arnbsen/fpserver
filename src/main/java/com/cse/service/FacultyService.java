@@ -1,5 +1,6 @@
 package com.cse.service;
 
+import com.cse.domain.Faculty;
 import com.cse.service.dto.FacultyDTO;
 
 import java.util.List;
@@ -42,4 +43,8 @@ public interface FacultyService {
     void delete(String id);
 
     Optional<FacultyDTO> findByUserID(String id);
+
+    Optional<Faculty> findRaw(String id);
+
+    List<Faculty> findByDepartment(String id);
 }

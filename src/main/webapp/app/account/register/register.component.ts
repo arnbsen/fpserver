@@ -116,9 +116,12 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
       this.registerService.save(registerAccount).subscribe(
         (res: HttpResponse<any>) => {
-          console.log(res.body);
           this.savingMsg = 'Saved Basic Account.';
           this.user = res.body;
+          if (this.mode === 'faculty') {
+            this.activated = true;
+            this.isActivating = false;
+          }
           this.nextStep();
         },
         response => this.processError(response)
@@ -131,12 +134,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.savingMsg = 'Activating';
     this.activateService.get(key).subscribe(
       (res: HttpResponse<any>) => {
-        console.log(res.body);
         this.activated = true;
         this.isActivating = false;
       },
       err => {
-        console.log(this.error);
         this.isActivating = false;
       }
     );
@@ -181,7 +182,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     };
     this.hodService.create(this.hod).subscribe(
       (res: HttpResponse<IHOD>) => {
-        console.log(res.body);
         this.savedEnitity = true;
         this.closeEntityLoader();
       },
@@ -201,7 +201,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     };
     this.facultyService.create(this.faculty).subscribe(
       (res: HttpResponse<IFaculty>) => {
-        console.log(res.body);
         this.savedEnitity = true;
         this.closeEntityLoader();
       },
@@ -229,7 +228,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     };
     this.studentService.create(this.student).subscribe(
       (res: HttpResponse<IStudent>) => {
-        console.log(res.body);
         this.savedEnitity = true;
         this.closeEntityLoader();
       },

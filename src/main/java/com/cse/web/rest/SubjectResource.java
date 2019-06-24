@@ -135,4 +135,10 @@ public class SubjectResource {
         subjectService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
+
+    @GetMapping("/subjects/bydeptyearsemfac/{id}")
+    public List<SubjectDTO> getAllSubjectsByDeptYearSemAndFacCode(@PathVariable String id) {
+        log.debug("REST request to get all Subjects");
+        return subjectService.findBySemesterAndYearAndDepartmentAndFacID(id);
+    }
 }

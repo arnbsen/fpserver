@@ -1,68 +1,43 @@
 <jhi-toolbar></jhi-toolbar>
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px" class="full-height">
-<div style="width: 100%; height: 28vh;" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px">
+<div style="width: 100%;" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px">
 
     <div [fxFlex]="1"></div>
     <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px" [fxFlex]="25" class="mat-elevation-z4"
-        style="padding-left: 10px; padding-bottom: 10px; padding-right: 10px;height: 210px" *ngIf="account">
+        style="padding-left: 10px; padding-bottom: 10px; padding-right: 10px;" *ngIf="account">
         <h3 *ngIf="account"> {{account.firstName + ' ' + account.lastName}} </h3>
         <p *ngIf="student" style="color:#515a6e"> Year: {{student.currentYear}} Semester: {{student.currentSem}}</p>
         <p *ngIf="department" style="color: gray">{{ department.deptCode + ' - ' + department.deptName}}</p>
-        <span *ngIf="!account.deviceID" style="color: #2b68ff" fxLayoutAlign="start center">
-
-            <p>Device ID not registered.</p> &nbsp;<mat-icon matTooltip="Without Device ID Attendance will Not Sync">error
-            </mat-icon>
-        </span>
-        <button [disabled]="account.deviceID" mat-flat-button color="primary" style="width: 100%"
-            (click)="openDialog()">
-            <mat-icon>add</mat-icon> Add Device ID
-        </button>
     </div>
-    <div [fxFlex]="37"></div>
-    <!-- <div [fxFlex]="3" style="height: 100%" fxLayout="column" fxLayoutAlign="center center">
-        <button mat-mini-fab color="primary" style="background-color: white; color: black" (click)="goToPrev()">
-            <mat-icon>arrow_left</mat-icon>
-        </button>
 
-    </div> -->
-    <!-- <div [fxFlex]="25">
-        <ngu-carousel [inputs]="carouselTile" [dataSource]="subject" >
-            <ngu-item *nguCarouselDef="let item; let i = index">
-                <mat-card style="margin: 10px;" class="card-1">
-                    <mat-card-header>
-                        <div mat-card-avatar>
-                            <mat-icon color="primary" style="font-size: 30px">class</mat-icon>
-                        </div>
-                        <mat-card-title>{{item.subjectName}}</mat-card-title>
-                        <mat-card-subtitle>Begins In: 20 mins</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>
-                            Subject Code
-                            <br>
-                            Faculty Code
-                        </p>
-                    </mat-card-content>
-                </mat-card>
-            </ngu-item>
-            <button NguCarouselPrev #prev style="display: none">Prev</button>
-            <button NguCarouselNext #next style="display: none">Next</button>
-        </ngu-carousel>
-    </div> -->
-    <!-- <div [fxFlex]="3" style="height: 100%" fxLayout="column" fxLayoutAlign="center center">
-        <button mat-mini-fab color="primary" style="background-color: white; color: black" (click)="goToNext()">
-            <mat-icon>arrow_right</mat-icon>
-        </button>
 
-    </div> -->
 </div>
-<div style="width: 100%; margin-top: 10px" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px">
+
+<div style="width: 100%;" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0px">
     <div [fxFlex]="50" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="0px">
         <h3 mat-subheader>Subject Attendance Percentage</h3>
+        <div style="padding-left: 2%" *ngIf="account" style="width: 50%;">
+            <span  *ngIf="!account.deviceID" style="color: #2b68ff" fxLayoutAlign="start center">
+
+                <p>Device ID not registered.</p> &nbsp;<mat-icon matTooltip="Without Device ID Attendance will Not Sync">error
+                </mat-icon>
+            </span>
+            <button [disabled]="account.deviceID" mat-flat-button color="primary" style="width: 100%" (click)="openDialog()">
+                <mat-icon>add</mat-icon> Add Device ID
+            </button>
+        </div>
+        <div *ngIf="subject.length === 0 &&!loadOver" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 2%">
+            <mat-spinner [diameter]="40"></mat-spinner> &nbsp; Hang on a bit...
+        </div>
+        <div *ngIf="subject.length === 0 && loadOver" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 2%">
+           <p> No Attendances Found. </p> <button mat-icon-button matTooltip="Reload" (click)="findAttendance()" color="primary">
+            <mat-icon>refresh</mat-icon>
+        </button>
+        </div>
         <mat-list style="width: 100%">
             <mat-list-item *ngFor="let sub of subject">
                 <span mat-line style="font: 17px bold"> {{sub.subjectName}} </span>
-                <span mat-line>{{sub.percentage + '/100'}}</span>
+                <span mat-line>{{sub.attendance + '/' + sub.totalAttendance}}</span>
                 <span mat-line style="margin-top: 5px">
                     <mat-progress-bar mode="determinate" *ngIf="getNumber(sub.percentage) < 75" [color]="getColor(sub.percentage)" value="{{getNumber(sub.percentage)}}"></mat-progress-bar>
                      <mat-progress-bar mode="determinate" *ngIf="getNumber(sub.percentage) > 75" class="green-progress" value="{{getNumber(sub.percentage)}}"></mat-progress-bar>

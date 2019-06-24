@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"devfpserver.jhi_user"},{"v":2,"key":{"login":1},"name":"login","ns":"devfpserver.jhi_user"},{"v":2,"key":{"email":1},"name":"email","ns":"devfpserver.jhi_user"},{"v":2,"key":{"deviceID":1},"name":"deviceID","ns":"devfpserver.jhi_user"}],"uuid":"dbcd920ebe32410b8947e0079493df16"}

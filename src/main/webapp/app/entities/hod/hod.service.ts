@@ -35,4 +35,11 @@ export class HODService {
   delete(id: string): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+  findbyUserID(id: string): Observable<EntityResponseType> {
+    return this.http.get<IHOD>(`${this.resourceUrl}/byuserid/${id}`, { observe: 'response' });
+  }
+
+  filterByDept(id?: string): Observable<EntityResponseType> {
+    return this.http.get<IHOD>(`${this.resourceUrl}/bydeptid/${id}`, { observe: 'response' });
+  }
 }

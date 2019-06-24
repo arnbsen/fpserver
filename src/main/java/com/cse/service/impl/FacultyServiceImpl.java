@@ -106,4 +106,15 @@ public class FacultyServiceImpl implements FacultyService {
     public Optional<FacultyDTO> findByUserID(String id) {
         return facultyRepository.findByUserID(id).map(facultyMapper::toDto);
     }
+
+    @Override
+    public Optional<Faculty> findRaw(String id) {
+        log.debug("Request to get Faculty : {}", id);
+        return facultyRepository.findById(id);
+    }
+
+    @Override
+    public List<Faculty> findByDepartment(String id) {
+        return facultyRepository.findByDepartmentID(id);
+    }
 }

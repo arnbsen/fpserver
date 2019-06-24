@@ -1,22 +1,23 @@
 <mat-toolbar color="primary" style="background-color: #042443" fxLayout="row" fxLayoutGap="5px">
     <mat-icon>dashboard</mat-icon>
-    Adminstartor - Dashboard
+    DASHBOARD
     <span class="column-spacer"></span>
-    <button mat-icon-button matTooltip="Show Time Table" aria-label="Account">
-        <mat-icon>table_chart</mat-icon>
+    <button mat-icon-button matTooltip="home" aria-label="Account" (click)="goHome()">
+        <mat-icon>home</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="View Calender" aria-label="Account">
-        <mat-icon>calendar_today</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="Notifications" aria-label="Account">
-        <mat-icon>notifications</mat-icon>
+    <button mat-icon-button matTooltip="View Calender" aria-label="Account" (click)="openCalendar()">
+        <mat-icon>event</mat-icon>
     </button>
     <button mat-icon-button matTooltip="Account" [matMenuTriggerFor]="menu" aria-label="Account">
         <mat-icon>account_circle</mat-icon>
     </button>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openSettingsNav()">
+        <mat-icon>settings</mat-icon>
+        <span>Account Settings</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
     </button>

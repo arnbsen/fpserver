@@ -8,9 +8,9 @@
             <mat-card-actions fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px">
                 <button mat-stroked-button color="primary" style="width: 200px" (click)="openTimeTableWizard()">
                     <mat-icon>open_in_new</mat-icon>
-                    View Time Table
+                    Edit Time Table
                 </button>
-                <button mat-stroked-button color="primary" style="width: 200px" (click)="goToRegisterHod()" >
+                <button mat-stroked-button color="primary" style="width: 200px" (click)="goToRegisterHod()" [disabled]="hod" >
                     <mat-icon>person_add</mat-icon>
                     Add HOD
                 </button>
@@ -50,11 +50,11 @@
             </span>
         </span>
          <span class="column-spacer"></span>
-        <button mat-raised-button color="accent" style="width: 150px">
+        <button mat-raised-button color="accent" style="width: 150px" (click)="patchSubjectForm(subject)">
             <mat-icon>edit</mat-icon>
             Edit
         </button>
-        <button mat-raised-button color="warn" style="width: 150px">
+        <button mat-raised-button color="warn" style="width: 150px" (click)="deteteSubject(subject)">
             <mat-icon>delete</mat-icon>
             Delete
         </button>
@@ -119,10 +119,9 @@
             </mat-error>
         </mat-form-field>
         <mat-spinner [diameter]="30" *ngIf="isSubjectCreationSaving"></mat-spinner>
-        <button mat-raised-button type="submit" color="primary" style="width: 150px"
+        <button mat-raised-button type="submit" color="primary" style="width: 200px"
             [disabled]="subjectForm.invalid || isSubjectCreationSaving">
-            <mat-icon>add</mat-icon>
-            Create
+            Modify
         </button>
     </form>
     <mat-divider class="full-width"></mat-divider>

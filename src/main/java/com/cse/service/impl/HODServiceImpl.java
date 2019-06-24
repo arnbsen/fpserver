@@ -105,4 +105,14 @@ public class HODServiceImpl implements HODService {
     public Optional<HODDTO> findByUserID(String id) {
         return hODRepository.findByUserID(id).map(hODMapper::toDto);
     }
+
+    @Override
+    public Optional<HOD> findRaw(String id) {
+        return hODRepository.findById(id);
+    }
+
+    @Override
+    public Optional<HODDTO> findByDepartment(String id) {
+        return hODRepository.findByDepartmentID(id).map(hODMapper::toDto);
+    }
 }
