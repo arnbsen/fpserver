@@ -2,9 +2,7 @@ import { Route, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core';
 import { SettingsComponent } from './settings.component';
-import { HODResolve } from 'app/entities/hod';
-import { FacultyResolve } from 'app/entities/faculty';
-import { StudentResolve } from 'app/entities/student';
+import { StudentResolve, FacultyResolve, HODResolve } from './entity.resolver';
 
 export const settingsRoute: Routes = [
   {

@@ -86,10 +86,9 @@ export class HODComponent implements OnInit, OnDestroy {
       if (this.currentAccount.deviceID) {
       }
       this.hodService.findbyUserID(this.currentAccount.id).subscribe((res: HttpResponse<IHOD>) => {
-        console.log(res.body);
         this.hod = res.body;
         this.userParams.role = 'hod';
-        this.userParams.id = this.hod.id;
+        this.userParams.id = res.body.id;
         this.toolbarService.setUserParams(this.userParams);
         this.findAttendance();
         this.departmentService.find(res.body.departmentId).subscribe((resp: HttpResponse<IDepartment>) => {

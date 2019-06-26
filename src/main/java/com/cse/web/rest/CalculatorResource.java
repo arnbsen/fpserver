@@ -38,6 +38,8 @@ import com.cse.service.dto.TimeTableDTO;
 import com.cse.service.dto.UserDTO;
 import com.cse.service.mapper.StudentMapper;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,8 +70,13 @@ public class CalculatorResource {
     }
 
     @GetMapping("/calc/faculty/{id}")
-    public StudentCalc getFacAttendanceDetails(@PathVariable String id) {
-        return calculatorService.findForFaculty(id);
+    public ResponseEntity<StudentCalc> getFacAttendanceDetails(@PathVariable String id) {
+        StudentCalc resp = calculatorService.findForFaculty(id);
+        if (resp == null) {
+            return new ResponseEntity<StudentCalc>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<StudentCalc>(resp, HttpStatus.OK);
+        }
     }
 
 }

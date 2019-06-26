@@ -142,6 +142,7 @@ export class FacultyComponent implements OnInit, OnDestroy {
     this.subd = null;
     this.calcService.findByFaculty(this.faculty.id).subscribe(
       (res: HttpResponse<IStudentCalc>) => {
+        console.log(res.body);
         this.sub = res.body;
         this.subd = {
           subjectName: 'Your Attendance',
@@ -151,7 +152,7 @@ export class FacultyComponent implements OnInit, OnDestroy {
         };
         this.loadOverSelf = true;
       },
-      err => (this.loadOverSelf = false)
+      err => (this.loadOverSelf = true)
     );
   }
 

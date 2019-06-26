@@ -92,14 +92,16 @@ export class StudentDashboardComponent implements OnInit {
     this.loadOver = false;
     this.calcService.findByStudent(this.student.id).subscribe(
       (res: HttpResponse<IStudentCalc[]>) => {
-        res.body.forEach((val: IStudentCalc) => {
-          this.subject.push({
-            subjectName: val.subjectName,
-            percentage: Math.floor((val.attendance / val.totalAttendance) * 100),
-            attendance: Number(val.attendance),
-            totalAttendance: Number(val.totalAttendance)
+        if (res.body) {
+          res.body.forEach((val: IStudentCalc) => {
+            this.subject.push({
+              subjectName: val.subjectName,
+              percentage: Math.floor((val.attendance / val.totalAttendance) * 100),
+              attendance: Number(val.attendance),
+              totalAttendance: Number(val.totalAttendance)
+            });
           });
-        });
+        }
         this.loadOver = true;
       },
       err => (this.loadOver = true)

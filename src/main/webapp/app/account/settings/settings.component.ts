@@ -109,6 +109,7 @@ export class SettingsComponent implements OnInit {
         this.resetForm(this.settingsForm);
         this.openSnackBar('Personal Details Updated Sucessfully', 'Done');
         this.accountService.identity(true).then(account => {
+          console.log(account);
           this.updateForm(account);
         });
       },
@@ -130,7 +131,8 @@ export class SettingsComponent implements OnInit {
       authorities: this.settingsForm.get('authorities').value,
       langKey: this.settingsForm.get('langKey').value,
       login: this.settingsForm.get('login').value,
-      imageUrl: this.settingsForm.get('imageUrl').value
+      imageUrl: this.settingsForm.get('imageUrl').value,
+      deviceID: this.settingsForm.get('deviceID').value
     };
   }
 

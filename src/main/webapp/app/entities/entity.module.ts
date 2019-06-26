@@ -25,18 +25,18 @@ import { DeviceIdDialogComponent } from './device-id-dialog/device-id-dialog.com
       //   path: 'device',
       //   loadChildren: './device/device.module#DevfpserverDeviceModule'
       // },
-      // {
-      //   path: 'hod',
-      //   loadChildren: './hod/hod.module#DevfpserverHODModule'
-      // },
+      {
+        path: 'hod',
+        loadChildren: './hod/hod.module#DevfpserverHODModule'
+      },
       // {
       //   path: 'subject',
       //   loadChildren: './subject/subject.module#DevfpserverSubjectModule'
       // },
-      // {
-      //   path: 'faculty',
-      //   loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
-      // },
+      {
+        path: 'faculty',
+        loadChildren: './faculty/faculty.module#DevfpserverFacultyModule'
+      },
       // {
       //   path: 'student',
       //   loadChildren: './student/student.module#DevfpserverStudentModule'
@@ -81,10 +81,10 @@ import { DeviceIdDialogComponent } from './device-id-dialog/device-id-dialog.com
       //   path: 'day',
       //   loadChildren: './day/day.module#DevfpserverDayModule'
       // },
-      // {
-      //   path: 'admin',
-      //   loadChildren: './creator/creator.module#CreatorModule'
-      // },
+      {
+        path: 'admin',
+        loadChildren: './creator/creator.module#CreatorModule'
+      },
       // {
       //   path: 'academic-session',
       //   loadChildren: './academic-session/academic-session.module#DevfpserverAcademicSessionModule'
