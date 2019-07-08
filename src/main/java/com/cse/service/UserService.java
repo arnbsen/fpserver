@@ -295,4 +295,8 @@ public class UserService {
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
+
+    public Optional<User> findUserByDeviceID(String deviceid) {
+        return userRepository.findOneByDeviceID(deviceid);
+    }
 }

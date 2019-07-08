@@ -1,6 +1,28 @@
-# devfpserver
+# Automated Attendance System Server
 
-This application was generated using JHipster 6.0.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.0.1](https://www.jhipster.tech/documentation-archive/v6.0.1).
+## Release Information
+
+### v1.0 Alpha Release - 24/06/2019
+
+- Initial Deployment
+
+### v1.1 Alpha Release (Major Revision 1) - 08/07/2019
+
+- Fixed Account Settings Route Issue
+- Changed Activation Flow for Faculty
+- UI Changes: Admin has the capability for Viewing Attendances for all users (Department Wise)
+- Minor UI Fixes
+
+### Credit Information
+
+- Jhipster
+  This application was generated using JHipster 6.0.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.0.1](https://www.jhipster.tech/documentation-archive/v6.0.1).
+
+- Spring Boot v2.1.4
+- Angular 8
+- Angular Material v8.0.2
+- Angular Flex v8.0.0
+- Angular Calendar v0.27.12
 
 ## Development
 

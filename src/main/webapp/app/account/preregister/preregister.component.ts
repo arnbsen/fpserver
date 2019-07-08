@@ -44,4 +44,8 @@ export class PreregisterComponent implements OnInit {
   onSubmit() {
     this.router.navigate(['/register', this.selectionForm.get('dept').value, this.selectionForm.get('role').value]);
   }
+
+  backToHome() {
+    this.router.navigateByUrl('/login');
+  }
 }

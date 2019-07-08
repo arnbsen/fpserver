@@ -8,7 +8,7 @@
             <mat-card-actions fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px">
                 <button mat-stroked-button color="primary" style="width: 200px" (click)="openTimeTableWizard()">
                     <mat-icon>open_in_new</mat-icon>
-                    Edit Time Table
+                    Edit Time Tables
                 </button>
                 <button mat-stroked-button color="primary" style="width: 200px" (click)="goToRegisterHod()" [disabled]="hod" >
                     <mat-icon>person_add</mat-icon>
@@ -17,112 +17,248 @@
             </mat-card-actions>
         </mat-card>
     </div>
-    <h2>Common Actions</h2>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
-        <span>
-            <h3>Subject</h3>
-        </span>
-        <span class="column-spacer"></span>
-        <button mat-raised-button color="primary" style="width: 150px" class="create-new-button"
-            (click)="createSubjectForm()">
-            <mat-icon>add</mat-icon>
-            Create New
-        </button>
-    </div>
-    <mat-divider class="full-width"></mat-divider>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
-    <h3 [fxFlex]="15">Subject Code</h3>
-        <h5 [fxFlex]="25">Subject Name</h5>
-        <h5 [fxFlex]="7">Year</h5>
-        <h5 [fxFlex]="7">Semester</h5>
-        <h5 [fxFlex]="16">
-            Faculty Code
-        </h5>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%" *ngFor="let subject of subjects">
-        <h3 [fxFlex]="15">{{subject.subjectCode}}</h3>
-        <span [fxFlex]="25">{{subject.subjectName}}</span>
-        <span [fxFlex]="7">{{subject.year}}</span>
-        <span [fxFlex]="7">{{subject.semester}}</span>
-        <span [fxFlex]="16">
-            <span *ngFor="let fac of subject.faculty">
-                {{fac.facultyCode}}
-            </span>
-        </span>
-         <span class="column-spacer"></span>
-        <button mat-raised-button color="accent" style="width: 150px" (click)="patchSubjectForm(subject)">
-            <mat-icon>edit</mat-icon>
-            Edit
-        </button>
-        <button mat-raised-button color="warn" style="width: 150px" (click)="deteteSubject(subject)">
-            <mat-icon>delete</mat-icon>
-            Delete
-        </button>
-    </div>
 
-    <form fxLayout="row" fxLayoutAlign="start center" (ngSubmit)=" saveSubject()" fxLayoutGap="10px"
-        style="width: 98%" [formGroup]="subjectForm" *ngIf="subjectForm">
-        <mat-form-field [fxFlex]="15" appearance="standard" cdkFocusInitial>
-            <mat-label>Subject Code</mat-label>
-            <input type="text" matInput placeholder="Type in Subject Code" formControlName="subjectCode">
-            <mat-icon matSuffix>more_horiz</mat-icon>
-            <mat-hint>Like CS801A</mat-hint>
-            <mat-error *ngIf="subjectForm.get('subjectCode').hasError('required')">Cannot be left blank
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field [fxFlex]="25" appearance="standard">
-            <mat-label>Subject Name</mat-label>
-            <input type="text" matInput placeholder="Enter Subject Name" formControlName="subjectName">
-            <mat-icon matSuffix>work</mat-icon>
-            <mat-hint>Full Subject Name as per syllabus</mat-hint>
-            <mat-error *ngIf="subjectForm.get('subjectName').hasError('required')">Required field</mat-error>
-        </mat-form-field>
-        <mat-form-field [fxFlex]="7" appearance="standard">
-            <mat-label>Year </mat-label>
-            <mat-select formControlName="year">
-                <mat-option value="1">1</mat-option>
-                <mat-option value="2">2</mat-option>
-                <mat-option value="3">3</mat-option>
-                <mat-option value="4">4</mat-option>
-            </mat-select>
-            <mat-error *ngIf="subjectForm.get('year').hasError('required')">
-                Year is required
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field [fxFlex]="7" appearance="standard" *ngIf="subjectForm.get('year').valid">
-            <mat-label>Semester</mat-label>
-            <mat-select formControlName="semester">
-                <mat-option *ngFor="let sem of getSemester(subjectForm.get('year').value)" [value]="sem">{{sem}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="subjectForm.get('semester').hasError('required')">
-                Semester is required
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field [fxFlex]="16" appearance="standard">
-            <mat-label>Faculty Teaching</mat-label>
-            <mat-select formControlName="facultyId" multiple>
-                <mat-option *ngFor="let faculty of faculties" [value]="faculty">{{faculty.facultyCode}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="subjectForm.get('facultyId').hasError('required')">
-                Faculty is required
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field [fxFlex]="17" appearance="standard">
-            <mat-label>Of Department</mat-label>
-            <mat-select formControlName="ofDeptId">
-                <mat-option *ngFor="let dept of departments" [value]="dept.id">{{dept.deptCode}}</mat-option>
-            </mat-select>
-            <mat-hint>Select the department where is subject is being taught</mat-hint>
-            <mat-error *ngIf="subjectForm.get('ofDeptId').hasError('required')">
-                Department is required
-            </mat-error>
-        </mat-form-field>
-        <mat-spinner [diameter]="30" *ngIf="isSubjectCreationSaving"></mat-spinner>
-        <button mat-raised-button type="submit" color="primary" style="width: 200px"
-            [disabled]="subjectForm.invalid || isSubjectCreationSaving">
-            Modify
-        </button>
-    </form>
+    <h2>Common Actions - Management</h2>
+    <mat-divider class="full-width"></mat-divider>
+    <mat-tab-group position="0" style="width: 100%" mat-align-tabs="center" mat-stretch-tabs dynamicHeight>
+        <mat-tab label="Subjects - View, Edit and Delete">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
+                    <span>
+                        <h3>Subjects</h3>
+                    </span>
+                    <span class="column-spacer"></span>
+                    <button mat-raised-button color="primary" style="width: 150px" class="create-new-button"
+                        (click)="createSubjectForm()">
+                        <mat-icon>add</mat-icon>
+                        Create New
+                    </button>
+                </div>
+                <mat-divider class="full-width"></mat-divider>
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
+                    <h3 [fxFlex]="15">Subject Code</h3>
+                    <h5 [fxFlex]="25">Subject Name</h5>
+                    <h5 [fxFlex]="7">Year</h5>
+                    <h5 [fxFlex]="7">Semester</h5>
+                    <h5 [fxFlex]="16">
+                        Faculty Code
+                    </h5>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%" *ngFor="let subject of subjects">
+                    <h3 [fxFlex]="15">{{subject.subjectCode}}</h3>
+                    <span [fxFlex]="25">{{subject.subjectName}}</span>
+                    <span [fxFlex]="7">{{subject.year}}</span>
+                    <span [fxFlex]="7">{{subject.semester}}</span>
+                    <span [fxFlex]="16">
+                        <span *ngFor="let fac of subject.faculty">
+                            {{fac.facultyCode}}
+                        </span>
+                    </span>
+                    <span class="column-spacer"></span>
+                    <button mat-raised-button color="accent" style="width: 150px" (click)="patchSubjectForm(subject)">
+                        <mat-icon>edit</mat-icon>
+                        Edit
+                    </button>
+                    <button mat-raised-button color="warn" style="width: 150px" (click)="deteteSubject(subject)">
+                        <mat-icon>delete</mat-icon>
+                        Delete
+                    </button>
+                </div>
+
+                <form fxLayout="row" fxLayoutAlign="start center" (ngSubmit)=" saveSubject()" fxLayoutGap="10px" style="width: 98%"
+                    [formGroup]="subjectForm" *ngIf="subjectForm">
+                    <mat-form-field [fxFlex]="15" appearance="standard" cdkFocusInitial>
+                        <mat-label>Subject Code</mat-label>
+                        <input type="text" matInput placeholder="Type in Subject Code" formControlName="subjectCode">
+                        <mat-icon matSuffix>more_horiz</mat-icon>
+                        <mat-hint>Like CS801A</mat-hint>
+                        <mat-error *ngIf="subjectForm.get('subjectCode').hasError('required')">Cannot be left blank
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field [fxFlex]="25" appearance="standard">
+                        <mat-label>Subject Name</mat-label>
+                        <input type="text" matInput placeholder="Enter Subject Name" formControlName="subjectName">
+                        <mat-icon matSuffix>work</mat-icon>
+                        <mat-hint>Full Subject Name as per syllabus</mat-hint>
+                        <mat-error *ngIf="subjectForm.get('subjectName').hasError('required')">Required field</mat-error>
+                    </mat-form-field>
+                    <mat-form-field [fxFlex]="7" appearance="standard">
+                        <mat-label>Year </mat-label>
+                        <mat-select formControlName="year">
+                            <mat-option value="1">1</mat-option>
+                            <mat-option value="2">2</mat-option>
+                            <mat-option value="3">3</mat-option>
+                            <mat-option value="4">4</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="subjectForm.get('year').hasError('required')">
+                            Year is required
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field [fxFlex]="7" appearance="standard" *ngIf="subjectForm.get('year').valid">
+                        <mat-label>Semester</mat-label>
+                        <mat-select formControlName="semester">
+                            <mat-option *ngFor="let sem of getSemester(subjectForm.get('year').value)" [value]="sem">{{sem}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="subjectForm.get('semester').hasError('required')">
+                            Semester is required
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field [fxFlex]="16" appearance="standard">
+                        <mat-label>Faculty Teaching</mat-label>
+                        <mat-select formControlName="facultyId" multiple>
+                            <mat-option *ngFor="let faculty of faculties" [value]="faculty">{{faculty.facultyCode}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="subjectForm.get('facultyId').hasError('required')">
+                            Faculty is required
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field [fxFlex]="17" appearance="standard">
+                        <mat-label>Of Department</mat-label>
+                        <mat-select formControlName="ofDeptId">
+                            <mat-option *ngFor="let dept of departments" [value]="dept.id">{{dept.deptCode}}</mat-option>
+                        </mat-select>
+                        <mat-hint>Select the department where is subject is being taught</mat-hint>
+                        <mat-error *ngIf="subjectForm.get('ofDeptId').hasError('required')">
+                            Department is required
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-spinner [diameter]="30" *ngIf="isSubjectCreationSaving"></mat-spinner>
+                    <button mat-raised-button type="submit" color="primary" style="width: 200px"
+                        [disabled]="subjectForm.invalid || isSubjectCreationSaving">
+                        Modify
+                    </button>
+                </form>
+        </mat-tab>
+        <mat-tab label="Faculties - View and Activation">
+                <div fxLayout="column" [fxFlex]="100" fxLayoutAlign="center start" fxLayoutGap="10px">
+                    <span fxLayout="row" fxLayoutAlign="start center">
+                        <h2>Faculties In the Department</h2>
+                        <button mat-icon-button matTooltip="Refresh List" color="primary" (click)="loadAllOFaculty()"><mat-icon>refresh</mat-icon></button>
+                    </span>
+
+                    <mat-divider style="width: 100%"></mat-divider>
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngFor="let fac of oFaculties"
+                        style="width: 100%">
+                        <h4 [fxFlex]="25">{{fac.facultyCode}}</h4>
+                        <p [fxFlex]="25">{{fac.user.firstName + ' ' + fac.user.lastName}}</p>
+                        <button mat-flat-button [fxFlex]="25" *ngIf="!fac.user.activated" color="accent"
+                            (click)="activateFaculty(fac.user.id)">Activate</button>
+                        <span fxLayout="row" [fxFlex]="10" fxLayoutAlign="start center" style="color: #1abc9c"
+                            *ngIf="fac.user.activated">
+                            <mat-icon>check_circle_outline</mat-icon>&nbsp;&nbsp; <span>Activated</span>
+                        </span>
+                    </div>
+
+                </div>
+        </mat-tab>
+        <mat-tab label="Check Attendance - For HOD, Faculty and Students">
+            <div fxLayout="row" fxLayoutAlign="start start"  class="full-width">
+
+
+            <div fxLayout="column" [fxFlex]="50" fxLayoutAlign="center start" fxLayoutGap="10px">
+                <h3>Check For Students Attendance</h3>
+                <mat-divider style="width: 100%"></mat-divider>
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Select Year</mat-label>
+                        <mat-select [(value)]="year">
+                            <mat-option value="1">1</mat-option>
+                            <mat-option value="2">2</mat-option>
+                            <mat-option value="3">3</mat-option>
+                            <mat-option value="4">4</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="standard" *ngIf="year">
+                        <mat-label>Select Semester</mat-label>
+                        <mat-select [(value)]="sem">
+                            <mat-option *ngFor="let sem of getSemester(year)" [value]="sem">{{sem}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button [disabled]="!year && !sem" mat-flat-button color="primary" (click)="fetchAllStudents()">Choose</button>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
+                    *ngIf="choosenStudBool" class="full-width">
+                    <mat-form-field [fxFlex]="40">
+                        <mat-label>Choose Roll No. of Student</mat-label>
+                        <mat-select [(value)]="choosenStudent">
+                            <mat-option *ngFor="let stud of students" [value]="stud">
+                                {{stud.classRollNumber}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button [disabled]="!choosenStudent" mat-flat-button color="primary"
+                        (click)="findAttendanceStudent(choosenStudent)">Check</button>
+                </div>
+                <div *ngIf="studSubject.length === 0 && !loadOver && selectedRollNo" fxLayout="row" fxLayoutAlign="center center"
+                    style="padding-top: 2%">
+                    <mat-spinner [diameter]="40"></mat-spinner> &nbsp; Hang on a bit...
+                </div>
+                <div *ngIf="loadOver && selectedRollNo">
+
+                </div>
+                <div *ngIf="studSubject.length === 0 && loadOver && selectedRollNo" fxLayout="row" fxLayoutAlign="center center"
+                    style="padding-top: 2%">
+                    <p> No Attendances Found. </p> <button mat-icon-button matTooltip="Reload" (click)="findAttendance()"
+                        color="primary">
+                        <mat-icon>refresh</mat-icon>
+                    </button>
+                </div>
+                <mat-list>
+                    <mat-list-item *ngFor="let sub of studSubject">
+                        <span mat-line style="font: 15px bold"> {{sub.subjectName}} </span>
+                        <span mat-line>{{sub.attendance + '/' + sub.totalAttendance}}</span>
+                        <span mat-line style="margin-top: 5px">
+                            <mat-progress-bar mode="determinate" *ngIf="getNumber(sub.percentage) < 75"
+                                [color]="getColor(sub.percentage)" value="{{getNumber(sub.percentage)}}"></mat-progress-bar>
+                            <mat-progress-bar mode="determinate" *ngIf="getNumber(sub.percentage) > 75" class="green-progress"
+                                value="{{getNumber(sub.percentage)}}"></mat-progress-bar>
+                        </span>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+            <div fxLayout="column" [fxFlex]="50" fxLayoutAlign="center start" fxLayoutGap="10px">
+                <h3>Check For HOD and Faculty Attendance</h3>
+                <mat-divider style="width: 100%"></mat-divider>
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="full-width">
+                    <mat-form-field [fxFlex]="60">
+                        <mat-label>Choose Faculty</mat-label>
+                        <mat-select [(value)]="choosenFaculty">
+                            <mat-option [value]="hod">HOD</mat-option>
+                            <mat-option *ngFor="let fac of oFaculties" [value]="fac">
+                                {{fac.user.firstName + ' ' + fac.user.lastName + ' (' + fac.facultyCode + ')'}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-flat-button [disabled]="!choosenFaculty" color="primary" (click)="findFacultyAttendance(choosenFaculty.id)" [fxFlex]="30">Choose</button>
+                </div>
+                <mat-list style="width: 100%" *ngIf="facAttendanceDisplay">
+            <mat-list-item>
+                <span mat-line style="font: 17px bold"> {{facAttendanceDisplay.subjectName}} </span>
+                <span mat-line>{{facAttendanceDisplay.attendance + '/' + facAttendanceDisplay.totalAttendance}}</span>
+                <span mat-line style="margin-top: 5px">
+                    <mat-progress-bar mode="determinate" *ngIf="getNumber(facAttendanceDisplay.percentage) < 75"
+                        [color]="getColor(facAttendanceDisplay.percentage)" value="{{getNumber(facAttendanceDisplay.percentage)}}"></mat-progress-bar>
+                    <mat-progress-bar mode="determinate" *ngIf="getNumber(facAttendanceDisplay.percentage) > 75" class="green-progress"
+                        value="{{getNumber(facAttendanceDisplay.percentage)}}"></mat-progress-bar>
+                </span>
+            </mat-list-item>
+        </mat-list>
+        <div style="width: 100%" *ngIf="!facAttendanceDisplay && !loadOverFac && choosenFacBool" fxLayout="row" fxLayoutAlign="center center"
+            style="padding-top: 2%">
+            <mat-spinner [diameter]="40"></mat-spinner> &nbsp; Hang on a bit...
+        </div>
+        <div style="width: 100%" *ngIf="!facAttendanceDisplay && loadOverFac && choosenFacBool" fxLayout="row" fxLayoutAlign="center center">
+            <p> No Attendances Found. </p> <button mat-icon-button matTooltip="Reload" (click)="findAttendance()" color="primary">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </div>
+            </div>
+
+        </div>
+        </mat-tab>
+    </mat-tab-group>
+
     <mat-divider class="full-width"></mat-divider>
 </div>

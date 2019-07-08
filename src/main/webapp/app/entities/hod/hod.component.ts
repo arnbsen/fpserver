@@ -29,7 +29,7 @@ import { ActivateService } from 'app/account';
   templateUrl: './hod.component.html'
 })
 export class HODComponent implements OnInit, OnDestroy {
-  faculties: OFaculty[];
+  oFaculties: OFaculty[];
   attendances: IAttendance[];
   hod: IHOD;
   subd: any;
@@ -70,10 +70,10 @@ export class HODComponent implements OnInit, OnDestroy {
   ) {}
 
   loadAllFaculty() {
-    this.faculties = [];
+    this.oFaculties = [];
     this.facultyService.filterByDept(this.department.id).subscribe(
       (res: HttpResponse<OFaculty[]>) => {
-        this.faculties = res.body;
+        this.oFaculties = res.body;
       },
       (res: HttpErrorResponse) => this.onError(res.message)
     );
@@ -105,7 +105,7 @@ export class HODComponent implements OnInit, OnDestroy {
     return item.id;
   }
 
-  registerChangeInFaculties() {}
+  registerChangeInoFaculties() {}
 
   getSemester(val: number): number[] {
     return [val * 2 - 1, val * 2];

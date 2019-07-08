@@ -191,7 +191,11 @@ public class UserResource {
     }
 
     @PostMapping("/users/deviceid")
-    public Optional<UserDTO> updateUserWithDeviceID(@RequestBody UserDTO userDTO) {
-        return userService.updateUser(userDTO);
+    public ResponseEntity<UserDTO> updateUserWithDeviceID(@RequestBody UserDTO userDTO) {
+        if (userService.findUserByDeviceID(userDTO.getDeviceID()).isPresent()) {
+            return ResponseEntity.status(400).build();
+        } else {
+            return ResponseUtil.wrapOrNotFound(userService.updateUser(userDTO));
+        }
     }
 }

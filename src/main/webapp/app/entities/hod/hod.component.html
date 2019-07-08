@@ -235,7 +235,7 @@
         <div fxLayout="column" [fxFlex]="50" fxLayoutAlign="center start" fxLayoutGap="10px">
             <h2>Faculties In the Department</h2>
             <mat-divider style="width: 100%"></mat-divider>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngFor="let fac of faculties" style="width: 100%">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngFor="let fac of oFaculties" style="width: 100%">
                 <h4 [fxFlex]="25">{{fac.facultyCode}}</h4>
                 <p [fxFlex]="25">{{fac.user.firstName + ' ' + fac.user.lastName}}</p>
                 <button mat-flat-button [fxFlex]="25" *ngIf="!fac.user.activated" color="accent" (click)="activateFaculty(fac.user.id)">Activate</button>

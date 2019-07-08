@@ -7,12 +7,20 @@ import { SubjectService } from 'app/entities/subject';
 import { filter, map } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FacultyService } from 'app/entities/faculty';
-import { IFaculty } from 'app/shared/model/faculty.model';
+import { IFaculty, OFaculty } from 'app/shared/model/faculty.model';
 import { DepartmentService } from 'app/entities/department';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HODService } from 'app/entities/hod';
 import { IHOD } from 'app/shared/model/hod.model';
 import { MatSnackBar } from '@angular/material';
+import { IAttendance } from 'app/shared/model/attendance.model';
+import { IStudentCalc } from 'app/shared/model/studentcalc.model';
+import { IStudent } from 'app/shared/model/student.model';
+import { ToolbarService } from 'app/shared/toolbar/toolbar.service';
+import { CalcService } from 'app/shared/calculator.service';
+import { StudentService } from 'app/entities/student';
+import { ActivateService } from 'app/account';
+import { UserService } from 'app/core';
 
 @Component({
   selector: 'jhi-edit',
@@ -28,6 +36,35 @@ export class EditComponent implements OnInit {
   hod: IHOD;
   isSubjectCreationSaving = false;
 
+  // Department Specific Actions - Variables
+  oFaculties: OFaculty[];
+  attendances: IAttendance[];
+  subd: any;
+  sub: IStudentCalc;
+  faculty: IFaculty;
+  hODS: any;
+  currentAccount: Account;
+  eventSubscriber: Subscription;
+  userParams: { id?: string; role?: string } = {};
+  choosenSubject: ISubject;
+  students: IStudent[];
+  choosenStudent: IStudent;
+  studd: any;
+  studSubject: any[] = [];
+  choosenSubBool = false;
+  choosenStudBool = false;
+  loadOver = false;
+  year: number;
+  sem: number;
+  loadOverSelf = false;
+  selectedRollNo = false;
+
+  choosenFaculty: OFaculty | IHOD;
+  facAttendance: IStudentCalc;
+  facAttendanceDisplay: any;
+  loadOverFac = false;
+  choosenFacBool = false;
+
   subjectForm: FormGroup;
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -37,7 +74,12 @@ export class EditComponent implements OnInit {
     protected facultyService: FacultyService,
     protected departmentService: DepartmentService,
     protected hodService: HODService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private toolbarService: ToolbarService,
+    private calcService: CalcService,
+    private studentService: StudentService,
+    private activateService: ActivateService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -47,6 +89,7 @@ export class EditComponent implements OnInit {
       this.loadAllDepartment();
       this.loadAllFaculty();
       this.loadAllSubjects();
+      this.loadAllOFaculty();
     });
   }
 
@@ -204,6 +247,118 @@ export class EditComponent implements OnInit {
 
   openTimeTableWizard() {
     this.router.navigate(['/admin', this.department.id, 'timetable', 'edit']);
+  }
+
+  // Department Specific Actions - Variables
+
+  loadAllOFaculty() {
+    this.oFaculties = [];
+    this.facultyService.filterByDept(this.department.id).subscribe(
+      (res: HttpResponse<OFaculty[]>) => {
+        this.oFaculties = res.body;
+      },
+      (res: HttpErrorResponse) => this.onError(res.message)
+    );
+  }
+
+  fetchAllStudents() {
+    const student: IStudent = {
+      currentSem: this.sem,
+      currentYear: this.year,
+      departmentId: this.department.deptCode
+    };
+    this.studentService.customfilter1(student).subscribe((res: HttpResponse<IStudent[]>) => {
+      this.students = res.body;
+      this.choosenStudBool = true;
+    });
+  }
+
+  getNumber(num: string): number {
+    return Number(num);
+  }
+  getColor(num: string): string {
+    const check = Number(num);
+    return check <= 30 ? 'warn' : check <= 50 ? 'accent' : 'primary';
+  }
+  findAttendance() {
+    this.loadOverSelf = false;
+    this.subd = null;
+    this.calcService.findByFaculty(this.hod.id).subscribe(
+      (res: HttpResponse<IStudentCalc>) => {
+        this.sub = res.body;
+        this.subd = {
+          subjectName: 'Requested Attendance',
+          percentage: Math.floor((this.sub.attendance / this.sub.totalAttendance) * 100),
+          attendance: Number(this.sub.attendance),
+          totalAttendance: Number(this.sub.totalAttendance)
+        };
+        this.loadOverSelf = true;
+      },
+      err => (this.loadOverSelf = true)
+    );
+  }
+
+  findAttendanceStudent(student: IStudent) {
+    this.loadOver = false;
+    this.selectedRollNo = true;
+    this.studSubject = [];
+    this.calcService.findByStudent(student.id).subscribe(
+      (res: HttpResponse<IStudentCalc[]>) => {
+        if (res.body) {
+          res.body.forEach((val: IStudentCalc) => {
+            this.studSubject.push({
+              subjectName: val.subjectName,
+              percentage: Math.floor((val.attendance / val.totalAttendance) * 100),
+              attendance: Number(val.attendance),
+              totalAttendance: Number(val.totalAttendance)
+            });
+          });
+        }
+        this.loadOver = true;
+      },
+      err => (this.loadOver = true)
+    );
+  }
+  onSubjectChoose() {
+    this.loadOver = false;
+    const req: IStudent = {
+      currentSem: this.choosenSubject.semester,
+      currentYear: this.choosenSubject.year,
+      departmentId: this.choosenSubject.ofDeptId
+    };
+    this.studentService.customfilter1(req).subscribe((res: HttpResponse<IStudent[]>) => {
+      this.students = res.body.filter(val => val.departmentId === this.choosenSubject.ofDeptId);
+      this.choosenStudBool = true;
+    });
+  }
+
+  activateFaculty(id: string) {
+    this.activateService.get(id).subscribe(
+      (res: HttpResponse<any>) => {
+        this.loadAllOFaculty();
+      },
+      err => this.loadAllOFaculty()
+    );
+  }
+
+  findFacultyAttendance(id: string) {
+    this.choosenFacBool = true;
+    this.facAttendanceDisplay = null;
+    this.calcService.findByFaculty(id).subscribe(
+      (res: HttpResponse<IStudentCalc>) => {
+        this.facAttendance = res.body;
+        if (res.body) {
+          this.facAttendanceDisplay = {
+            subjectName: 'Your Requested Attendance',
+            percentage: Math.floor((this.facAttendance.attendance / this.facAttendance.totalAttendance) * 100),
+            attendance: Number(this.facAttendance.attendance),
+            totalAttendance: Number(this.facAttendance.totalAttendance)
+          };
+        }
+        this.loadOverFac = true;
+      },
+      err => (this.loadOverFac = true)
+    );
   }
 
   openSnackBar(message: string, action: string) {

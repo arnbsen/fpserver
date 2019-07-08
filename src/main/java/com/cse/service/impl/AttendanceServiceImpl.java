@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -54,11 +55,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public List<AttendanceDTO> findAll() {
         log.debug("Request to get all Attendances");
-        return attendanceRepository.findAll().stream()
-            .map(attendanceMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return attendanceRepository.findAll().stream().map(attendanceMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
-
 
     /**
      * Get one attendance by id.
@@ -69,8 +68,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public Optional<AttendanceDTO> findOne(String id) {
         log.debug("Request to get Attendance : {}", id);
-        return attendanceRepository.findById(id)
-            .map(attendanceMapper::toDto);
+        return attendanceRepository.findById(id).map(attendanceMapper::toDto);
     }
 
     /**
@@ -100,5 +98,10 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public List<Attendance> findAllRawByDeviceID(String deviceID) {
         return attendanceRepository.findAllByDeviceID(deviceID);
+    }
+
+    @Override
+    public List<Attendance> findAllRawByStartDate(String deviceID, Instant startDate) {
+        return attendanceRepository.filterByDate(deviceID, startDate);
     }
 }

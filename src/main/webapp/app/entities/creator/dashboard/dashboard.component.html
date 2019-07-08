@@ -18,6 +18,7 @@
        <span fxLayout="row" [fxFlex]="10" fxLayoutAlign="start center" style="color: #1abc9c"><mat-icon *ngIf="checkDateRange(a)">check_circle_outline</mat-icon>&nbsp;&nbsp; <span *ngIf="checkDateRange(a)">Active</span></span>
        <span [fxFlex]="15">{{a.startDate | date}}</span>
        <span [fxFlex]="15">{{a.endDate | date}}</span>
+        <span class="column-spacer"></span>
         <button mat-raised-button color="accent" style="width: 150px" (click)="patchAcademicSessionForm(a)">
             <mat-icon>edit</mat-icon>
             Edit

@@ -16,6 +16,7 @@ import java.util.Set;
 
 import com.cse.domain.Attendance;
 import com.cse.domain.Faculty;
+import com.cse.domain.HOD;
 import com.cse.domain.Student;
 import com.cse.domain.StudentCalc;
 import com.cse.domain.Subject;
@@ -96,10 +97,11 @@ public class CalculatorService {
     public List<StudentCalc> getStudentAttendanceDetails(String id) {
         Student student = studentService.findRaw(id).get();
         String deviceID = student.getUser().getDeviceID();
-        if (deviceID == null){
+        Optional<AcademicSessionDTO> as = academicSessionService.forNow(Instant.now());
+        if (deviceID == null || !as.isPresent()){
             return null;
         }
-        List<Attendance> sadtos = attendanceService.findAllRawByDeviceID(deviceID);
+        List<Attendance> sadtos = attendanceService.findAllRawByStartDate(deviceID, as.get().getStartDate());
         TimeTableDTO tdto = new TimeTableDTO();
         tdto.setDepartmentId(student.getDepartment().getId());
         tdto.setYear(student.getCurrentYear());
@@ -232,10 +234,17 @@ public class CalculatorService {
     }
 
     public StudentCalc findForFaculty(String id) {
-        Faculty faculty = facultyService.findRaw(id).get();
-        String deviceID = faculty.getUser().getDeviceID();
+        Optional<Faculty> optFac = facultyService.findRaw(id);
+        String deviceID = null;
+        Optional<HOD> optHOD = hodService.findRaw(id);
+        if (optFac.isPresent()) {
+            deviceID = optFac.get().getUser().getDeviceID();
+        }
+        if (optFac.isPresent()) {
+            deviceID = optHOD.get().getUser().getDeviceID();
+        }
         if (deviceID == null) {
-            return null;
+               return null;
         }
         StudentCalc fac = new StudentCalc();
         fac.setSubjectName(id);
