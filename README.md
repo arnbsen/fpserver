@@ -13,13 +13,13 @@
 
 - Initial Deployment
 
-### Credit Information
+## Credit Information
 
-- Jhipster
+- Jhipster:
   This application was generated using JHipster 6.0.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.0.1](https://www.jhipster.tech/documentation-archive/v6.0.1).
-
 - Spring Boot v2.1.4
 - Angular 8
+- MongoDB 4.0.2 Community
 - Angular Material v8.0.2
 - Angular Flex v8.0.0
 - Angular Calendar v0.27.12
