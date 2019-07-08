@@ -2,16 +2,16 @@
 
 ## Release Information
 
-### v1.0 Alpha Release - 24/06/2019
-
-- Initial Deployment
-
 ### v1.1 Alpha Release (Major Revision 1) - 08/07/2019
 
 - Fixed Account Settings Route Issue
 - Changed Activation Flow for Faculty
 - UI Changes: Admin has the capability for Viewing Attendances for all users (Department Wise)
 - Minor UI Fixes
+
+### v1.0 Alpha Release - 24/06/2019
+
+- Initial Deployment
 
 ### Credit Information
 
