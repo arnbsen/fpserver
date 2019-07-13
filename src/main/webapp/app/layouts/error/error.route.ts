@@ -17,7 +17,7 @@ export const errorRoute: Routes = [
     component: ErrorComponent,
     data: {
       authorities: [],
-      pageTitle: 'devfpserver',
+      pageTitle: 'Unauthorised',
       error403: true
     }
   },
@@ -26,7 +26,7 @@ export const errorRoute: Routes = [
     component: ErrorComponent,
     data: {
       authorities: [],
-      pageTitle: 'devfpserver',
+      pageTitle: '404',
       error404: true
     }
   },

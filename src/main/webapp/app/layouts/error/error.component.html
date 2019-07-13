@@ -1,19 +1,35 @@
-<div>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-fluid rounded"></span>
-        </div>
-        <div class="col-md-8">
-            <h1>Error Page!</h1>
 
-            <div [hidden]="!errorMessage">
-                <div class="alert alert-danger">{{errorMessage}}
-                </div>
-            </div>
-            <div [hidden]="!error403" class="alert alert-danger">You are not authorized to access this page.
-            </div>
-            <div [hidden]="!error404" class="alert alert-danger">The page asked was not found.
-            </div>
-        </div>
+<div *ngIf="error403" class="full-height" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <mat-icon style="font-size: 50px; color: rgb(255, 145, 0)">warning</mat-icon>
+    <h2>You are not Authorized to view this page</h2>
+    <p style="text-align: center">
+        If you are an authorised user, click on LOGIN and login with with valid credentials
+        <br>
+        <b>Note: </b> You will be logged out from current Session
+    </p>
+    <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-raised-button (click)="goBack()" >
+
+            <mat-icon>arrow_back</mat-icon> BACK
+        </button>
+        <button mat-raised-button color="primary" (click)="openLogin()">
+
+            <mat-icon>open_in_new</mat-icon> LOGIN
+        </button>
+
     </div>
+
+</div>
+<div *ngIf="error404" class="full-height" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <mat-icon style="font-size: 50px; color: rgb(255, 145, 0)">warning</mat-icon>
+    <h2>Oops. This page does not exit</h2>
+    <p style="text-align: center">
+        Click Back to go to the last page you have opened
+    </p>
+    <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-raised-button (click)="goBack()" color="primary">
+            <mat-icon>arrow_back</mat-icon> BACK
+        </button>
+    </div>
+
 </div>
