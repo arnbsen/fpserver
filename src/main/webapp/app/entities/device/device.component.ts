@@ -62,4 +62,10 @@ export class DeviceComponent implements OnInit, OnDestroy {
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
   }
+
+  getDate(epoch: number): Date {
+    const d = new Date(0);
+    d.setUTCSeconds(epoch);
+    return d;
+  }
 }

@@ -1,10 +1,23 @@
 
 <div class="full-height">
-<h3>Common Actions</h3>
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" class="full-width">
+    <div [fxFlex]="95" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
+        <h2>Common Actions</h2>
+        <span class="column-spacer"></span>
+        <button mat-stroked-button (click)="goToSystemMetrics()">
+            <mat-icon>insert_chart</mat-icon> System Performance
+        </button>
+        <button mat-stroked-button (click)="goToDevicePage()">
+            <mat-icon>fingerprint</mat-icon> Biometric Device Info
+        </button>
+
+    </div>
+    <mat-divider class="full-width"></mat-divider>
+</div>
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" class="full-width">
     <div [fxFlex]="95" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
         <span>
-            <h2>Academic Sessions</h2>
+            <h3>Academic Sessions</h3>
         </span>
         <span class="column-spacer"></span>
         <button mat-raised-button color="primary" style="width: 150px" class="create-new-button" (click)="createSessionForm()" *ngIf="academicSessions.length === 0">
@@ -19,17 +32,23 @@
        <span [fxFlex]="15">{{a.startDate | date}}</span>
        <span [fxFlex]="15">{{a.endDate | date}}</span>
         <span class="column-spacer"></span>
-        <button mat-raised-button color="accent" style="width: 150px" (click)="patchAcademicSessionForm(a)">
-            <mat-icon>edit</mat-icon>
-            Edit
+        <button mat-icon-button matTooltip="Backup Session">
+            <mat-icon>archive</mat-icon>
         </button>
-        <button mat-raised-button style="width: 200px" color="primary" (click)="goToSpecialOccasions(a.id)">
+        <button mat-icon-button matTooltip="Upgrade Semester" style="color: #1abc9c">
+            <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Special Occassions" color="primary" (click)="goToSpecialOccasions(a.id)">
             <mat-icon>open_in_new</mat-icon>
-            Special Occassions
         </button>
-        <button mat-raised-button color="warn" style="width: 150px" (click)="deleteAcademicSession(a)">
+        <button mat-icon-button color="accent" matTooltip="Edit"  (click)="patchAcademicSessionForm(a)">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Delete 4th Year Records" >
+            <mat-icon>clear</mat-icon>
+        </button>
+        <button mat-icon-button color="warn"  matTooltip="Delete" (click)="deleteAcademicSession(a)">
             <mat-icon>delete</mat-icon>
-            Delete
         </button>
     </div>
 
@@ -66,7 +85,7 @@
     <mat-divider class="full-width"></mat-divider>
     <div [fxFlex]="95" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="width: 98%">
         <span>
-            <h2>Departments</h2>
+            <h3>Departments</h3>
         </span>
         <span class="column-spacer"></span>
         <button mat-raised-button color="primary" style="width: 150px" class="create-new-button"

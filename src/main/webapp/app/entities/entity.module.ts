@@ -185,10 +185,10 @@ import { DeviceIdDialogComponent } from './device-id-dialog/device-id-dialog.com
       //   path: 'location',
       //   loadChildren: './location/location.module#DevfpserverLocationModule'
       // },
-      // {
-      //   path: 'device',
-      //   loadChildren: './device/device.module#DevfpserverDeviceModule'
-      // },
+      {
+        path: 'device',
+        loadChildren: './device/device.module#DevfpserverDeviceModule'
+      },
       // {
       //   path: 'location',
       //   loadChildren: './location/location.module#DevfpserverLocationModule'

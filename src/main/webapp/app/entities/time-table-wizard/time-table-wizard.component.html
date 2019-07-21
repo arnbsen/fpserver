@@ -18,6 +18,10 @@
             <mat-icon>save</mat-icon>
             Save
         </button>
+        <button mat-raised-button style="width: 150px" *ngIf="hasChoosenOptions" color="warn" [disabled]="!enableTable">
+            <mat-icon>delete</mat-icon>
+            Delete
+        </button>
     </div>
     <mat-divider class="full-width"></mat-divider>
 

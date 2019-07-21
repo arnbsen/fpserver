@@ -124,7 +124,9 @@
     </div>
 </div> -->
 <mat-toolbar color="primary" style="background-color: #042443" fxLayout="row" fxLayoutGap="5px">
-    <mat-icon>dashboard</mat-icon>
+<button mat-icon-button (click)="goBack()">
+    <mat-icon>keyboard_backspace</mat-icon>
+</button>
     &nbsp; &nbsp; Register User
 </mat-toolbar>
 <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="gappx" class="full-height">
@@ -360,15 +362,6 @@
                     <mat-hint>The Year you joined here</mat-hint>
                     <mat-error  *ngIf="studentForm.get('yearJoined').hasError('required')">
                         Year Joined is required
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field style="width: 60%" appearance="standard">
-                    <mat-label>Current Session</mat-label>
-                    <input matInput type="text" placeholder="Your Current Session" formControlName="currentSession">
-                    <mat-icon matSuffix>person_add</mat-icon>
-                    <mat-hint>Example 2018-19</mat-hint>
-                    <mat-error *ngIf="studentForm.get('currentSession').hasError('required')">
-                        Current Session is required
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field style="width: 60%" appearance="standard">

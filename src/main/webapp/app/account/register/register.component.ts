@@ -15,6 +15,8 @@ import { IFaculty } from 'app/shared/model/faculty.model';
 import { FacultyService } from 'app/entities/faculty';
 import { IStudent } from 'app/shared/model/student.model';
 import { StudentService } from 'app/entities/student';
+import { AcademicSessionService } from 'app/entities/academic-session';
+import { IAcademicSession } from 'app/shared/model/academic-session.model';
 
 @Component({
   selector: 'jhi-register',
@@ -42,6 +44,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   student: IStudent;
   isSavingEntity = false;
   savedEnitity = false;
+  currentSession: string;
 
   registerForm = this.fb.group({
     login: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern('^[_.@A-Za-z0-9-]*$')]],
@@ -71,8 +74,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   constructor(
     private loginModalService: LoginModalService,
     private registerService: Register,
-    private elementRef: ElementRef,
-    private renderer: Renderer,
     private fb: FormBuilder,
     protected router: Router,
     protected activatedRoute: ActivatedRoute,
@@ -80,7 +81,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     protected activateService: ActivateService,
     protected hodService: HODService,
     protected facultyService: FacultyService,
-    protected studentService: StudentService
+    protected studentService: StudentService,
+    protected academicSessionService: AcademicSessionService
   ) {}
 
   ngOnInit() {
@@ -88,6 +90,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.activatedRoute.data.subscribe(({ data }) => {
       this.data = data;
       this.mode = this.router.url.split('/')[3];
+      if ((this.mode = 'student')) {
+        this.academicSessionService.findNow().subscribe((res: HttpResponse<IAcademicSession>) => {
+          this.studentForm.get('currentSession').setValue(res.body.academicSession);
+        });
+      }
     });
   }
 
@@ -251,5 +258,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   goToLogin() {
     this.router.navigateByUrl('/login');
+  }
+
+  goBack() {
+    this.router.navigate(['/register']);
   }
 }

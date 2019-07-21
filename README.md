@@ -1,5 +1,9 @@
 # Automated Attendance System Server
 
+### Download Release Version
+
+Click on Download Button To Download Latest Release: [v1.1 Alpha Release](https://gitlab.com/arnbsen/fingerprint-project-server/-/tags)
+
 ## Release Information
 
 ### v1.1 Alpha Release (Major Revision 1) - 08/07/2019

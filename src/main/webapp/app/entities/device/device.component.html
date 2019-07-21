@@ -25,7 +25,7 @@
             <tbody>
             <tr *ngFor="let device of devices ;trackBy: trackId">
                 <td><a [routerLink]="['/device', device.id, 'view' ]">{{device.id}}</a></td>
-                <td>{{device.lastUpdated}}</td>
+                <td>{{getDate(device.lastUpdated) | date:'medium'}}</td>
                 <td>{{device.location}}</td>
                 <td>{{device.locationName}}</td>
                 <td>

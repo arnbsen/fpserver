@@ -238,4 +238,12 @@ export class DashboardComponent implements OnInit {
       duration: 2000
     });
   }
+
+  goToSystemMetrics() {
+    this.router.navigate(['/system', 'metrics']);
+  }
+
+  goToDevicePage() {
+    this.router.navigate(['/device']);
+  }
 }
