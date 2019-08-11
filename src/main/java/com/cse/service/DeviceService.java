@@ -1,5 +1,6 @@
 package com.cse.service;
 
+import com.cse.domain.Device;
 import com.cse.service.dto.DeviceDTO;
 
 import java.util.List;
@@ -40,4 +41,6 @@ public interface DeviceService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    List<Device> findAllDevices();
 }

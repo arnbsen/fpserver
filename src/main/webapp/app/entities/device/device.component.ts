@@ -4,16 +4,17 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import { IDevice } from 'app/shared/model/device.model';
+import { IDevice, ODevice } from 'app/shared/model/device.model';
 import { AccountService } from 'app/core';
 import { DeviceService } from './device.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-device',
   templateUrl: './device.component.html'
 })
-export class DeviceComponent implements OnInit, OnDestroy {
-  devices: IDevice[];
+export class DeviceComponent implements OnInit {
+  devices: ODevice[];
   currentAccount: any;
   eventSubscriber: Subscription;
 
@@ -21,22 +22,14 @@ export class DeviceComponent implements OnInit, OnDestroy {
     protected deviceService: DeviceService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    protected router: Router
   ) {}
 
   loadAll() {
-    this.deviceService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<IDevice[]>) => res.ok),
-        map((res: HttpResponse<IDevice[]>) => res.body)
-      )
-      .subscribe(
-        (res: IDevice[]) => {
-          this.devices = res;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+    this.deviceService.findAllODevices().subscribe((res: HttpResponse<ODevice[]>) => {
+      this.devices = res.body;
+    });
   }
 
   ngOnInit() {
@@ -44,19 +37,10 @@ export class DeviceComponent implements OnInit, OnDestroy {
     this.accountService.identity().then(account => {
       this.currentAccount = account;
     });
-    this.registerChangeInDevices();
-  }
-
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
   }
 
   trackId(index: number, item: IDevice) {
     return item.id;
-  }
-
-  registerChangeInDevices() {
-    this.eventSubscriber = this.eventManager.subscribe('deviceListModification', response => this.loadAll());
   }
 
   protected onError(errorMessage: string) {
@@ -67,5 +51,9 @@ export class DeviceComponent implements OnInit, OnDestroy {
     const d = new Date(0);
     d.setUTCSeconds(epoch);
     return d;
+  }
+
+  backToHome() {
+    this.router.navigateByUrl('/admin');
   }
 }

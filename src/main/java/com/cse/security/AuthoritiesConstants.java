@@ -21,6 +21,8 @@ public final class AuthoritiesConstants {
 
     public static final String SSUPPORT = "ROLE_SSUPPORT";
 
+    public static final String DEVICE = "ROLE_DEVICE";
+
     private AuthoritiesConstants() {
     }
 }

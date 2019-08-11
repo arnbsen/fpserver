@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data MongoDB repository for the Subject entity.
  */
-@SuppressWarnings("unused")
+
 @Repository
 public interface SubjectRepository extends MongoRepository<Subject, String> {
 
@@ -20,4 +20,5 @@ public interface SubjectRepository extends MongoRepository<Subject, String> {
 
     @Query(value = "{'faculty.facultyCode': ?0}")
     List<Subject> findBySemesterAndYearAndDepartmentAndFacID(String fac);
+
 }

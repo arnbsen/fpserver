@@ -49,4 +49,8 @@ public interface StudentService {
     List<StudentDTO> findByDepartment(String id);
 
     List<StudentDTO> findBySemesterAndYearAndDepartment(Integer year, Integer sem, String dept);
+
+    Boolean upgradeSemester();
+
+    List<StudentDTO> findAllAndRemoveLastYearStudents();
 }

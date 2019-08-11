@@ -299,4 +299,11 @@ public class UserService {
     public Optional<User> findUserByDeviceID(String deviceid) {
         return userRepository.findOneByDeviceID(deviceid);
     }
+
+    public Boolean deleteAllUserById(List<String> userid) {
+        userid.forEach(user -> {
+            userRepository.deleteById(user);
+        });
+        return true;
+    }
 }

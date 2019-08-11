@@ -12,6 +12,9 @@ import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department/department.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { StudentService } from 'app/entities/student';
+import { UserService } from 'app/core';
+import { IStudent } from 'app/shared/model/student.model';
 
 export const MY_FORMATS2 = {
   parse: {
@@ -52,7 +55,9 @@ export class DashboardComponent implements OnInit {
     protected academicSessionService: AcademicSessionService,
     protected departmentService: DepartmentService,
     protected router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private studentService: StudentService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -180,6 +185,18 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  upgradeSemester() {
+    this.studentService.upgradeSemester().subscribe(
+      (res: HttpResponse<any>) => {
+        this.openSnackBar('All Students Upgraded to next sem', 'Done');
+      },
+      err => {
+        console.log(err);
+        this.openSnackBar('Something Bad Happened. Retry again', 'Okay');
+      }
+    );
+  }
+
   protected subscribeToSaveResponseAcademicForm(result: Observable<HttpResponse<IAcademicSession>>) {
     result.subscribe((res: HttpResponse<IAcademicSession>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
   }
@@ -228,7 +245,31 @@ export class DashboardComponent implements OnInit {
         this.openSnackBar('Academic Session Successfully Deleted', 'Done');
       },
       err => {
-        this.openSnackBar('Seomthing Bad Happened. Retry again', 'Okay');
+        this.openSnackBar('Something Bad Happened. Retry again', 'Okay');
+      }
+    );
+  }
+
+  deleteLastYearStudents() {
+    this.studentService.deleteLastYearStudents().subscribe(
+      (res: HttpResponse<IStudent[]>) => {
+        const userids = [];
+        res.body.forEach(student => userids.push(student.userId));
+        this.deleteLastYearUsers(userids);
+      },
+      err => {
+        this.openSnackBar('Something Bad Happened. Retry again', 'Okay');
+      }
+    );
+  }
+
+  deleteLastYearUsers(users: string[]) {
+    this.userService.removeUsersByIdsBatch(users).subscribe(
+      (res: HttpResponse<any>) => {
+        this.openSnackBar('Last Year Students Successfully Deleted', 'Done');
+      },
+      err => {
+        this.openSnackBar('Something Bad Happened. Retry again', 'Okay');
       }
     );
   }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
-import { IDevice } from 'app/shared/model/device.model';
+import { IDevice, ODevice } from 'app/shared/model/device.model';
 
 type EntityResponseType = HttpResponse<IDevice>;
 type EntityArrayResponseType = HttpResponse<IDevice[]>;
@@ -34,5 +34,9 @@ export class DeviceService {
 
   delete(id: string): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  findAllODevices(): Observable<HttpResponse<ODevice[]>> {
+    return this.http.get<ODevice[]>(`${this.resourceUrl}/all`, { observe: 'response' });
   }
 }

@@ -40,4 +40,8 @@ export class UserService {
   addDeviceID(user: IUser): Observable<HttpResponse<IUser>> {
     return this.http.post<IUser>(this.resourceUrl + '/deviceid', user, { observe: 'response' });
   }
+
+  removeUsersByIdsBatch(users: string[]): Observable<HttpResponse<any>> {
+    return this.http.post<any>(this.resourceUrl + '/deletebyids', users, { observe: 'response' });
+  }
 }

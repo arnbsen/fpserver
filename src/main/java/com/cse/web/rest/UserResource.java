@@ -198,4 +198,11 @@ public class UserResource {
             return ResponseUtil.wrapOrNotFound(userService.updateUser(userDTO));
         }
     }
+
+    @PostMapping("/users/deletebyids")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public Boolean deleteById(@RequestBody List<String> userid) {
+        return userService.deleteAllUserById(userid);
+    }
+
 }

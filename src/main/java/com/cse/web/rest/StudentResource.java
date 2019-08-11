@@ -1,5 +1,6 @@
 package com.cse.web.rest;
 
+import com.cse.security.AuthoritiesConstants;
 import com.cse.service.StudentService;
 import com.cse.web.rest.errors.BadRequestAlertException;
 import com.cse.service.dto.StudentDTO;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -131,5 +133,17 @@ public class StudentResource {
     @PostMapping("/students/byyearsemdept")
     public List<StudentDTO> findByYearSemDept(@RequestBody StudentDTO student) {
         return studentService.findBySemesterAndYearAndDepartment(student.getCurrentYear(), student.getCurrentSem(), student.getDepartmentId());
+    }
+
+    @DeleteMapping("/students/lastyear")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public List<StudentDTO> deleteLastYearStudents() {
+        return studentService.findAllAndRemoveLastYearStudents();
+    }
+
+    @GetMapping("/students/upgradesem")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public Boolean upgardeSem() {
+        return studentService.upgradeSemester();
     }
 }

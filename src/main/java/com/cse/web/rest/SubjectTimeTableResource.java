@@ -1,8 +1,10 @@
 package com.cse.web.rest;
 
+import com.cse.domain.SubjectTimeTable;
 import com.cse.service.SubjectTimeTableService;
 import com.cse.web.rest.errors.BadRequestAlertException;
 import com.cse.service.dto.SubjectTimeTableDTO;
+import com.cse.service.mapper.SubjectTimeTableMapper;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -119,6 +121,11 @@ public class SubjectTimeTableResource {
     @PostMapping("/subject-time-tables/savebatch")
     List<SubjectTimeTableDTO> saveAllSubjects(@RequestBody List<SubjectTimeTableDTO> subjects) {
         return subjectTimeTableService.saveAll(subjects);
+    }
+
+    @GetMapping("/subject-time-tables/filerbylocation/{id}")
+    List<SubjectTimeTable> filterbyLocation(@PathVariable String id) {
+        return subjectTimeTableService.filterbylocation(id);
     }
 }
 

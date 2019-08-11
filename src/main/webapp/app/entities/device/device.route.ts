@@ -33,61 +33,61 @@ export const deviceRoute: Routes = [
     path: '',
     component: DeviceComponent,
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Devices'
-    },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: ':id/view',
-    component: DeviceDetailComponent,
-    resolve: {
-      device: DeviceResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Devices'
-    },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: 'new',
-    component: DeviceUpdateComponent,
-    resolve: {
-      device: DeviceResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Devices'
-    },
-    canActivate: [UserRouteAccessService]
-  },
-  {
-    path: ':id/edit',
-    component: DeviceUpdateComponent,
-    resolve: {
-      device: DeviceResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Devices'
     },
     canActivate: [UserRouteAccessService]
   }
+  // {
+  //   path: ':id/view',
+  //   component: DeviceDetailComponent,
+  //   resolve: {
+  //     device: DeviceResolve
+  //   },
+  //   data: {
+  //     authorities: ['ROLE_USER'],
+  //     pageTitle: 'Devices'
+  //   },
+  //   canActivate: [UserRouteAccessService]
+  // },
+  // {
+  //   path: 'new',
+  //   component: DeviceUpdateComponent,
+  //   resolve: {
+  //     device: DeviceResolve
+  //   },
+  //   data: {
+  //     authorities: ['ROLE_USER'],
+  //     pageTitle: 'Devices'
+  //   },
+  //   canActivate: [UserRouteAccessService]
+  // },
+  // {
+  //   path: ':id/edit',
+  //   component: DeviceUpdateComponent,
+  //   resolve: {
+  //     device: DeviceResolve
+  //   },
+  //   data: {
+  //     authorities: ['ROLE_USER'],
+  //     pageTitle: 'Devices'
+  //   },
+  //   canActivate: [UserRouteAccessService]
+  // }
 ];
 
 export const devicePopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: DeviceDeletePopupComponent,
-    resolve: {
-      device: DeviceResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Devices'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-  }
+  // {
+  //   path: ':id/delete',
+  //   component: DeviceDeletePopupComponent,
+  //   resolve: {
+  //     device: DeviceResolve
+  //   },
+  //   data: {
+  //     authorities: ['ROLE_USER'],
+  //     pageTitle: 'Devices'
+  //   },
+  //   canActivate: [UserRouteAccessService],
+  //   outlet: 'popup'
+  // }
 ];

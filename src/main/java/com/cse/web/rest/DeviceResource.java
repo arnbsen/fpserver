@@ -1,5 +1,7 @@
 package com.cse.web.rest;
 
+import com.cse.domain.Device;
+import com.cse.security.AuthoritiesConstants;
 import com.cse.service.DeviceService;
 import com.cse.web.rest.errors.BadRequestAlertException;
 import com.cse.service.dto.DeviceDTO;
@@ -10,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,6 +50,7 @@ public class DeviceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/devices")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.DEVICE + "\")")
     public ResponseEntity<DeviceDTO> createDevice(@Valid @RequestBody DeviceDTO deviceDTO) throws URISyntaxException {
         log.debug("REST request to save Device : {}", deviceDTO);
         if (deviceDTO.getId() != null) {
@@ -114,5 +118,14 @@ public class DeviceResource {
         log.debug("REST request to delete Device : {}", id);
         deviceService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+    }
+
+    @GetMapping("/devices/all")
+    public List<Device> findAllDevices() {
+        List<Device> devices = deviceService.findAllDevices();
+        devices.forEach(action -> {
+            action.setUser(null);
+        });
+        return devices;
     }
 }

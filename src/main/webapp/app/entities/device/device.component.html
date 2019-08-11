@@ -1,4 +1,38 @@
-<div>
+<mat-toolbar color="primary" style="background-color: #042443" fxLayout="row" fxLayoutGap="5px">
+    <button mat-icon-button (click)="backToHome()">
+        <mat-icon>keyboard_backspace</mat-icon>
+    </button> <span class="column-spacer"></span>
+    <mat-icon>fingerprint</mat-icon> &nbsp; Biometric Device Info
+    <span class="column-spacer"></span>
+</mat-toolbar>
+<div class="full-height">
+
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <span fxLayout="row" fxLayoutAlign="start center">
+        <h2>Devices</h2>
+        <button mat-icon-button matTooltip="Refresh List" color="primary" (click)="loadAll()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+    </span>
+    <mat-divider class="full-width"></mat-divider>
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" *ngFor="let device of devices" class="full-width">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+            <mat-icon>fingerprint</mat-icon>
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="5px">
+                <span><span> {{ device.devLoc.locationName | uppercase}}</span> <span class="tags"
+                [ngClass]="{'tags-class': device.location === 'CLASS',
+                            'tags-lab': device.location === 'LAB',
+                            'tags-sstaffroom': device.location === 'SSTAFFROOM'
+                            }"
+                >{{device.location}}</span></span>
+                <span style="color: #7f8c8d"> <span>Last Synced: </span> {{getDate(device.lastUpdated) | date:'medium'}}</span>
+            </div>
+        </div>
+        <mat-divider class="full-width"></mat-divider>
+    </div>
+</div>
+</div>
+<!-- <div>
     <h2 id="page-heading">
         <span>Devices</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-device" [routerLink]="['/device/new']">
@@ -61,4 +95,4 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> -->

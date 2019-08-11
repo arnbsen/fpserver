@@ -93,4 +93,9 @@ public class SubjectTimeTableServiceImpl implements SubjectTimeTableService {
         });
         return subjectTimeTableMapper.toDto(returnVal);
     }
+
+    @Override
+    public List<SubjectTimeTable> filterbylocation(String devLoc) {
+        return subjectTimeTableRepository.filterByLocationId(devLoc);
+    }
 }

@@ -35,7 +35,7 @@
         <button mat-icon-button matTooltip="Backup Session">
             <mat-icon>archive</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Upgrade Semester" style="color: #1abc9c">
+        <button mat-icon-button matTooltip="Upgrade Semester" style="color: #1abc9c" (click)="upgradeSemester()">
             <mat-icon>arrow_upward</mat-icon>
         </button>
         <button mat-icon-button matTooltip="Special Occassions" color="primary" (click)="goToSpecialOccasions(a.id)">
@@ -44,7 +44,7 @@
         <button mat-icon-button color="accent" matTooltip="Edit"  (click)="patchAcademicSessionForm(a)">
             <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" matTooltip="Delete 4th Year Records" >
+        <button mat-icon-button color="warn" matTooltip="Delete 4th Year Records" (click)="deleteLastYearStudents()">
             <mat-icon>clear</mat-icon>
         </button>
         <button mat-icon-button color="warn"  matTooltip="Delete" (click)="deleteAcademicSession(a)">

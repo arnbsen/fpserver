@@ -43,4 +43,12 @@ export class StudentService {
   customfilter1(student: IStudent): Observable<EntityArrayResponseType> {
     return this.http.post<IStudent[]>(`${this.resourceUrl}/byyearsemdept`, student, { observe: 'response' });
   }
+
+  deleteLastYearStudents(): Observable<HttpResponse<IStudent[]>> {
+    return this.http.delete<IStudent[]>(`${this.resourceUrl}/lastyear`, { observe: 'response' });
+  }
+
+  upgradeSemester(): Observable<HttpResponse<string[]>> {
+    return this.http.get<any>(`${this.resourceUrl}/upgradesem`, { observe: 'response' });
+  }
 }

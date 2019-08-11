@@ -1,5 +1,6 @@
 package com.cse.service;
 
+import com.cse.domain.SubjectTimeTable;
 import com.cse.service.dto.SubjectTimeTableDTO;
 
 import java.util.List;
@@ -42,4 +43,6 @@ public interface SubjectTimeTableService {
     void delete(String id);
 
     List<SubjectTimeTableDTO> saveAll(List<SubjectTimeTableDTO> subjectList);
+
+    List<SubjectTimeTable> filterbylocation(String devLoc);
 }

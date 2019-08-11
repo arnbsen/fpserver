@@ -119,6 +119,28 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentDTO> findBySemesterAndYearAndDepartment(Integer year, Integer sem, String dept) {
-        return studentMapper.toDto(studentRepository.findBySemesterAndYearAndDepartment(year, sem));
+        return studentMapper.toDto(studentRepository.findBySemesterAndYearAndSem(year, sem));
     }
+
+    @Override
+    public Boolean upgradeSemester() {
+        List<Student> students = studentRepository.findAll();
+        students.forEach(action -> {
+           if (action.getCurrentSem() != null && action.getCurrentSem() % 2 != 0) {
+               action.setCurrentSem(action.getCurrentSem() + 1);
+           }
+       });
+       studentRepository.saveAll(students);
+       return true;
+    }
+
+    @Override
+    public List<StudentDTO> findAllAndRemoveLastYearStudents() {
+        List<Student> retList = studentRepository.findBySemesterAndYearAndSem(4, 8);
+        retList.forEach(student -> {
+            studentRepository.deleteById(student.getId());
+        });
+        return studentMapper.toDto(retList);
+    }
+
 }

@@ -23,5 +23,5 @@ public interface StudentRepository extends MongoRepository<Student, String> {
     List<Student> findByDepartmentID(String id);
 
     @Query(value = "{'current_year': ?0, 'current_sem': ?1}")
-    List<Student> findBySemesterAndYearAndDepartment(Integer year, Integer sem);
+    List<Student> findBySemesterAndYearAndSem(Integer year, Integer sem);
 }

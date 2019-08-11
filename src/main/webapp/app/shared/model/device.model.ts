@@ -1,3 +1,5 @@
+import { ILocation } from './location.model';
+
 export const enum DeviceLocation {
   LAB = 'LAB',
   CLASS = 'CLASS',
@@ -21,4 +23,12 @@ export class Device implements IDevice {
     public locationName?: string,
     public devLocId?: string
   ) {}
+}
+
+export interface ODevice {
+  id?: string;
+  lastUpdated?: number;
+  location?: DeviceLocation;
+  locationName?: string;
+  devLoc?: ILocation;
 }

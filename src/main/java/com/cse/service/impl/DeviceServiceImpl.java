@@ -106,4 +106,9 @@ public class DeviceServiceImpl implements DeviceService {
         log.debug("Request to delete Device : {}", id);
         deviceRepository.deleteById(id);
     }
+
+    @Override
+    public List<Device> findAllDevices() {
+        return this.deviceRepository.findAll();
+    }
 }
