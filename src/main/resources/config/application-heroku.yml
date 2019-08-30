@@ -19,4 +19,4 @@ eureka:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017
+      uri: mongodb+srv://devuser:herokudeploy@dev-2okp0.mongodb.net/test?retryWrites=true&w=majority
