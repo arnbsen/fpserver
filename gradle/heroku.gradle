@@ -2,7 +2,7 @@ apply plugin: "com.heroku.sdk.heroku-gradle"
 
 heroku {
   appName = "devfpserver"
-  buildpacks = ["heroku/jvm", "heroku/nodejs"]
+  buildpacks = ["heroku/jvm"]
 }
 
 gradle.taskGraph.whenReady {taskGraph ->
