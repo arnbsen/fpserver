@@ -43,9 +43,9 @@ processResources {
 //     }
 // }
 
-gitProperties {
-    keys = ["git.branch", "git.commit.id.abbrev", "git.commit.id.describe"]
-}
+// gitProperties {
+//     keys = ["git.branch", "git.commit.id.abbrev", "git.commit.id.describe"]
+// }
 
 // test.dependsOn webpack_test
 processResources.dependsOn webpack
