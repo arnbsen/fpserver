@@ -85,6 +85,7 @@ export class FacultyComponent implements OnInit, OnDestroy {
         this.userParams.id = this.faculty.id;
         this.filterSubjects();
         this.findAttendance();
+        console.log(this.userParams);
         this.toolbarService.setUserParams(this.userParams);
         this.departmentService.find(res.body.departmentId).subscribe((resp: HttpResponse<IDepartment>) => {
           this.department = resp.body;

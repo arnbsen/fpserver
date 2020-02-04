@@ -146,7 +146,6 @@ export class EditComponent implements OnInit {
   loadHodbyDepartment() {
     this.hodService.filterByDept(this.department.id).subscribe((res: HttpResponse<IHOD>) => {
       this.hod = res.body;
-      console.log(this.hod);
     });
   }
 

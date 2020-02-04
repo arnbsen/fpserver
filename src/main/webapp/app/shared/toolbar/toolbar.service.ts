@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { AccountService } from 'app/core';
 interface UserParams {
   id?: string;
   role?: string;
@@ -13,32 +14,22 @@ interface StudentDetails {
 export class ToolbarService {
   userParams: UserParams;
   studentParams: StudentDetails;
-  userParamsObs = new Subject<UserParams>();
-  studentParamsObs = new Subject<StudentDetails>();
+
+  constructor(private accountService: AccountService) {}
 
   setUserParams(userParam: UserParams) {
-    this.userParams = userParam;
-    this.userParamsObs.next(userParam);
+    sessionStorage.setItem('userParam', JSON.stringify(userParam));
   }
 
-  getUserParams(): Observable<any> {
-    if (this.userParams) {
-      return new BehaviorSubject<UserParams>(this.userParams);
-    } else {
-      return this.userParamsObs.asObservable();
-    }
+  getUserParams(): UserParams {
+    return JSON.parse(sessionStorage.getItem('userParam'));
   }
 
   setstudentDetails(userParam: StudentDetails) {
-    this.studentParams = userParam;
-    this.studentParamsObs.next(userParam);
+    sessionStorage.setItem('studentParam', JSON.stringify(userParam));
   }
 
-  getstudentDetails(): Observable<any> {
-    if (this.studentParams) {
-      return new BehaviorSubject<StudentDetails>(this.studentParams);
-    } else {
-      return this.studentParamsObs.asObservable();
-    }
+  getstudentDetails(): StudentDetails {
+    return JSON.parse(sessionStorage.getItem('studentParam'));
   }
 }

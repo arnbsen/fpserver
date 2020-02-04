@@ -5,7 +5,7 @@
     <button mat-icon-button matTooltip="Home" aria-label="Account" (click)="goHome()" >
         <mat-icon>home</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="studentDetails" matTooltip="Show Time Table" aria-label="Account" (click)="goToTimeTable()">
+    <button mat-icon-button *ngIf="userParams.role === 'student'" matTooltip="Show Time Table" aria-label="Account" (click)="goToTimeTable()">
         <mat-icon>reorder</mat-icon>
     </button>
     <button mat-icon-button matTooltip="View Calender" aria-label="Account" (click)="openCalendar()">

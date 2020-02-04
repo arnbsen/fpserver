@@ -23,7 +23,7 @@ export class HODResolve implements Resolve<IHOD> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IHOD> {
     const id = route.params['id'] ? route.params['id'] : null;
     if (id) {
-      return this.service.find(id).pipe(
+      return this.service.findbyUserID(id).pipe(
         filter((response: HttpResponse<HOD>) => response.ok),
         map((hOD: HttpResponse<HOD>) => hOD.body)
       );
@@ -38,7 +38,7 @@ export class FacultyResolve implements Resolve<IFaculty> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IFaculty> {
     const id = route.params['id'] ? route.params['id'] : null;
     if (id) {
-      return this.service.find(id).pipe(
+      return this.service.findbyUserID(id).pipe(
         filter((response: HttpResponse<Faculty>) => response.ok),
         map((faculty: HttpResponse<Faculty>) => faculty.body)
       );
@@ -53,7 +53,7 @@ export class StudentResolve implements Resolve<IStudent> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IStudent> {
     const id = route.params['id'] ? route.params['id'] : null;
     if (id) {
-      return this.service.find(id).pipe(
+      return this.service.findbyUserID(id).pipe(
         filter((response: HttpResponse<Student>) => response.ok),
         map((student: HttpResponse<Student>) => student.body)
       );

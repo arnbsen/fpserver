@@ -16,8 +16,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Output()
   openSettings = new EventEmitter<any>();
 
-  private subs: Subscription;
-  private subs2: Subscription;
   userParams: { id?: string; role?: string };
 
   studentDetails: { year?: number; semester?: number; department?: string };
@@ -26,26 +24,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   constructor(private loginService: LoginService, private router: Router, private toolbarService: ToolbarService) {}
 
   ngOnInit() {
-    this.subs = this.toolbarService.getUserParams().subscribe((val: any) => {
-      this.userParams = val;
-    });
-    this.subs2 = this.toolbarService.getstudentDetails().subscribe((val: any) => {
-      this.studentDetails = val;
-    });
+    this.userParams = this.toolbarService.getUserParams();
   }
 
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
-    this.subs2.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   toggleSideNav() {
     this.openSidebarLocal = !this.openSidebarLocal;
     this.openSidebar.emit(this.openSidebarLocal);
   }
   logout() {
-    this.toolbarService.studentParamsObs.next(null);
-    this.toolbarService.userParamsObs.next(null);
     this.loginService.logout();
     this.router.navigate(['']);
   }
@@ -63,6 +51,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   goToTimeTable() {
+    this.studentDetails = this.toolbarService.getstudentDetails();
     this.router.navigate(['/time-table', this.studentDetails.department, this.studentDetails.year, this.studentDetails.semester, 'view']);
   }
 }

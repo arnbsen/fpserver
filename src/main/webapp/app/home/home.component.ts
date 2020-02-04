@@ -3,6 +3,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 import { LoginModalService, AccountService, Account } from 'app/core';
 import { Router } from '@angular/router';
+import { ToolbarService } from 'app/shared/toolbar/toolbar.service';
 interface User {
   fullName: string;
   rollNo: number;
@@ -23,11 +24,13 @@ export class HomeComponent implements OnInit {
   enableStudent = false;
   enableFaculty = false;
   enableHod = false;
+  userParams: any;
   constructor(
     private accountService: AccountService,
     private loginModalService: LoginModalService,
     private eventManager: JhiEventManager,
-    private router: Router
+    private router: Router,
+    private toolbarService: ToolbarService
   ) {}
 
   ngOnInit() {
@@ -40,14 +43,17 @@ export class HomeComponent implements OnInit {
           this.accountService.hasAuthority('ROLE_FACULTY').then((resf: boolean) => {
             if (resf) {
               this.enableFaculty = true;
+              this.setValuesForToolbarService(this.account.id, 'faculty');
             } else {
               this.accountService.hasAuthority('ROLE_STUDENT').then((resu: boolean) => {
                 if (resu) {
                   this.enableStudent = true;
+                  this.setValuesForToolbarService(this.account.id, 'student');
                 } else {
                   this.accountService.hasAuthority('ROLE_HOD').then((resh: boolean) => {
                     if (resh) {
                       this.enableHod = true;
+                      this.setValuesForToolbarService(this.account.id, 'hod');
                     }
                   });
                 }
@@ -58,6 +64,13 @@ export class HomeComponent implements OnInit {
       });
     });
     this.registerAuthenticationSuccess();
+  }
+
+  setValuesForToolbarService(id: string, role: string) {
+    this.toolbarService.setUserParams({
+      id,
+      role
+    });
   }
 
   registerAuthenticationSuccess() {

@@ -32,6 +32,7 @@ export class LoginService {
   }
 
   logout() {
+    sessionStorage.clear();
     this.authServerProvider.logout().subscribe(null, null, () => this.accountService.authenticate(null));
   }
 }
